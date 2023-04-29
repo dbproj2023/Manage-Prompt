@@ -1,4 +1,4 @@
-# Manage-Prompt
+# Manage-Prompt-Backend
 명지대학교 데이터베이스 프로젝트 - 사내 업무용 웹 기반 관리 시스템
 
 ## 프로젝트 개요
