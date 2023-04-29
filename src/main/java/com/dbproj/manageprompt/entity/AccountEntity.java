@@ -5,8 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Set;
 
 @NoArgsConstructor
 @Table(name = "`account`")
@@ -23,4 +21,12 @@ public class AccountEntity extends BaseTime {
   private String auth_id;
 
   private String auth_pw;
+
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "emp_id", referencedColumnName = "emp_id")
+  private EmployeeEntity employeeEntity;
+
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "access_grade_id", referencedColumnName = "access_grade")
+  private AccessInfoEntity accessInfoEntity;
 }

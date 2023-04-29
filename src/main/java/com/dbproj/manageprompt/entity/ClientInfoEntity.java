@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -25,4 +24,8 @@ public class ClientInfoEntity extends BaseTime {
   private String client_emp_ph;
 
   private String client_emp_email;
+
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinColumn(name = "client_id")
+  private Set<EvaluationRequestEntity> evaluationRequestEntities;
 }

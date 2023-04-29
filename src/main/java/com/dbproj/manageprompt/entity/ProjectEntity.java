@@ -27,4 +27,12 @@ public class ProjectEntity extends BaseTime {
   private Date end_date;
 
   private Integer budget;
+
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinColumn(name = "pro_id")
+  private Set<EmployeeProjectEntity> employeeProjectEntities;
+
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "client_id", referencedColumnName = "client_id")
+  private ClientInfoEntity clientInfoEntity;
 }

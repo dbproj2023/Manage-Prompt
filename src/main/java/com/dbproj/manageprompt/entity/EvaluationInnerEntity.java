@@ -5,8 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Set;
 
 @NoArgsConstructor
 @Table(name = "`evaluation_inner`")
@@ -29,4 +27,8 @@ public class EvaluationInnerEntity extends BaseTime {
   private Integer performance_rating;
 
   private Integer performance_detail;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "emp_pro_id")
+  private EmployeeProjectEntity employeeProjectEntity;
 }
