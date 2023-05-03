@@ -26,6 +26,6 @@ jobs:
 
       - name: deploy with AWS codeDeploy
         run: aws deploy create-deployment
-          --application-name managePrompt-app-v1
+          --application-name ${{ secrets.AWS_CODEDEPLOY_NAME }}
           --deployment-config-name CodeDeployDefault.OneAtATime
-          --deployment-group-name managePrompt-app-deployGroup
+          --deployment-group-name ${{ secrets.AWS_CODEDEPLOY_GROUP }}
