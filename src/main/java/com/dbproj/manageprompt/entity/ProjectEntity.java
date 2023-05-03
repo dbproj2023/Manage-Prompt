@@ -33,6 +33,6 @@ public class ProjectEntity extends BaseTime {
   private Set<EmployeeProjectEntity> employeeProjectEntities;
 
   @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "client_id", referencedColumnName = "client_id")
+  @JoinColumn(name = "client_id", referencedColumnName = "client_id", insertable = false, updatable = false)
   private ClientInfoEntity clientInfoEntity;
 }

@@ -27,6 +27,6 @@ public class EvaluationRequestEntity extends BaseTime {
   private Integer performance_detail;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "client_id")
+  @JoinColumn(name = "client_id", insertable = false, updatable = false)
   private ClientInfoEntity clientInfoEntity;
 }

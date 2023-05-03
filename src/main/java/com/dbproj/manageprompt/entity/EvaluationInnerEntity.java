@@ -22,13 +22,13 @@ public class EvaluationInnerEntity extends BaseTime {
 
   private Integer communication_rating;
 
-  private Integer communication_detail;
+  private String communication_detail;
 
   private Integer performance_rating;
 
-  private Integer performance_detail;
+  private String performance_detail;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "emp_pro_id")
+  @JoinColumn(name = "emp_pro_id", insertable = false, updatable = false)
   private EmployeeProjectEntity employeeProjectEntity;
 }

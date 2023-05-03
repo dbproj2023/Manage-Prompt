@@ -18,11 +18,11 @@ public class EmployeeProjectEntity extends BaseTime {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long emp_pro_id;
 
-  private Long emp__id;
+  private Long emp_id;
 
   private Long pro_id;
 
-  private Long role_id;
+  private Long role_id; // 직무
 
   private Date start_date;
 
