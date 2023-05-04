@@ -12,10 +12,10 @@ permissions:
     
 hooks:
   AfterInstall:
-    - location: server-stop.sh
+    - location: scripts/server-stop.sh
       timeout: 60
       runas: root
   ApplicationStart:
-    - location: server-start.sh
+    - location: scripts/server-start.sh
       timeout: 60
       runas: root
