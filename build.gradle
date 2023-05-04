@@ -28,6 +28,12 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+bootJar{
+	archivesBaseName = 'dbproj'
+	archiveFileName = 'dbproj-builded.jar'
+	archiveVersion = "0.0.1"
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
