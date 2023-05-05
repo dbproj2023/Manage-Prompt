@@ -22,23 +22,23 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class EmployeeEntity extends BaseTime {
   @Id @Column(name = "emp_id")
-  private Long emp_id;
+  private Long empId;
 
   @Column(name = "emp_name", nullable = false, length = 20)
-  private String emp_name;
+  private String empName;
 
   @Column(name = "emp_ssn", nullable = false, length = 20)
-  private String emp_ssn;
+  private String empSsn;
 
   @Column(name = "emp_edu", nullable = false, length = 10)
-  private String emp_edu;
+  private String empEdu;
 
   @Column(name = "emp_email", nullable = false) // length 255
-  private String emp_email;
+  private String empEmail;
 
   @Column(name = "emp_work_ex", nullable = false)
-  private Integer emp_work_ex;
+  private Integer empWorkEx;
 
   @Column(name = "emp_skill", nullable = false) // length 255
-  private String emp_skill;
+  private String empSkill;
 }

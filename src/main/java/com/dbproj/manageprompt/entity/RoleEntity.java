@@ -22,9 +22,10 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RoleEntity extends BaseTime {
   @Id
+  @Column(name = "role_id", nullable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long role_id;
+  private Long roleId;
 
   @Column(name = "role_name", nullable = false, length = 20)
-  private String role_name;
+  private String roleName;
 }

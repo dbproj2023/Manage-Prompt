@@ -23,24 +23,25 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class EmployeeProjectEntity extends BaseTime {
   @Id
+  @Column(name = "emp_pro_id", nullable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long emp_pro_id;
+  private Long empProId;
 
   @Column(name = "start_date", nullable = false)
-  private Date start_date;
+  private Date startDate;
 
   @Column(name = "end_date", nullable = false)
-  private Date end_date;
+  private Date endDate;
 
   @ManyToOne(fetch = FetchType.LAZY) // 직원 mapping (FK), 단방향
   @JoinColumn(name = "emp_id", referencedColumnName = "emp_id")
   private EmployeeEntity employeeEntity;
 
-  @ManyToOne(fetch = FetchType.LAZY) // 프로젝트 mapping (FK), 단방향
+  @ManyToOne(fetch = FetchType.LAZY) // 프로젝트 mapping (FK), 양방향
   @JoinColumn(name = "pro_id", referencedColumnName = "pro_id")
   private ProjectEntity projectEntity;
 
-  @OneToMany(mappedBy = "eval_id", fetch = FetchType.LAZY) // 직원_PM_평가 mapping (FK), 양방향
+  @OneToMany(mappedBy = "evalId", fetch = FetchType.LAZY) // 직원_PM_평가 mapping (FK), 양방향
   private Set<EvaluationInnerEntity> evaluationInnerEntities;
 
   @OneToOne(fetch = FetchType.LAZY) // 직무 mapping (FK), 단방향

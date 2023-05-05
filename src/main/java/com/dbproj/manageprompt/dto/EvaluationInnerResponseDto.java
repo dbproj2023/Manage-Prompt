@@ -9,21 +9,21 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class EvaluationInnerResponseDto {
-    private final Long eval_id;
+    private final Long evalId;
     private final Long evaluator;
-    private final Integer communication_rating;
-    private final String communication_detail;
-    private final Integer performance_rating;
-    private final String performance_detail;
+    private final Integer communicationRating;
+    private final String communicationDetail;
+    private final Integer performanceRating;
+    private final String performanceDetail;
 
     public static EvaluationInnerResponseDto from(EvaluationInnerEntity evaluationInnerEntity) {
         return new EvaluationInnerResponseDto(
-                evaluationInnerEntity.getEval_id(),
+                evaluationInnerEntity.getEvalId(),
                 evaluationInnerEntity.getEvaluator(),
-                evaluationInnerEntity.getCommunication_rating(),
-                evaluationInnerEntity.getCommunication_detail(),
-                evaluationInnerEntity.getPerformance_rating(),
-                evaluationInnerEntity.getPerformance_detail()
+                evaluationInnerEntity.getPerformanceRating(),
+                evaluationInnerEntity.getCommunicationDetail(),
+                evaluationInnerEntity.getPerformanceRating(),
+                evaluationInnerEntity.getPerformanceDetail()
         );
     }
 }

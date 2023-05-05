@@ -22,7 +22,8 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AccessInfoEntity extends BaseTime {
   @Id
-  private Integer access_grade;
+  @Column(name = "access_grade", nullable = false)
+  private Integer accessGrade;
 
   @Column(name = "discrete", nullable = false, length = 20)
   private String discrete;

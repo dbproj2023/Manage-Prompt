@@ -22,23 +22,24 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class EvaluationInnerEntity extends BaseTime {
   @Id
+  @Column(name = "eval_id", nullable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long eval_id;
+  private Long evalId;
 
   @Column(name = "evaluator", nullable = false) // 평가자 사번
   private Long evaluator;
 
   @Column(name = "communication_rating", nullable = false)
-  private Integer communication_rating;
+  private Integer communicationRating;
 
   @Column(name = "communication_detail", nullable = false) // length 255
-  private String communication_detail;
+  private String communicationDetail;
 
   @Column(name = "performance_rating", nullable = false)
-  private Integer performance_rating;
+  private Integer performanceRating;
 
   @Column(name = "performance_detail", nullable = false) // length 255
-  private String performance_detail;
+  private String performanceDetail;
 
   @ManyToOne(fetch = FetchType.LAZY) // 발주처 mapping (FK), 양방향
   @JoinColumn(name = "emp_pro_id", referencedColumnName = "emp_pro_id")
