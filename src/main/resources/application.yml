@@ -16,14 +16,14 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/promptHR?serverTimezone=Asia/Seoul # 127.0.0.1
+    url: jdbc:mysql://localhost:3306/promptDB?serverTimezone=Asia/Seoul # 127.0.0.1
     username: root
     password: mysql
 
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: true
