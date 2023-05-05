@@ -13,15 +13,19 @@ import java.util.Date;
 @Builder(access = AccessLevel.PRIVATE)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class EmployeeProjectResponseDto {
-    private final Long emp_pro_id;
-    private final Date start_date;
-    private final Date end_date;
+    private final Long empProId;
+    private final EmployeeResponseDto employee;
+    private final Date startDate;
+    private final Date endDate;
+    private final RoleResponseDto role;
 
     public static EmployeeProjectResponseDto from(EmployeeProjectEntity employeeProjectEntity) {
         return EmployeeProjectResponseDto.builder()
-                .emp_pro_id(employeeProjectEntity.getEmp_pro_id())
-                .start_date(employeeProjectEntity.getStart_date())
-                .end_date(employeeProjectEntity.getEnd_date())
+                .empProId(employeeProjectEntity.getEmpProId())
+                .employee(EmployeeResponseDto.from(employeeProjectEntity.getEmployeeEntity()))
+                .startDate(employeeProjectEntity.getStartDate())
+                .endDate(employeeProjectEntity.getEndDate())
+                .role(RoleResponseDto.from(employeeProjectEntity.getRoleEntity()))
                 .build();
     }
 }

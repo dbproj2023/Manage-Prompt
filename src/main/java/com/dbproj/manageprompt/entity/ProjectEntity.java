@@ -23,17 +23,18 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectEntity extends BaseTime {
   @Id
+  @Column(name = "pro_id", nullable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long pro_id;
+  private Long proId;
 
   @Column(name = "pro_name", nullable = false) // length 255
-  private String pro_name;
+  private String proName;
 
   @Column(name = "start_date", nullable = false)
-  private Date start_date;
+  private Date startDate;
 
   @Column(name = "end_date", nullable = false)
-  private Date end_date;
+  private Date endDate;
 
   @Column(name = "budget", nullable = false) // 예산
   private Integer budget;
@@ -41,4 +42,7 @@ public class ProjectEntity extends BaseTime {
   @OneToOne(fetch = FetchType.LAZY) // 발주처 mapping (FK), 단방향
   @JoinColumn(name = "client_id", referencedColumnName = "client_id")
   private ClientInfoEntity clientInfoEntity;
+
+  @OneToMany(mappedBy = "empProId", fetch = FetchType.LAZY) // 직원_프로젝트 mapping (FK), 양방향
+  private Set<EmployeeProjectEntity> employeeProjectEntities;
 }
