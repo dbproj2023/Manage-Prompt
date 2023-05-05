@@ -9,12 +9,12 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class AccessInfoResponseDto {
-    private final Integer access_grade;
+    private final Integer accessGrade;
     private final String discrete;
 
     public static AccessInfoResponseDto from(AccessInfoEntity accessInfoEntity) {
         return new AccessInfoResponseDto(
-                accessInfoEntity.getAccess_grade(),
+                accessInfoEntity.getAccessGrade(),
                 accessInfoEntity.getDiscrete()
         );
     }

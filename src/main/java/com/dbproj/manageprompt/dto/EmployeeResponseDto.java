@@ -11,23 +11,23 @@ import lombok.RequiredArgsConstructor;
 @Builder(access = AccessLevel.PRIVATE)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class EmployeeResponseDto {
-    private final Long emp_id;
-    private final String emp_name;
-    private final String emp_ssn;
-    private final String emp_edu;
-    private final String emp_email;
-    private final Integer emp_work_ex;
-    private final String emp_skill;
+    private final Long empId;
+    private final String empName;
+    private final String empSsn;
+    private final String empEdu;
+    private final String empEmail;
+    private final Integer empWorkEx;
+    private final String empSkill;
 
     public static EmployeeResponseDto from(EmployeeEntity employeeEntity) {
         return EmployeeResponseDto.builder()
-                .emp_id(employeeEntity.getEmp_id())
-                .emp_name(employeeEntity.getEmp_name())
-                .emp_ssn(employeeEntity.getEmp_ssn())
-                .emp_edu(employeeEntity.getEmp_edu())
-                .emp_email(employeeEntity.getEmp_email())
-                .emp_work_ex(employeeEntity.getEmp_work_ex())
-                .emp_skill(employeeEntity.getEmp_skill())
+                .empId(employeeEntity.getEmpId())
+                .empName(employeeEntity.getEmpName())
+                .empSsn(employeeEntity.getEmpSsn())
+                .empEdu(employeeEntity.getEmpEdu())
+                .empEmail(employeeEntity.getEmpEmail())
+                .empWorkEx(employeeEntity.getEmpWorkEx())
+                .empSkill(employeeEntity.getEmpSkill())
                 .build();
     }
 }

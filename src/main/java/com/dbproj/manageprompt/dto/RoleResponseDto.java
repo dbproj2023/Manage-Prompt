@@ -9,13 +9,13 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class RoleResponseDto {
-    private final Long role_id;
-    private final String role_name;
+    private final Long roleId;
+    private final String roleName;
 
     public static RoleResponseDto from(RoleEntity roleEntity) {
         return new RoleResponseDto(
-                roleEntity.getRole_id(),
-                roleEntity.getRole_name()
+                roleEntity.getRoleId(),
+                roleEntity.getRoleName()
         );
     }
 }

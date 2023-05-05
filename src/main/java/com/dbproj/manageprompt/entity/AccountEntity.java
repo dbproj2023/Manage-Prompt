@@ -22,14 +22,15 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AccountEntity extends BaseTime {
   @Id
+  @Column(name = "acc_id", nullable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long acc_id;
+  private Long accId;
 
   @Column(name = "auth_id", nullable = false, length = 50)
-  private String auth_id;
+  private String authId;
 
   @Column(name = "auth_pw", nullable = false) // length = 255
-  private String auth_pw;
+  private String authPw;
 
   @OneToOne(fetch = FetchType.LAZY) // 직원 mapping (FK), 단반향
   @JoinColumn(name = "emp_id", referencedColumnName = "emp_id")

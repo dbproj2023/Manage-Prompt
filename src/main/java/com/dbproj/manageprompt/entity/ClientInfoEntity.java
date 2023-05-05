@@ -1,40 +1,40 @@
 package com.dbproj.manageprompt.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@Builder
 @Table(
         name = "`client_info`",
         uniqueConstraints={
                 @UniqueConstraint(
                         name = "contstraint_client_id_unique",
-                        columnNames = {"client_id"}
+                        columnNames = {"client_Id"}
                 )
         }
 )
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ClientInfoEntity extends BaseTime {
   @Id
+  @Column(name = "client_Id", nullable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long client_id;
+  private Long clientId;
 
   @Column(name = "client_name", nullable = false, length = 50)
-  private String client_name;
+  private String clientName;
 
   @Column(name = "client_emp_name", nullable = false, length = 20)
-  private String client_emp_name;
+  private String clientEmpName;
 
   @Column(name = "client_emp_ph", nullable = false, length = 20)
-  private String client_emp_ph;
+  private String clientEmpPh;
 
   @Column(name = "client_emp_email", nullable = false, length = 30)
-  private String client_emp_email;
+  private String clientEmpEmail;
 }
