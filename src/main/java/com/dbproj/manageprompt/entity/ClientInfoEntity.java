@@ -37,4 +37,16 @@ public class ClientInfoEntity extends BaseTime {
 
   @Column(name = "client_emp_email", nullable = false, length = 30)
   private String clientEmpEmail;
+
+  public void update(String clientEmpName, String clientEmpPh, String clientEmpEmail) {
+    if (clientEmpName != null) {
+      this.clientEmpName = clientEmpName;
+    }
+    if (clientEmpPh != null) {
+      this.clientEmpPh = clientEmpPh;
+    }
+    if (clientEmpEmail != null) {
+      this.clientEmpEmail = clientEmpEmail;
+    }
+  }
 }

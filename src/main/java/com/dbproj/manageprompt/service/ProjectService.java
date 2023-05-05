@@ -33,8 +33,8 @@ public class ProjectService {
     // 프로젝트 정보 & 프로젝트 참여 직원
     @Transactional(readOnly = true)
     public ProjectDetailResponseDto findOne(long proId) {
-        ProjectEntity post = findProject(proId);
-        return ProjectDetailResponseDto.from(post);
+        ProjectEntity project = findProject(proId);
+        return ProjectDetailResponseDto.from(project);
     }
 
     // findProject method
