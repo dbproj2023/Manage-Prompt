@@ -45,4 +45,16 @@ public class ProjectEntity extends BaseTime {
 
   @OneToMany(mappedBy = "empProId", fetch = FetchType.LAZY) // 직원_프로젝트 mapping (FK), 양방향
   private Set<EmployeeProjectEntity> employeeProjectEntities;
+
+  public void update(Date startDate, Date endDate, Integer budget) {
+    if (startDate != null) {
+      this.startDate = startDate;
+    }
+    if (endDate != null) {
+      this.endDate = endDate;
+    }
+    if (budget != null) {
+      this.budget = budget;
+    }
+  }
 }

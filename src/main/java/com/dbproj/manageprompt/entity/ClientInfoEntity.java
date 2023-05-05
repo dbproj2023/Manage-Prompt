@@ -1,13 +1,11 @@
 package com.dbproj.manageprompt.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@Builder
 @Table(
         name = "`client_info`",
         uniqueConstraints={
@@ -20,6 +18,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ClientInfoEntity extends BaseTime {
   @Id
