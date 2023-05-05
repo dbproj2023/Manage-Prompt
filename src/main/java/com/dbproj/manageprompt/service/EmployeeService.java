@@ -26,16 +26,16 @@ public class EmployeeService {
     // searchOption : 사번
     @Transactional(readOnly = true)
     public List<EmployeeEntity> findByEmpId(String keyword) {
-        return employeeDao.findByEmp_idContaining(keyword);
+        return employeeDao.findByEmpIdContaining(keyword);
     }
     // searchOption : 이름
     @Transactional(readOnly = true)
     public List<EmployeeEntity> findByEmpName(String keyword) {
-        return employeeDao.findByEmp_nameContaining(keyword);
+        return employeeDao.findByEmpNameContaining(keyword);
     }
     // searchOption : 스킬
     @Transactional(readOnly = true)
     public List<EmployeeEntity> findByEmpSkill(String keyword) {
-        return employeeDao.findByEmp_skillContaining(keyword);
+        return employeeDao.findByEmpSkillContaining(keyword);
     }
 }
