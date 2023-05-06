@@ -13,6 +13,7 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class ProjectAndClientCreateRequestDto {
+    private String proId;
     private String proName;
     private Date startDate;
     private Date endDate;
@@ -29,6 +30,7 @@ public class ProjectAndClientCreateRequestDto {
 
     public ProjectEntity toEntity() {
         ProjectEntity project = ProjectEntity.builder()
+                .proId(proId)
                 .proName(proName)
                 .startDate(startDate)
                 .endDate(endDate)

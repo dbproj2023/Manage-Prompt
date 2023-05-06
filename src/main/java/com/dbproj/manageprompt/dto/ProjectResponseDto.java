@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Builder(access = AccessLevel.PRIVATE)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProjectResponseDto {
-    private final Long proId;
+    private final String proId;
     private final String proName;
     private final Date startDate;
     private final Date endDate;

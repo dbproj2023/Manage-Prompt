@@ -50,24 +50,26 @@ public class ProjectController {
 
     // 프로젝트 정보 & 프로젝트 참여 직원
     @GetMapping("/{pro_id}")
-    public ProjectDetailResponseDto findOne(@PathVariable(value = "pro_id") long proId) {
+    public ProjectDetailResponseDto findOne(@PathVariable(value = "pro_id") String proId) {
         return projectService.findOne(proId);
     }
 
     // 프로젝트 및 발주처 등록
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.OK)
-    public IdResponseDto create(@RequestBody @Valid ProjectAndClientCreateRequestDto requestDto) {
+//    public IdStringResponseDto create(@RequestBody @Valid ProjectAndClientCreateRequestDto requestDto) {
+    public IdStringResponseDto create(ProjectAndClientCreateRequestDto requestDto) {
 //        long responseId = projectService.create(sessionDto.getId, requestDto); // 로그인 구현 후 변경해야함.
-        long responseId = projectService.create(requestDto);
-        return new IdResponseDto(responseId);
+        String responseId = projectService.create(requestDto);
+        return new IdStringResponseDto(responseId);
     }
 
     // 프로젝트 수정
     @PatchMapping("/update/{pro_id}")
     @ResponseStatus(HttpStatus.OK)
-    public IdResponseDto update(@PathVariable(value = "pro_id") long proId, @RequestBody @Valid ProjectUpdateRequestDto requestDto) {
-        long responseId = projectService.update(proId, requestDto);
-        return new IdResponseDto(responseId);
+//    public IdStringResponseDto update(@PathVariable(value = "pro_id") String proId, @RequestBody @Valid ProjectUpdateRequestDto requestDto) {
+    public IdStringResponseDto update(@PathVariable(value = "pro_id") String proId, ProjectUpdateRequestDto requestDto) {
+        String responseId = projectService.update(proId, requestDto);
+        return new IdStringResponseDto(responseId);
     }
 }

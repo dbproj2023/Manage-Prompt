@@ -24,8 +24,7 @@ import java.util.Set;
 public class ProjectEntity extends BaseTime {
   @Id
   @Column(name = "pro_id", nullable = false)
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long proId;
+  private String proId;
 
   @Column(name = "pro_name", nullable = false) // length 255
   private String proName;

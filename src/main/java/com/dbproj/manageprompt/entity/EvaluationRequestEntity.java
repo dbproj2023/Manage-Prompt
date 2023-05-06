@@ -29,13 +29,13 @@ public class EvaluationRequestEntity extends BaseTime {
   @Column(name = "communication_rating", nullable = false)
   private Integer communicationRating;
 
-  @Column(name = "communication_detail", nullable = false) // length 255
+  @Column(name = "communication_detail", nullable = true) // length 255
   private String communicationDetail;
 
   @Column(name = "performance_rating", nullable = false)
   private Integer performanceRating;
 
-  @Column(name = "performance_detail", nullable = false) // length 255
+  @Column(name = "performance_detail", nullable = true) // length 255
   private String performanceDetail;
 
   @ManyToOne(fetch = FetchType.LAZY) // 발주처 mapping (FK), 단방향
