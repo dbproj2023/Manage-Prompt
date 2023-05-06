@@ -32,7 +32,7 @@ public class ProjectController {
             @RequestParam(value = "client_name", required = false) String client_name,
             @RequestParam(value = "budge_start", defaultValue="0") Integer budge_start,
             @RequestParam(value = "budge_end", defaultValue="0") Integer budge_end,
-            @PageableDefault(size = 30, sort = "emp_id", direction = Sort.Direction.DESC) Pageable pageable) {
+            @PageableDefault(size = 30, direction = Sort.Direction.DESC) Pageable pageable) {
         // 전체 게시물 조회 (page, size)
         if (period == null) {
             return projectService.findAll(pageable)
