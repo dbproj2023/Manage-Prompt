@@ -17,7 +17,9 @@ public class EmployeeProjectResponseDto {
     private final EmployeeResponseDto employee;
     private final Date startDate;
     private final Date endDate;
-    private final RoleResponseDto role;
+    private final RoleResponseDto roleId;
+    private final String proId;
+    private final String proName;
 
     public static EmployeeProjectResponseDto from(EmployeeProjectEntity employeeProjectEntity) {
         return EmployeeProjectResponseDto.builder()
@@ -25,7 +27,9 @@ public class EmployeeProjectResponseDto {
                 .employee(EmployeeResponseDto.from(employeeProjectEntity.getEmployeeEntity()))
                 .startDate(employeeProjectEntity.getStartDate())
                 .endDate(employeeProjectEntity.getEndDate())
-                .role(RoleResponseDto.from(employeeProjectEntity.getRoleEntity()))
+                .roleId(RoleResponseDto.from(employeeProjectEntity.getRoleEntity()))
+                .proId(employeeProjectEntity.getProjectEntity().getProId())
+                .proName(employeeProjectEntity.getProjectEntity().getProName())
                 .build();
     }
 }

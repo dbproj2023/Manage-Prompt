@@ -36,9 +36,9 @@ public class ClientService {
     public long update(long clientId, ClientUpdateRequestDto requestDto) {
         ClientInfoEntity updateClient = clientInfoDao.findById(clientId).orElseThrow(NotFoundException::new);
         updateClient.update(
-                requestDto.getClientEmpName(),
-                requestDto.getClientEmpPh(),
-                requestDto.getClientEmpEmail()
+                requestDto.getClient_emp_name(),
+                requestDto.getClient_emp_ph(),
+                requestDto.getClient_emp_email()
         );
 
         return clientInfoDao.save(updateClient).getClientId();

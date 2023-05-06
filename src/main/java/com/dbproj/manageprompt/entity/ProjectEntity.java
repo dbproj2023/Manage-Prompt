@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -42,8 +43,8 @@ public class ProjectEntity extends BaseTime {
   @JoinColumn(name = "client_id", referencedColumnName = "client_id")
   private ClientInfoEntity clientInfoEntity;
 
-  @OneToMany(mappedBy = "empProId", fetch = FetchType.LAZY) // 직원_프로젝트 mapping (FK), 양방향
-  private Set<EmployeeProjectEntity> employeeProjectEntities;
+  @OneToMany(mappedBy = "projectEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL) // 직원_프로젝트 mapping (FK), 양방향
+  private List<EmployeeProjectEntity> employeeProjectEntities;
 
   public void update(Date startDate, Date endDate, Integer budget) {
     if (startDate != null) {

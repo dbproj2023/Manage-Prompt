@@ -41,7 +41,7 @@ public class EmployeeProjectEntity extends BaseTime {
   @JoinColumn(name = "pro_id", referencedColumnName = "pro_id")
   private ProjectEntity projectEntity;
 
-  @OneToMany(mappedBy = "evalId", fetch = FetchType.LAZY) // 직원_PM_평가 mapping (FK), 양방향
+  @OneToMany(mappedBy = "employeeProjectEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL) // 직원_PM_평가 mapping (FK), 양방향
   private Set<EvaluationInnerEntity> evaluationInnerEntities;
 
   @OneToOne(fetch = FetchType.LAZY) // 직무 mapping (FK), 단방향
