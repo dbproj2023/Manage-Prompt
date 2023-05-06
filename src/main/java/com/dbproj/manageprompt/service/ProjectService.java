@@ -30,6 +30,10 @@ public class ProjectService {
         return projectDao.findAll(pageable);
     }
 
+    // 프로젝트 검색
+//    public List<ProjectDetailResponseDto> Search(Integer year, String period, Integer state, String pro_name, String client_name, Integer budge_start, Integer budge_end){
+//    }
+
     // 프로젝트 정보 & 프로젝트 참여 직원
     @Transactional(readOnly = true)
     public ProjectDetailResponseDto findOne(long proId) {

@@ -8,7 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Table(
-        name = "`role`",
+        name = "`role_info`",
         uniqueConstraints={
                 @UniqueConstraint(
                         name = "contstraint_role_id_unique",
