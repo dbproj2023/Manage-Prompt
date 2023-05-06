@@ -98,4 +98,3 @@ src/main/resources/db/
 src/main/resources/application.yml
 src/main/resources/application-deploy.yml
 src/main/resources/application-ncp.yml
-src/main/java/com/dbproj/manageprompt/config

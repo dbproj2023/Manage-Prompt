@@ -30,23 +30,27 @@ public class ProjectService {
         return projectDao.findAll(pageable);
     }
 
+    // 프로젝트 검색
+//    public List<ProjectDetailResponseDto> Search(Integer year, String period, Integer state, String pro_name, String client_name, Integer budge_start, Integer budge_end){
+//    }
+
     // 프로젝트 정보 & 프로젝트 참여 직원
     @Transactional(readOnly = true)
-    public ProjectDetailResponseDto findOne(long proId) {
-        ProjectEntity post = findProject(proId);
-        return ProjectDetailResponseDto.from(post);
+    public ProjectDetailResponseDto findOne(String proId) {
+        ProjectEntity project = findProject(proId);
+        return ProjectDetailResponseDto.from(project);
     }
 
     // findProject method
     @Transactional(readOnly = true)
-    public ProjectEntity findProject(long proId) {
+    public ProjectEntity findProject(String proId) {
         ProjectEntity project = projectDao.findById(proId).orElseThrow(() ->
                 new IllegalArgumentException("해당 프로젝트는 존재하지 않습니다. => " + proId));
         return project;
     }
 
     // 프로젝트 및 발주처 등록
-    public long create(ProjectAndClientCreateRequestDto projCreateDto) {
+    public String create(ProjectAndClientCreateRequestDto projCreateDto) {
         // 발주처 추가
         ClientRequestDto clientRequestDto = new ClientRequestDto();
         clientRequestDto.setClientName(projCreateDto.getClientName());
@@ -58,6 +62,7 @@ public class ProjectService {
         clientInfoDao.save(newClient);
 
         // 프로젝트 추가
+        projCreateDto.setProId(projCreateDto.getProId());
         projCreateDto.setProName(projCreateDto.getProName());
         projCreateDto.setStartDate(projCreateDto.getStartDate());
         projCreateDto.setEndDate(projCreateDto.getEndDate());
@@ -71,7 +76,7 @@ public class ProjectService {
     }
 
     // 프로젝트 수정
-    public long update(long proId, ProjectUpdateRequestDto requestDto) {
+    public String update(String proId, ProjectUpdateRequestDto requestDto) {
         ProjectEntity updateProject = projectDao.findById(proId).orElseThrow(NotFoundException::new);
         updateProject.update(
                 requestDto.getStartDate(),
