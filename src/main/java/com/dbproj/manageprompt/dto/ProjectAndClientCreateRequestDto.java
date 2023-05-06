@@ -4,6 +4,7 @@ import com.dbproj.manageprompt.entity.ClientInfoEntity;
 import com.dbproj.manageprompt.entity.ProjectEntity;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -13,27 +14,31 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class ProjectAndClientCreateRequestDto {
-    private String proId;
-    private String proName;
-    private Date startDate;
-    private Date endDate;
+    private String pro_id;
+    private String pro_name;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date start_date;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date end_date;
     private Integer budget;
 
-    private String clientName;
+    private String client_name;
 
-    private String clientEmpName;
+    private String client_emp_name;
 
-    private String clientEmpPh;
+    private String client_emp_ph;
 
-    private String clientEmpEmail;
+    private String client_emp_email;
     private ClientInfoEntity client;
 
     public ProjectEntity toEntity() {
         ProjectEntity project = ProjectEntity.builder()
-                .proId(proId)
-                .proName(proName)
-                .startDate(startDate)
-                .endDate(endDate)
+                .proId(pro_id)
+                .proName(pro_name)
+                .startDate(start_date)
+                .endDate(end_date)
                 .budget(budget)
                 .clientInfoEntity(client)
                 .build();

@@ -26,6 +26,7 @@ public class ProjectDetailResponseDto {
     private final String clientEmpName;
     private final String clientEmpPh;
     private final String clientEmpEmail;
+    private final Integer numOfParicipant;
     private final List<EmployeeProjectResponseDto> participantList;
 
     public static ProjectDetailResponseDto from(ProjectEntity projectEntity) {
@@ -39,6 +40,7 @@ public class ProjectDetailResponseDto {
                 .clientEmpName(projectEntity.getClientInfoEntity().getClientEmpName())
                 .clientEmpPh(projectEntity.getClientInfoEntity().getClientEmpPh())
                 .clientEmpEmail(projectEntity.getClientInfoEntity().getClientEmpEmail())
+                .numOfParicipant(projectEntity.getEmployeeProjectEntities().size())
                 .participantList(projectEntity.getEmployeeProjectEntities().stream().map(EmployeeProjectResponseDto::from).collect(Collectors.toList()))
                 .build();
     }

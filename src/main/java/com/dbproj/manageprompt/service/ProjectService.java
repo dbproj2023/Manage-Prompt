@@ -53,19 +53,19 @@ public class ProjectService {
     public String create(ProjectAndClientCreateRequestDto projCreateDto) {
         // 발주처 추가
         ClientRequestDto clientRequestDto = new ClientRequestDto();
-        clientRequestDto.setClientName(projCreateDto.getClientName());
-        clientRequestDto.setClientEmpName(projCreateDto.getClientEmpName());
-        clientRequestDto.setClientEmpPh(projCreateDto.getClientEmpPh());
-        clientRequestDto.setClientEmpEmail(projCreateDto.getClientEmpEmail());
+        clientRequestDto.setClientName(projCreateDto.getClient_name());
+        clientRequestDto.setClientEmpName(projCreateDto.getClient_emp_name());
+        clientRequestDto.setClientEmpPh(projCreateDto.getClient_emp_ph());
+        clientRequestDto.setClientEmpEmail(projCreateDto.getClient_emp_email());
 
         ClientInfoEntity newClient = clientRequestDto.toEntity();
         clientInfoDao.save(newClient);
 
         // 프로젝트 추가
-        projCreateDto.setProId(projCreateDto.getProId());
-        projCreateDto.setProName(projCreateDto.getProName());
-        projCreateDto.setStartDate(projCreateDto.getStartDate());
-        projCreateDto.setEndDate(projCreateDto.getEndDate());
+        projCreateDto.setPro_id(projCreateDto.getPro_id());
+        projCreateDto.setPro_name(projCreateDto.getPro_name());
+        projCreateDto.setStart_date(projCreateDto.getStart_date());
+        projCreateDto.setEnd_date(projCreateDto.getEnd_date());
         projCreateDto.setBudget(projCreateDto.getBudget());
         projCreateDto.setClient(newClient);
 
@@ -78,9 +78,10 @@ public class ProjectService {
     // 프로젝트 수정
     public String update(String proId, ProjectUpdateRequestDto requestDto) {
         ProjectEntity updateProject = projectDao.findById(proId).orElseThrow(NotFoundException::new);
+        System.out.println(requestDto.getStart_date());
         updateProject.update(
-                requestDto.getStartDate(),
-                requestDto.getEndDate(),
+                requestDto.getStart_date(),
+                requestDto.getEnd_date(),
                 requestDto.getBudget()
         );
 
