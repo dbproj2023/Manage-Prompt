@@ -47,4 +47,16 @@ public class EmployeeProjectEntity extends BaseTime {
   @OneToOne(fetch = FetchType.LAZY) // 직무 mapping (FK), 단방향
   @JoinColumn(name = "role_id", referencedColumnName = "role_id")
   private RoleEntity roleEntity;
+
+  public void update(Date startDate, Date endDate, RoleEntity roleEntity) {
+    if (startDate != null) {
+      this.startDate = startDate;
+    }
+    if (endDate != null) {
+      this.endDate = endDate;
+    }
+    if (roleEntity != null) {
+      this.roleEntity = roleEntity;
+    }
+  }
 }
