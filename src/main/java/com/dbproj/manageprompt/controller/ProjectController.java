@@ -1,12 +1,15 @@
 package com.dbproj.manageprompt.controller;
 
 import com.dbproj.manageprompt.dto.*;
+import com.dbproj.manageprompt.entity.ProjectEntity;
 import com.dbproj.manageprompt.service.ProjectService;
 
+import com.dbproj.manageprompt.specification.ProjectSpecification;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +25,19 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
-    // 프로젝트 조회 및 검색
+    // 프로젝트 조회
     @GetMapping("/lists")
     public List<ProjectResponseDto> findAllPageable(
+            @PageableDefault(size = 30, direction = Sort.Direction.DESC) Pageable pageable) {
+        return projectService.findAll(pageable)
+                .stream()
+                .map(ProjectResponseDto::from)
+                .collect(Collectors.toList());
+    }
+
+    // 프로젝트 검색
+    @GetMapping("/lists/search")
+    public List<ProjectSpecificationResponseDto> search(
             @RequestParam(value = "year", defaultValue="0") Integer year,
             @RequestParam(value = "period", required = false) String period,
             @RequestParam(value = "state", defaultValue="0") Integer state,
@@ -33,19 +46,7 @@ public class ProjectController {
             @RequestParam(value = "budge_start", defaultValue="0") Integer budge_start,
             @RequestParam(value = "budge_end", defaultValue="0") Integer budge_end,
             @PageableDefault(size = 30, direction = Sort.Direction.DESC) Pageable pageable) {
-        // 전체 게시물 조회 (page, size)
-        if (period == null) {
-            return projectService.findAll(pageable)
-                    .stream()
-                    .map(ProjectResponseDto::from)
-                    .collect(Collectors.toList());
-        } else {
-            // 프로젝트 관리 (프로젝트 다중 검색)
-            return projectService.findAll(pageable)
-                    .stream()
-                    .map(ProjectResponseDto::from)
-                    .collect(Collectors.toList());
-        }
+       return projectService.search(year, period, state, pro_name, client_name, budge_start, budge_end);
     }
 
     // 프로젝트 정보 & 프로젝트 참여 직원
