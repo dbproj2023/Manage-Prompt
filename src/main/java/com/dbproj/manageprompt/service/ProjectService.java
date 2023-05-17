@@ -1,14 +1,9 @@
 package com.dbproj.manageprompt.service;
 
 import com.dbproj.manageprompt.common.exception.NotFoundException;
-import com.dbproj.manageprompt.dao.ClientInfoDao;
-import com.dbproj.manageprompt.dao.ProjectDao;
-import com.dbproj.manageprompt.dto.ClientRequestDto;
-import com.dbproj.manageprompt.dto.ProjectAndClientCreateRequestDto;
-import com.dbproj.manageprompt.dto.ProjectDetailResponseDto;
-import com.dbproj.manageprompt.dto.ProjectUpdateRequestDto;
-import com.dbproj.manageprompt.entity.ClientInfoEntity;
-import com.dbproj.manageprompt.entity.ProjectEntity;
+import com.dbproj.manageprompt.dao.*;
+import com.dbproj.manageprompt.dto.*;
+import com.dbproj.manageprompt.entity.*;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,12 +12,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class ProjectService {
 
     private final ProjectDao projectDao;
     private final ClientInfoDao clientInfoDao;
+
+    private final EmployeeProjectDao employeeProjectDao;
+
+    private final EmployeeDao employeeDao;
+
+    private final RoleDao roleDao;
 
     // 전체 프로젝트 조회
     @Transactional(readOnly = true)
@@ -34,7 +37,7 @@ public class ProjectService {
 //    public List<ProjectDetailResponseDto> Search(Integer year, String period, Integer state, String pro_name, String client_name, Integer budge_start, Integer budge_end){
 //    }
 
-    // 프로젝트 정보 & 프로젝트 참여 직원
+    // 프로젝트 정보 & 프로젝트 참여 직원 모두 조회
     @Transactional(readOnly = true)
     public ProjectDetailResponseDto findOne(String proId) {
         ProjectEntity project = findProject(proId);
@@ -86,5 +89,48 @@ public class ProjectService {
         );
 
         return projectDao.save(updateProject).getProId();
+    }
+
+    // 프로젝트 참여 직원 등록
+    public Long employeeAdd(ProjectAddEmployeeRequestDto addEmpRequestDto) {
+        // EmployeeProject Entity search
+        EmployeeEntity employee = employeeDao.findById(addEmpRequestDto.getEmp_id()).orElseThrow(() ->
+                new IllegalArgumentException("해당 사번의 직원은 존재하지 않습니다. => " + addEmpRequestDto.getEmp_id()));
+
+        // Project Entity search
+        ProjectEntity project = projectDao.findByProName(addEmpRequestDto.getPro_name());
+
+        // Role Entity search
+        RoleEntity role = roleDao.findByRoleId(addEmpRequestDto.getRole_id());
+
+        // EmployeeProject Entity save
+        addEmpRequestDto.setStart_date(addEmpRequestDto.getStart_date());
+        addEmpRequestDto.setEnd_date(addEmpRequestDto.getEnd_date());
+        addEmpRequestDto.setEmployee(employee);
+        addEmpRequestDto.setProject(project);
+        addEmpRequestDto.setRole(role);
+
+        EmployeeProjectEntity empProj = addEmpRequestDto.toEntity();
+        empProj = employeeProjectDao.save(empProj);
+
+        return empProj.getEmpProId();
+    }
+    // 프로젝트별 참여 직원 전체 조회
+
+
+    // 프로젝트 참여 직원 수정
+    public Long employeeUpdate(ProjectEmployeeUpdateRequestDto requestDto) {
+        EmployeeProjectEntity empProj = employeeProjectDao.
+                findByProjectEntity_ProNameAndAndEmployeeEntity_EmpId(
+                        requestDto.getPro_name(),
+                        requestDto.getEmp_id()
+                );
+        RoleEntity role = roleDao.findByRoleId(requestDto.getRole_id());
+        empProj.update(
+                requestDto.getStart_date(),
+                requestDto.getEnd_date(),
+                role
+        );
+        return employeeProjectDao.save(empProj).getEmpProId();
     }
 }

@@ -72,4 +72,24 @@ public class ProjectController {
         String responseId = projectService.update(proId, requestDto);
         return new IdStringResponseDto(responseId);
     }
+
+    // 프로젝트 참여 직원 등록
+    @PostMapping("/member/add")
+    @ResponseStatus(HttpStatus.OK)
+//    public IdResponseDto create(@RequestBody @Valid ProjectAddEmployeeRequestDto requestDto) {
+    public IdResponseDto create(ProjectAddEmployeeRequestDto requestDto) {
+//        long responseId = projectService.employeeAdd(sessionDto.getId, requestDto); // 로그인 구현 후 변경해야함.
+        Long responseId = projectService.employeeAdd(requestDto);
+        return new IdResponseDto(responseId);
+    }
+
+    // 프로젝트 참여 직원 수정
+    @PatchMapping("/member/update")
+    @ResponseStatus(HttpStatus.OK)
+//    public IdResponseDto create(@RequestBody @Valid ProjectEmployeeUpdateRequestDto requestDto) {
+    public IdResponseDto update(ProjectEmployeeUpdateRequestDto requestDto) {
+//        long responseId = projectService.employeeUpdate(sessionDto.getId, requestDto); // 로그인 구현 후 변경해야함.
+        Long responseId = projectService.employeeUpdate(requestDto);
+        return new IdResponseDto(responseId);
+    }
 }

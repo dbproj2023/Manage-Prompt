@@ -38,3 +38,11 @@ spring:
         - classpath:db/seed/v3_sql_seed_ddl.sql
       encoding: UTF-8
       mode: always
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
