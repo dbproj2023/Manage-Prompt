@@ -14,6 +14,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,15 +41,25 @@ public class ProjectService {
     }
 
     // 프로젝트 검색
-    public List<ProjectSpecificationResponseDto> search(Integer year, String period, Integer state, String pro_name, String client_name, Integer budge_start, Integer budge_end){
+    public List<ProjectSpecificationResponseDto> search(Date start_date, Date end_date, String pro_name, String client_name, Integer budge_start, Integer budge_end) throws ParseException {
         Specification<ProjectEntity> spec = (root, query, criteriaBuilder) -> null;
 
-//        if (year != null) spec = spec.and(ProjectSpecification.equalYear(year));
-//        if (period != null) spec = spec.and(ProjectSpecification.equalYear(year));
-//        if (state != null) spec = spec.and(ProjectSpecification.equalYear(year));
+        System.out.println("------------!!!-----");
+        System.out.println(start_date);
+        System.out.println(pro_name);
+        System.out.println(client_name);
+        System.out.println(budge_start);
+
+        if (start_date != null & end_date != null) spec = spec.and(ProjectSpecification.betweenDate(start_date, end_date));
+        if (start_date != null & end_date == null) spec = spec.and(ProjectSpecification.searchStartDate(start_date));
+        if (start_date == null & end_date != null) spec = spec.and(ProjectSpecification.searchEndDate(end_date));
+
         if (pro_name != null) spec = spec.and(ProjectSpecification.equalProName(pro_name));
         if (client_name != null) spec = spec.and(ProjectSpecification.equalClientName(client_name));
+
         if (budge_start != null & budge_end != null) spec = spec.and(ProjectSpecification.betweenBudget(budge_start, budge_end));
+        if (budge_start != null & budge_end == null) spec = spec.and(ProjectSpecification.upperBudget(budge_start));
+        if (budge_start == null & budge_end != null) spec = spec.and(ProjectSpecification.lowerBudget(budge_end));
 
         return projectDao.findAll(spec).stream().map(ProjectSpecificationResponseDto::from).collect(Collectors.toList());
     }

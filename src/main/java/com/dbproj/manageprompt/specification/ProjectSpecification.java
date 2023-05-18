@@ -6,10 +6,6 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.Date;
 
 public class ProjectSpecification {
-    // 년도 검색
-//    public static Specification<ProjectEntity> equalYear(Integer year) {
-//        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(criteriaBuilder.function("YEAR", Integer.class, root.get("start_date"), year);
-//    }
     // 기간 검색 (시작일 기준)
     public static Specification<ProjectEntity> searchStartDate(Date start_date) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("startDate"), start_date);
@@ -18,7 +14,10 @@ public class ProjectSpecification {
     public static Specification<ProjectEntity> searchEndDate(Date end_date) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root.get("endDate"), end_date);
     }
-    // 상태 검색
+    // 기간 구간 검색
+    public static Specification<ProjectEntity> betweenDate(Date start_date, Date end_date) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("budget"), start_date, end_date);
+    }
     // 프로젝트명 검색
     public static Specification<ProjectEntity> equalProName(String proName) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("proName"), proName);
