@@ -16,7 +16,7 @@ public class ProjectSpecification {
     }
     // 기간 구간 검색
     public static Specification<ProjectEntity> betweenDate(Date start_date, Date end_date) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("budget"), start_date, end_date);
+        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("startDate"), start_date, end_date);
     }
     // 프로젝트명 검색
     public static Specification<ProjectEntity> equalProName(String proName) {

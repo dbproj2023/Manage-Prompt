@@ -56,7 +56,7 @@ public class ProjectService {
     // 프로젝트 검색
     public List<ProjectSpecificationResponseDto> search(Date start_date, Date end_date, String pro_name, String client_name, Integer budge_start, Integer budge_end) throws ParseException {
         Specification<ProjectEntity> spec = (root, query, criteriaBuilder) -> null;
-
+        
         LocalDate now = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -77,11 +77,15 @@ public class ProjectService {
 
             spec = spec.and(ProjectSpecification.betweenDate(start_date_foramtted, end_date_foramtted));
         }
+
+
+
         if (start_date != null & end_date == null) {
             Date start_data = recvSimpleFormat.parse(String.valueOf(start_date));
             String start_date_format = tranSimpleFormat.format(start_data);
             Date start_date_foramtted = tranSimpleFormat.parse(start_date_format);
 
+            System.out.println(start_date_foramtted);
             spec = spec.and(ProjectSpecification.searchStartDate(start_date_foramtted));
         }
         if (start_date == null & end_date != null) {
@@ -90,6 +94,13 @@ public class ProjectService {
             Date end_date_foramtted = tranSimpleFormat.parse(end_date_format);
 
             spec = spec.and(ProjectSpecification.searchEndDate(end_date_foramtted));
+        }
+
+        if (pro_name != null & pro_name.isEmpty()) {
+            pro_name = null;
+        }
+        if (client_name != null & client_name.isEmpty()) {
+            client_name = null;
         }
 
         if (pro_name != null) spec = spec.and(ProjectSpecification.equalProName(pro_name));
