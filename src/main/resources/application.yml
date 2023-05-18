@@ -18,7 +18,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/promptDB?serverTimezone=Asia/Seoul # 127.0.0.1
     username: root
-    password: mysql
+    password: oracle
 
   jpa:
     database: mysql
@@ -30,14 +30,14 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
 
-  sql:
-    init:
-      schema-locations:
-        - classpath:db/migration/v2_sql_ddl.sql
-      data-locations:
-        - classpath:db/seed/v3_sql_seed_ddl.sql
-      encoding: UTF-8
-      mode: always
+#  sql:
+#    init:
+#      schema-locations:
+#        - classpath:db/migration/v2_sql_ddl.sql
+#      data-locations:
+#        - classpath:db/seed/v4_sql_seed_ddl.sql
+#      encoding: UTF-8
+#      mode: always
 
 logging:
   level:
