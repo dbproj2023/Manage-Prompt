@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -94,5 +96,23 @@ public class ProjectController {
 //        long responseId = projectService.employeeUpdate(sessionDto.getId, requestDto); // 로그인 구현 후 변경해야함.
         Long responseId = projectService.employeeUpdate(requestDto);
         return new IdResponseDto(responseId);
+    }
+
+    // 프로젝트 아이디 중복 확인
+    @PostMapping("/checkProid")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Map checkDuplicateProId(CheckProjectIdRequestDto requestDto) {
+        Map response = new HashMap<String, Object>();
+        Integer responseId = projectService.checkDuplicateProId(requestDto);
+        if (responseId == 0) {
+            response.put("message", "사용 가능한 아이디입니다.");
+            response.put("value", 1);
+        }
+        if (responseId == 1){
+            response.put("message", "사용 불가능한 아이디입니다.");
+            response.put("value", 0);
+        }
+        return response;
     }
 }

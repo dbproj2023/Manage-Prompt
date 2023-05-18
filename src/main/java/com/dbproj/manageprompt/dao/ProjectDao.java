@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface ProjectDao extends JpaRepository<ProjectEntity, String>, JpaSpecificationExecutor<ProjectEntity> {
 
+    ProjectEntity findByProId(String keyword);
     ProjectEntity findByProName(String keyword);
     List<ProjectEntity> findAllByProNameContaining(String keyword);
 }
