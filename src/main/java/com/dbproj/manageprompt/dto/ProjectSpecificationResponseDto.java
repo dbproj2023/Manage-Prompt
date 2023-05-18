@@ -22,6 +22,7 @@ public class ProjectSpecificationResponseDto {
     private final Date endDate;
 
     private final String proName;
+    private final String proId;
     private final Integer budget;
 //    private final String state;
     private final Integer numOfParicipant;
@@ -33,6 +34,7 @@ public class ProjectSpecificationResponseDto {
                 .startDate(projectEntity.getStartDate())
                 .endDate(projectEntity.getEndDate())
                 .proName(projectEntity.getProName())
+                .proId(projectEntity.getProId())
                 .budget(projectEntity.getBudget())
 //                .state(projectEntity.get.getState())
                 .numOfParicipant(projectEntity.getEmployeeProjectEntities().size())
