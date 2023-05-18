@@ -1,4 +1,4 @@
-package com.dbproj.manageprompt.dao;
+package com.dbproj.manageprompt.specification;
 
 import com.dbproj.manageprompt.entity.EmployeeEntity;
 import org.springframework.data.jpa.domain.Specification;

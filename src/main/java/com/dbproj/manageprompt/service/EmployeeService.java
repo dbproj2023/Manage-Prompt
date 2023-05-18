@@ -1,7 +1,7 @@
 package com.dbproj.manageprompt.service;
 
 import com.dbproj.manageprompt.dao.EmployeeDao;
-import com.dbproj.manageprompt.dao.EmployeeSpecification;
+import com.dbproj.manageprompt.specification.EmployeeSpecification;
 import com.dbproj.manageprompt.entity.EmployeeEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
