@@ -16,8 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -54,9 +57,40 @@ public class ProjectService {
     public List<ProjectSpecificationResponseDto> search(Date start_date, Date end_date, String pro_name, String client_name, Integer budge_start, Integer budge_end) throws ParseException {
         Specification<ProjectEntity> spec = (root, query, criteriaBuilder) -> null;
 
-        if (start_date != null & end_date != null) spec = spec.and(ProjectSpecification.betweenDate(start_date, end_date));
-        if (start_date != null & end_date == null) spec = spec.and(ProjectSpecification.searchStartDate(start_date));
-        if (start_date == null & end_date != null) spec = spec.and(ProjectSpecification.searchEndDate(end_date));
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+        String formatted = now.format(formatter);
+        Date localDate = formatter2.parse(formatted);
+
+        SimpleDateFormat recvSimpleFormat = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        SimpleDateFormat tranSimpleFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+
+        if (start_date != null & end_date != null) {
+            Date start_data = recvSimpleFormat.parse(String.valueOf(start_date));
+            String start_date_format = tranSimpleFormat.format(start_data);
+            Date start_date_foramtted = tranSimpleFormat.parse(start_date_format);
+
+            Date end_data = recvSimpleFormat.parse(String.valueOf(end_date));
+            String end_date_format = tranSimpleFormat.format(end_data);
+            Date end_date_foramtted = tranSimpleFormat.parse(end_date_format);
+
+            spec = spec.and(ProjectSpecification.betweenDate(start_date_foramtted, end_date_foramtted));
+        }
+        if (start_date != null & end_date == null) {
+            Date start_data = recvSimpleFormat.parse(String.valueOf(start_date));
+            String start_date_format = tranSimpleFormat.format(start_data);
+            Date start_date_foramtted = tranSimpleFormat.parse(start_date_format);
+
+            spec = spec.and(ProjectSpecification.searchStartDate(start_date_foramtted));
+        }
+        if (start_date == null & end_date != null) {
+            Date end_data = recvSimpleFormat.parse(String.valueOf(end_date));
+            String end_date_format = tranSimpleFormat.format(end_data);
+            Date end_date_foramtted = tranSimpleFormat.parse(end_date_format);
+
+            spec = spec.and(ProjectSpecification.searchEndDate(end_date_foramtted));
+        }
 
         if (pro_name != null) spec = spec.and(ProjectSpecification.equalProName(pro_name));
         if (client_name != null) spec = spec.and(ProjectSpecification.equalClientName(client_name));
