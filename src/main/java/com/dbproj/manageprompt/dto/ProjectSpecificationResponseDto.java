@@ -23,6 +23,7 @@ public class ProjectSpecificationResponseDto {
 
     private final String proName;
     private final Integer budget;
+//    private final String state;
     private final Integer numOfParicipant;
     private final String clientName;
     private final List<EmployeeProjectResponseDto> participantList; // PM 찾는 용도
@@ -33,6 +34,7 @@ public class ProjectSpecificationResponseDto {
                 .endDate(projectEntity.getEndDate())
                 .proName(projectEntity.getProName())
                 .budget(projectEntity.getBudget())
+//                .state(projectEntity.get.getState())
                 .numOfParicipant(projectEntity.getEmployeeProjectEntities().size())
                 .clientName(projectEntity.getClientInfoEntity().getClientName())
                 // PM 찾는 용도

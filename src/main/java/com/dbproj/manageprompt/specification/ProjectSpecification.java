@@ -38,4 +38,5 @@ public class ProjectSpecification {
     public static Specification<ProjectEntity> lowerBudget(Integer budget) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root.get("budget"), budget);
     }
+    // 진행 상태 검색
 }
