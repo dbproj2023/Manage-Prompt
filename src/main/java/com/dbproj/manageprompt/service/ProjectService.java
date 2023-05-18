@@ -34,6 +34,16 @@ public class ProjectService {
 
     private final RoleDao roleDao;
 
+    // 프로젝트 등록 시 프로젝트 아이디 중복 확인
+    @Transactional(readOnly = true)
+    public Integer checkDuplicateProId(CheckProjectIdRequestDto requestDto) {
+        ProjectEntity project = projectDao.findByProId(requestDto.getProId());
+        if (project == null) {
+            return 0; // 해당 아이디의 프로젝트 없음
+        }
+        return 1; // 해당 아이디의 프로젝트 존재
+    }
+
     // 전체 프로젝트 조회
     @Transactional(readOnly = true)
     public Page<ProjectEntity> findAll(Pageable pageable) {
@@ -43,12 +53,6 @@ public class ProjectService {
     // 프로젝트 검색
     public List<ProjectSpecificationResponseDto> search(Date start_date, Date end_date, String pro_name, String client_name, Integer budge_start, Integer budge_end) throws ParseException {
         Specification<ProjectEntity> spec = (root, query, criteriaBuilder) -> null;
-
-        System.out.println("------------!!!-----");
-        System.out.println(start_date);
-        System.out.println(pro_name);
-        System.out.println(client_name);
-        System.out.println(budge_start);
 
         if (start_date != null & end_date != null) spec = spec.and(ProjectSpecification.betweenDate(start_date, end_date));
         if (start_date != null & end_date == null) spec = spec.and(ProjectSpecification.searchStartDate(start_date));
