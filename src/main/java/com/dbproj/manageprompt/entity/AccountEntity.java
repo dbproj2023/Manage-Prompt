@@ -1,12 +1,10 @@
 package com.dbproj.manageprompt.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
+@Builder
 @Table(
         name = "`account`",
         uniqueConstraints={
@@ -19,6 +17,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AccountEntity extends BaseTime {
   @Id

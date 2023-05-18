@@ -1,8 +1,11 @@
 package com.dbproj.manageprompt.service;
 
 import com.dbproj.manageprompt.dao.EmployeeDao;
+import com.dbproj.manageprompt.dao.EmployeeSpecification;
 import com.dbproj.manageprompt.entity.EmployeeEntity;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +13,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class EmployeeService {
 
     private final EmployeeDao employeeDao;
@@ -24,6 +28,19 @@ public class EmployeeService {
     // 프로젝트 추가용 직원 검색 Service
     // keyword: 조회할 사번, 이름, 스킬
     // searchOption : 사번
+    public List<EmployeeEntity> getEmployeeSearch(String empId, String empName, String empSkill) {
+        Specification<EmployeeEntity> spec = (root, query, criteriaBuilder) -> null;
+        log.info(String.valueOf(empId==""));
+        if(empId != "")
+            spec = spec.and(EmployeeSpecification.equalId(empId));
+        if(empName != "")
+            spec = spec.and(EmployeeSpecification.equalName(empName));
+        if(empSkill != "")
+            spec = spec.and(EmployeeSpecification.equalSkill(empSkill));
+
+        return employeeDao.findAll(spec);
+    }
+
     @Transactional(readOnly = true)
     public List<EmployeeEntity> findByEmpId(String keyword) {
         return employeeDao.findByEmpIdContaining(keyword);
