@@ -61,9 +61,9 @@ public class ProjectService {
         if (pro_name != null) spec = spec.and(ProjectSpecification.equalProName(pro_name));
         if (client_name != null) spec = spec.and(ProjectSpecification.equalClientName(client_name));
 
-        if (budge_start != null & budge_end != null) spec = spec.and(ProjectSpecification.betweenBudget(budge_start, budge_end));
-        if (budge_start != null & budge_end == null) spec = spec.and(ProjectSpecification.upperBudget(budge_start));
-        if (budge_start == null & budge_end != null) spec = spec.and(ProjectSpecification.lowerBudget(budge_end));
+        if (budge_start != 0 & budge_end != 0) spec = spec.and(ProjectSpecification.betweenBudget(budge_start, budge_end));
+        if (budge_start != 0 & budge_end == 0) spec = spec.and(ProjectSpecification.upperBudget(budge_start));
+        if (budge_start == 0 & budge_end != 0) spec = spec.and(ProjectSpecification.lowerBudget(budge_end));
 
         return projectDao.findAll(spec).stream().map(ProjectSpecificationResponseDto::from).collect(Collectors.toList());
     }
