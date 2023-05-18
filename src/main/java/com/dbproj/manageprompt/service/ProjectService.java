@@ -66,7 +66,7 @@ public class ProjectService {
         SimpleDateFormat recvSimpleFormat = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
         SimpleDateFormat tranSimpleFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
 
-        if (start_date != null & end_date != null) {
+        if (start_date != null && end_date != null) {
             Date start_data = recvSimpleFormat.parse(String.valueOf(start_date));
             String start_date_format = tranSimpleFormat.format(start_data);
             Date start_date_foramtted = tranSimpleFormat.parse(start_date_format);
@@ -75,12 +75,12 @@ public class ProjectService {
             String end_date_format = tranSimpleFormat.format(end_data);
             Date end_date_foramtted = tranSimpleFormat.parse(end_date_format);
 
-            spec = spec.and(ProjectSpecification.betweenDate(start_date_foramtted, end_date_foramtted));
+//            spec = spec.and(ProjectSpecification.betweenDate(start_date_foramtted, end_date_foramtted));
+            spec = spec.and(ProjectSpecification.searchStartDate(start_date_foramtted));
+            spec = spec.and(ProjectSpecification.searchEndDate(end_date_foramtted));
         }
 
-
-
-        if (start_date != null & end_date == null) {
+        if (start_date != null && end_date == null) {
             Date start_data = recvSimpleFormat.parse(String.valueOf(start_date));
             String start_date_format = tranSimpleFormat.format(start_data);
             Date start_date_foramtted = tranSimpleFormat.parse(start_date_format);
@@ -88,7 +88,7 @@ public class ProjectService {
             System.out.println(start_date_foramtted);
             spec = spec.and(ProjectSpecification.searchStartDate(start_date_foramtted));
         }
-        if (start_date == null & end_date != null) {
+        if (start_date == null && end_date != null) {
             Date end_data = recvSimpleFormat.parse(String.valueOf(end_date));
             String end_date_format = tranSimpleFormat.format(end_data);
             Date end_date_foramtted = tranSimpleFormat.parse(end_date_format);
@@ -96,19 +96,12 @@ public class ProjectService {
             spec = spec.and(ProjectSpecification.searchEndDate(end_date_foramtted));
         }
 
-        if (pro_name != null & pro_name.isEmpty()) {
-            pro_name = null;
-        }
-        if (client_name != null & client_name.isEmpty()) {
-            client_name = null;
-        }
+        if (pro_name != null && !pro_name.isBlank()) spec = spec.and(ProjectSpecification.equalProName(pro_name));
+        if (client_name != null && !client_name.isBlank()) spec = spec.and(ProjectSpecification.equalClientName(client_name));
 
-        if (pro_name != null) spec = spec.and(ProjectSpecification.equalProName(pro_name));
-        if (client_name != null) spec = spec.and(ProjectSpecification.equalClientName(client_name));
-
-        if (budge_start != 0 & budge_end != 0) spec = spec.and(ProjectSpecification.betweenBudget(budge_start, budge_end));
-        if (budge_start != 0 & budge_end == 0) spec = spec.and(ProjectSpecification.upperBudget(budge_start));
-        if (budge_start == 0 & budge_end != 0) spec = spec.and(ProjectSpecification.lowerBudget(budge_end));
+        if (budge_start != 0 && budge_end != 0) spec = spec.and(ProjectSpecification.betweenBudget(budge_start, budge_end));
+        if (budge_start != 0 && budge_end == 0) spec = spec.and(ProjectSpecification.upperBudget(budge_start));
+        if (budge_start == 0 && budge_end != 0) spec = spec.and(ProjectSpecification.lowerBudget(budge_end));
 
         return projectDao.findAll(spec).stream().map(ProjectSpecificationResponseDto::from).collect(Collectors.toList());
     }
