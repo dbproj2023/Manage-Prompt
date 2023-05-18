@@ -11,10 +11,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,15 +41,14 @@ public class ProjectController {
     // 프로젝트 검색
     @GetMapping("/lists/search")
     public List<ProjectSpecificationResponseDto> search(
-            @RequestParam(value = "year", defaultValue="0") Integer year,
-            @RequestParam(value = "period", required = false) String period,
-            @RequestParam(value = "state", defaultValue="0") Integer state,
+            @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date start_date,
+            @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date end_date,
             @RequestParam(value = "pro_name", required = false) String pro_name,
             @RequestParam(value = "client_name", required = false) String client_name,
             @RequestParam(value = "budge_start", defaultValue="0") Integer budge_start,
             @RequestParam(value = "budge_end", defaultValue="0") Integer budge_end,
-            @PageableDefault(size = 30, direction = Sort.Direction.DESC) Pageable pageable) {
-       return projectService.search(year, period, state, pro_name, client_name, budge_start, budge_end);
+            @PageableDefault(size = 30, direction = Sort.Direction.DESC) Pageable pageable) throws ParseException {
+       return projectService.search(start_date,  end_date, pro_name, client_name, budge_start, budge_end);
     }
 
     // 프로젝트 정보 & 프로젝트 참여 직원
