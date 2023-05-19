@@ -62,40 +62,43 @@ public class ProjectController {
     // 프로젝트 및 발주처 등록
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
 //    public IdStringResponseDto create(@RequestBody @Valid ProjectAndClientCreateRequestDto requestDto) {
-    public IdStringResponseDto create(ProjectAndClientCreateRequestDto requestDto) {
+    public Map create(ProjectAndClientCreateRequestDto requestDto) {
 //        long responseId = projectService.create(sessionDto.getId, requestDto); // 로그인 구현 후 변경해야함.
-        String responseId = projectService.create(requestDto);
-        return new IdStringResponseDto(responseId);
+        Map response = projectService.create(requestDto);
+        return response;
     }
 
     // 프로젝트 수정
     @PatchMapping("/update/{pro_id}")
     @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
 //    public IdStringResponseDto update(@PathVariable(value = "pro_id") String proId, @RequestBody @Valid ProjectUpdateRequestDto requestDto) {
-    public IdStringResponseDto update(@PathVariable(value = "pro_id") String proId, ProjectUpdateRequestDto requestDto) {
-        String responseId = projectService.update(proId, requestDto);
-        return new IdStringResponseDto(responseId);
+    public Map update(@PathVariable(value = "pro_id") String proId, ProjectUpdateRequestDto requestDto) {
+        Map response = projectService.update(proId, requestDto);
+        return response;
     }
 
     // 프로젝트 참여 직원 등록
     @PostMapping("/member/add")
     @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
 //    public IdResponseDto create(@RequestBody @Valid ProjectAddEmployeeRequestDto requestDto) {
-    public IdResponseDto create(ProjectAddEmployeeRequestDto requestDto) {
+    public Map create(ProjectAddEmployeeRequestDto requestDto) {
 //        long responseId = projectService.employeeAdd(sessionDto.getId, requestDto); // 로그인 구현 후 변경해야함.
-        Long responseId = projectService.employeeAdd(requestDto);
-        return new IdResponseDto(responseId);
+        Map response = projectService.employeeAdd(requestDto);
+        return response;
     }
 
     // 프로젝트 참여 직원 수정
     @PatchMapping("/member/update")
     @ResponseStatus(HttpStatus.OK)
 //    public IdResponseDto create(@RequestBody @Valid ProjectEmployeeUpdateRequestDto requestDto) {
-    public IdResponseDto update(ProjectEmployeeUpdateRequestDto requestDto) {
+    public Map update(ProjectEmployeeUpdateRequestDto requestDto) {
 //        long responseId = projectService.employeeUpdate(sessionDto.getId, requestDto); // 로그인 구현 후 변경해야함.
-        Long responseId = projectService.employeeUpdate(requestDto);
-        return new IdResponseDto(responseId);
+        Map response = projectService.employeeUpdate(requestDto);
+        return response;
     }
 
     // 프로젝트 아이디 중복 확인

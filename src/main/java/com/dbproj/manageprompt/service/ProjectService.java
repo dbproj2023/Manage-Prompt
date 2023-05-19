@@ -18,10 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -122,7 +119,7 @@ public class ProjectService {
     }
 
     // 프로젝트 및 발주처 등록
-    public String create(ProjectAndClientCreateRequestDto projCreateDto) {
+    public Map create(ProjectAndClientCreateRequestDto projCreateDto) {
         // 발주처 추가
         ClientRequestDto clientRequestDto = new ClientRequestDto();
         clientRequestDto.setClientName(projCreateDto.getClient_name());
@@ -144,11 +141,17 @@ public class ProjectService {
         ProjectEntity newProject = projCreateDto.toEntity();
         newProject = projectDao.save(newProject);
 
-        return newProject.getProId();
+        Map response = new HashMap<String, Object>();
+        response.put("message", "프로젝트와 발주처가 추가되었습니다.");
+        response.put("status", 1);
+        response.put("pro_id", newProject.getProId());
+        response.put("cliend_id", newClient.getClientId());
+
+        return response;
     }
 
     // 프로젝트 수정
-    public String update(String proId, ProjectUpdateRequestDto requestDto) {
+    public Map update(String proId, ProjectUpdateRequestDto requestDto) {
         ProjectEntity updateProject = projectDao.findById(proId).orElseThrow(NotFoundException::new);
         System.out.println(requestDto.getStart_date());
         updateProject.update(
@@ -157,49 +160,92 @@ public class ProjectService {
                 requestDto.getBudget()
         );
 
-        return projectDao.save(updateProject).getProId();
+        Map response = new HashMap<String, Object>();
+        response.put("message", "프로젝트가 수정되었습니다.");
+        response.put("status", 1);
+        response.put("pro_id", projectDao.save(updateProject).getProId());
+
+        return response;
     }
 
     // 프로젝트 참여 직원 등록
-    public Long employeeAdd(ProjectAddEmployeeRequestDto addEmpRequestDto) {
-        // EmployeeProject Entity search
-        EmployeeEntity employee = employeeDao.findById(addEmpRequestDto.getEmp_id()).orElseThrow(() ->
-                new IllegalArgumentException("해당 사번의 직원은 존재하지 않습니다. => " + addEmpRequestDto.getEmp_id()));
+    public Map employeeAdd(ProjectAddEmployeeRequestDto addEmpRequestDto) {
+        EmployeeProjectEntity isEmpProj = employeeProjectDao.
+                findByProjectEntity_ProIdAndAndEmployeeEntity_EmpId(
+                        addEmpRequestDto.getPro_id(),
+                        addEmpRequestDto.getEmp_id()
+                );
 
-        // Project Entity search
-        ProjectEntity project = projectDao.findByProId(addEmpRequestDto.getPro_id());
+        if (isEmpProj == null) {
+            // EmployeeProject Entity search
+            EmployeeEntity employee = employeeDao.findById(addEmpRequestDto.getEmp_id()).orElseThrow(() ->
+                    new IllegalArgumentException("해당 사번의 직원은 존재하지 않습니다. => " + addEmpRequestDto.getEmp_id()));
 
-        // Role Entity search
-        RoleEntity role = roleDao.findByRoleId(addEmpRequestDto.getRole_id());
+            // Project Entity search
+            ProjectEntity project = projectDao.findByProId(addEmpRequestDto.getPro_id());
 
-        // EmployeeProject Entity save
-        addEmpRequestDto.setStart_date(addEmpRequestDto.getStart_date());
-        addEmpRequestDto.setEnd_date(addEmpRequestDto.getEnd_date());
-        addEmpRequestDto.setEmployee(employee);
-        addEmpRequestDto.setProject(project);
-        addEmpRequestDto.setRole(role);
+            // Role Entity search
+            RoleEntity role = roleDao.findByRoleId(addEmpRequestDto.getRole_id());
 
-        EmployeeProjectEntity empProj = addEmpRequestDto.toEntity();
-        empProj = employeeProjectDao.save(empProj);
+            // EmployeeProject Entity save
+            addEmpRequestDto.setStart_date(addEmpRequestDto.getStart_date());
+            addEmpRequestDto.setEnd_date(addEmpRequestDto.getEnd_date());
+            addEmpRequestDto.setEmployee(employee);
+            addEmpRequestDto.setProject(project);
+            addEmpRequestDto.setRole(role);
 
-        return empProj.getEmpProId();
+            EmployeeProjectEntity empProj = addEmpRequestDto.toEntity();
+            empProj = employeeProjectDao.save(empProj);
+
+            Map response = new HashMap<String, Object>();
+            response.put("message", "프로젝트에 직원이 추가되었습니다.");
+            response.put("status", 1);
+            response.put("emp_pro_id", empProj.getEmpProId());
+
+            return response;
+        }
+
+        Map response = new HashMap<String, Object>();
+        response.put("message", "이미 프로젝트에 추가된 직원입니다.");
+        response.put("status", 0);
+        response.put("emp_pro_id", isEmpProj.getEmpProId());
+        response.put("_pro_id", addEmpRequestDto.getPro_id());
+        response.put("emp_id", addEmpRequestDto.getEmp_id());
+
+        return response;
     }
     // 프로젝트별 참여 직원 전체 조회
 
 
     // 프로젝트 참여 직원 수정
-    public Long employeeUpdate(ProjectEmployeeUpdateRequestDto requestDto) {
+    public Map employeeUpdate(ProjectEmployeeUpdateRequestDto requestDto) {
         EmployeeProjectEntity empProj = employeeProjectDao.
-                findByProjectEntity_ProNameAndAndEmployeeEntity_EmpId(
-                        requestDto.getPro_name(),
+                findByProjectEntity_ProIdAndAndEmployeeEntity_EmpId(
+                        requestDto.getPro_id(),
                         requestDto.getEmp_id()
                 );
+
+        if (empProj == null) {
+            Map response = new HashMap<String, Object>();
+            response.put("message", "존재하지 않는 직원이거나 프로젝트입니다.");
+            response.put("status", 0);
+
+            return response;
+        }
+
         RoleEntity role = roleDao.findByRoleId(requestDto.getRole_id());
+
         empProj.update(
                 requestDto.getStart_date(),
                 requestDto.getEnd_date(),
                 role
         );
-        return employeeProjectDao.save(empProj).getEmpProId();
+
+        Map response = new HashMap<String, Object>();
+        response.put("message", "프로젝트에 직원이 수정되었습니다.");
+        response.put("status", 1);
+        response.put("emp_pro_id",employeeProjectDao.save(empProj).getEmpProId());
+
+        return response;
     }
 }
