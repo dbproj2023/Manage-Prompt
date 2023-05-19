@@ -6,6 +6,7 @@ import lombok.*;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Data
@@ -14,18 +15,24 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class ProjectAddEmployeeRequestDto {
+    @NotBlank
     private String pro_name;
 
+    @NotBlank
     private Long emp_id;
 
+    @NotBlank
     private String emp_name;
 
+    @NotBlank
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date start_date;
 
+    @NotBlank
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date end_date;
 
+    @NotBlank
     private Long role_id;
 
     private EmployeeEntity employee;
