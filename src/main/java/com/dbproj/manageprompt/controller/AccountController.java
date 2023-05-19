@@ -38,7 +38,21 @@ public class AccountController {
         return new IdResponseDto(responseId);
     }
     //신규 유저 등록(직원)
-    //@PatchMapping("/user")
+    //관리자가 초기 설정한 계정으로 로그인한 계정 아이디 session으로 불러오기
+    @GetMapping("/user")
+    public String updateFrom(HttpSession session, Model model) {
+        String myauthid = (String) session.getAttribute("AuthId");
+        AccountRequestDto memberDTO = accountService.updateForm(myauthid);
+        model.addAttribute("updateMember", memberDTO);
+        log.info(myauthid);
+        return "user";
+    }
+    @PostMapping("/user")
+    public String updateUser(@ModelAttribute AccountCreateRequestDto memberDTO) {
+        accountService.updateUser(memberDTO);
+        return "success";
+    }
+
 
     //로그인
     @PostMapping("/login")
@@ -46,7 +60,8 @@ public class AccountController {
         AccountRequestDto loginResult = accountService.login(memberDto);
         if (loginResult != null) {
             //로그인 성공
-            session.setAttribute("loginId", loginResult.getAuthId());
+            session.setAttribute("AccId", loginResult.getAccId());
+            session.setAttribute("AuthId", loginResult.getAuthId());
             return "login";
         } else {
             //로그인 실패
