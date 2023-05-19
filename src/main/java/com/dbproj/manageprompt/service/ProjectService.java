@@ -167,7 +167,7 @@ public class ProjectService {
                 new IllegalArgumentException("해당 사번의 직원은 존재하지 않습니다. => " + addEmpRequestDto.getEmp_id()));
 
         // Project Entity search
-        ProjectEntity project = projectDao.findByProName(addEmpRequestDto.getPro_name());
+        ProjectEntity project = projectDao.findByProId(addEmpRequestDto.getPro_id());
 
         // Role Entity search
         RoleEntity role = roleDao.findByRoleId(addEmpRequestDto.getRole_id());
