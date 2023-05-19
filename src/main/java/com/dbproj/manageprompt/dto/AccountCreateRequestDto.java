@@ -21,8 +21,9 @@ public class AccountCreateRequestDto {
     private String emp_ssn;
     private String emp_name;
     private String emp_email;
-    private String emp_workex;
+    private Integer emp_work_ex;
     private String emp_skill;
+    private String emp_edu;
     private Integer access_grade;
 
     public AccountEntity toEntity() {

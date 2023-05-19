@@ -3,11 +3,9 @@ package com.dbproj.manageprompt.service;
 import com.dbproj.manageprompt.dao.AccessInfoDao;
 import com.dbproj.manageprompt.dao.AccountDao;
 import com.dbproj.manageprompt.dao.EmployeeDao;
-import com.dbproj.manageprompt.dto.AccessInfoResponseDto;
 import com.dbproj.manageprompt.dto.AccountCreateRequestDto;
 import com.dbproj.manageprompt.dto.AccountRequestDto;
 import com.dbproj.manageprompt.dto.EmployeeRequestDto;
-import com.dbproj.manageprompt.entity.AccessInfoEntity;
 import com.dbproj.manageprompt.entity.AccountEntity;
 import com.dbproj.manageprompt.entity.EmployeeEntity;
 import lombok.RequiredArgsConstructor;
@@ -88,7 +86,9 @@ public class AccountService {
         }
     }
 
+
     public void updateUser(AccountCreateRequestDto memberDTO) {
-        accountDao.save(AccountEntity.toUpdateAccountEntity(memberDTO));//update 쿼리 날려줌
+        accountDao.save(AccountEntity.toUpdateAccountEntity(memberDTO));
+        employeeDao.save(EmployeeEntity.toUpdateEmployeeEntity(memberDTO));
     }
 }
