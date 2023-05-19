@@ -1,5 +1,6 @@
 package com.dbproj.manageprompt.entity;
 
+import com.dbproj.manageprompt.dto.AccountCreateRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,4 +42,17 @@ public class EmployeeEntity extends BaseTime {
 
   @Column(name = "emp_skill", nullable = false) // length 255
   private String empSkill;
+
+  public static EmployeeEntity toUpdateEmployeeEntity(AccountCreateRequestDto memberDTO) {
+    EmployeeEntity employeeEntity = new EmployeeEntity();
+    employeeEntity.setEmpId(memberDTO.getEmp_id());
+    employeeEntity.setEmpSsn(memberDTO.getEmp_ssn());
+    employeeEntity.setEmpName(memberDTO.getEmp_name());
+    employeeEntity.setEmpEmail(memberDTO.getEmp_email());
+    employeeEntity.setEmpWorkEx(memberDTO.getEmp_work_ex());
+    employeeEntity.setEmpSkill(memberDTO.getEmp_skill());
+    employeeEntity.setEmpEdu(memberDTO.getEmp_edu());
+    return employeeEntity;
+  }
 }
+

@@ -37,8 +37,9 @@ public class AccountController {
         Long responseId = accountService.create(requestDto);
         return new IdResponseDto(responseId);
     }
+
     //신규 유저 등록(직원)
-    //관리자가 초기 설정한 계정으로 로그인한 계정 아이디 session으로 불러오기
+    //관리자가 초기 설정한 계정으로 로그인하면 auth_id session으로 가져옴
     @GetMapping("/user")
     public String updateFrom(HttpSession session, Model model) {
         String myauthid = (String) session.getAttribute("AuthId");
@@ -47,6 +48,7 @@ public class AccountController {
         log.info(myauthid);
         return "user";
     }
+    //등록 처리
     @PostMapping("/user")
     public String updateUser(@ModelAttribute AccountCreateRequestDto memberDTO) {
         accountService.updateUser(memberDTO);
@@ -62,6 +64,7 @@ public class AccountController {
             //로그인 성공
             session.setAttribute("AccId", loginResult.getAccId());
             session.setAttribute("AuthId", loginResult.getAuthId());
+            //session.setAttribute("",loginResult.get);
             return "login";
         } else {
             //로그인 실패
