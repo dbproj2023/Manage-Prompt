@@ -1,5 +1,6 @@
 package com.dbproj.manageprompt.entity;
 
+import com.dbproj.manageprompt.dto.AccountCreateRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -38,4 +39,12 @@ public class AccountEntity extends BaseTime {
   @OneToOne(fetch = FetchType.LAZY) // 계정정보 mapping (FK), 단반향
   @JoinColumn(name = "access_grade", referencedColumnName = "access_grade")
   private AccessInfoEntity accessInfoEntity;
+
+  public static AccountEntity toUpdateAccountEntity(AccountCreateRequestDto memberDTO) {
+    AccountEntity accountEntity = new AccountEntity();
+    accountEntity.setAccId(memberDTO.getAcc_id());
+    accountEntity.setAuthId(memberDTO.getAuth_id());
+    accountEntity.setAuthPw(memberDTO.getAuth_pw());
+    return accountEntity;
+  }
 }

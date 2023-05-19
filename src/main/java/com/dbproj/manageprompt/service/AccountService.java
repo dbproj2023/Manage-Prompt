@@ -1,9 +1,15 @@
 package com.dbproj.manageprompt.service;
 
+import com.dbproj.manageprompt.dao.AccessInfoDao;
 import com.dbproj.manageprompt.dao.AccountDao;
+import com.dbproj.manageprompt.dao.EmployeeDao;
+import com.dbproj.manageprompt.dto.AccessInfoResponseDto;
 import com.dbproj.manageprompt.dto.AccountCreateRequestDto;
 import com.dbproj.manageprompt.dto.AccountRequestDto;
+import com.dbproj.manageprompt.dto.EmployeeRequestDto;
+import com.dbproj.manageprompt.entity.AccessInfoEntity;
 import com.dbproj.manageprompt.entity.AccountEntity;
+import com.dbproj.manageprompt.entity.EmployeeEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,16 +22,33 @@ import java.util.Optional;
 public class AccountService {
 
     private final AccountDao accountDao;
-    //private final AccountRequestDto requestDto;
-    //private final AccountResponseDto accountResponseDto;
+    private final EmployeeDao employeeDao;
+
+    private final AccessInfoDao accessInfoDao;
 
     //신규 정보 등록 - 초기 계정 생성
     public Long create(AccountCreateRequestDto accountCreateDto) {
-        //관리자 - 직원 정보 등록
+        //관리자 - 초기 직원 정보 등록
+        EmployeeRequestDto employeeRequestDto = new EmployeeRequestDto();
+        employeeRequestDto.setEmp_id(accountCreateDto.getEmp_id());
+        employeeRequestDto.setEmp_name(accountCreateDto.getEmp_name());
+        employeeRequestDto.setEmp_ssn("");
+        employeeRequestDto.setEmp_edu("");
+        employeeRequestDto.setEmp_email("");
+        employeeRequestDto.setEmp_workex(0);
+        employeeRequestDto.setEmp_skill("");
 
+        EmployeeEntity newEmployee = employeeRequestDto.toEntity();
+        employeeDao.save(newEmployee);
+
+        //AccessInfoEntity accessInfoEntity = accessInfoDao.findById(9);
+
+        //관리자 - 초기 계정 등록
         accountCreateDto.setAcc_id(accountCreateDto.getAcc_id());
         accountCreateDto.setAuth_id(accountCreateDto.getAuth_id());
         accountCreateDto.setAuth_pw(accountCreateDto.getAuth_pw());
+        accountCreateDto.setEmployee(newEmployee);
+        //accountCreateDto.setAccess_Info();
 
         AccountEntity newAccount = accountCreateDto.toEntity();
         newAccount = accountDao.save(newAccount);
@@ -53,5 +76,19 @@ public class AccountService {
             //조회 결과 없음 (아이디 없음)
             return null;
         }
+    }
+
+
+    public AccountRequestDto updateForm(String myaccid) {
+        Optional<AccountEntity> optionalAccountEntity = accountDao.findByAuthId(myaccid);
+        if (optionalAccountEntity.isPresent()) {
+            return AccountRequestDto.toDto(optionalAccountEntity.get());
+        } else {
+            return null;
+        }
+    }
+
+    public void updateUser(AccountCreateRequestDto memberDTO) {
+        accountDao.save(AccountEntity.toUpdateAccountEntity(memberDTO));//update 쿼리 날려줌
     }
 }

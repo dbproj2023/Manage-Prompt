@@ -17,8 +17,13 @@ public class AccountCreateRequestDto {
     private String auth_pw;
     private EmployeeEntity employee;
     private AccessInfoEntity access_Info;
+    private Long emp_id;
     private String emp_ssn;
     private String emp_name;
+    private String emp_email;
+    private String emp_workex;
+    private String emp_skill;
+    private Integer access_grade;
 
     public AccountEntity toEntity() {
         AccountEntity account = AccountEntity.builder()
@@ -26,7 +31,7 @@ public class AccountCreateRequestDto {
                 .authId(auth_id)
                 .authPw(auth_pw)
                 .employeeEntity(employee)
-                //.accessInfoEntity(access_Info)
+                .accessInfoEntity(access_Info)
                 .build();
         return account;
     }
