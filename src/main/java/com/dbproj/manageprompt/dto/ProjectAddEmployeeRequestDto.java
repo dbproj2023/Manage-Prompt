@@ -16,7 +16,7 @@ import java.util.Date;
 @Getter
 public class ProjectAddEmployeeRequestDto {
     @NotBlank
-    private String pro_name;
+    private String pro_id;
 
     @NotBlank
     private Long emp_id;
