@@ -33,9 +33,9 @@ spring:
 #  sql:
 #    init:
 #      schema-locations:
-#        - classpath:db/migration/v2_sql_ddl.sql
+#        - classpath:db/migration/v3_sql_ddl.sql
 #      data-locations:
-#        - classpath:db/seed/v4_sql_seed_ddl.sql
+#        - classpath:db/seed/v5_sql_seed_ddl.sql
 #      encoding: UTF-8
 #      mode: always
 
