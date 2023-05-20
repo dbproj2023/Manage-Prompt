@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -56,7 +57,7 @@ public class AccountService {
 
         //직원 - 계정 정보 업데이트 --> 따로 작성해야 함
     }
-
+    //로그인
     public AccountRequestDto login(AccountRequestDto memberDto) {
         Optional<AccountEntity> byAuthId =  accountDao.findByAuthId(memberDto.getAuthId());
         if (byAuthId.isPresent()) {
@@ -76,7 +77,7 @@ public class AccountService {
         }
     }
 
-
+    //신규 정보 등록
     public AccountRequestDto updateForm(String myaccid) {
         Optional<AccountEntity> optionalAccountEntity = accountDao.findByAuthId(myaccid);
         if (optionalAccountEntity.isPresent()) {
@@ -91,4 +92,5 @@ public class AccountService {
         accountDao.save(AccountEntity.toUpdateAccountEntity(memberDTO));
         employeeDao.save(EmployeeEntity.toUpdateEmployeeEntity(memberDTO));
     }
+
 }
