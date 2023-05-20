@@ -2,16 +2,20 @@ package com.dbproj.manageprompt.service;
 
 import com.dbproj.manageprompt.config.NCPProperties;
 
+import com.dbproj.manageprompt.dao.CertificationDao;
 import com.dbproj.manageprompt.dto.EmailAuthDto;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -22,19 +26,21 @@ import java.io.DataOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class AuthService {
-
-//    @Autowired
-//    private final CertificationDao certificationDao;
+public class EmailAuthService {
+    @Autowired
+    private final CertificationDao certificationDao;
 
     @Autowired
     private final NCPProperties ncpProperties;
@@ -53,6 +59,44 @@ public class AuthService {
         }
         log.info("인증코드 생성 : " + buffer.toString());
         return buffer.toString();
+    }
+
+    //사용자가 입력한 인증번호가 Redis에 저장된 인증번호와 동일한지 확인
+    public Map verifyEmail(EmailAuthDto emailAuthDto) {
+        Boolean is_email = certificationDao.hasKey(emailAuthDto.getEmail());
+        if (is_email) {
+            String in_redis_key = certificationDao.getEmailCertificationByEmail(emailAuthDto.getEmail());
+            if (in_redis_key.equals(emailAuthDto.getVerifyCode())) {
+                log.info("인증번호가 일치합니다.");
+                certificationDao.removeEmailCertification(emailAuthDto.getEmail());
+
+                Map response = new HashMap<String, Object>();
+                response.put("message", "인증번호가 일치합니다.");
+                response.put("status", 1);
+
+                return response;
+            }
+            else {
+                log.info(in_redis_key);
+                log.info(String.valueOf(is_email));
+                log.info("인증번호가 일치하지 않습니다.");
+
+                Map response = new HashMap<String, Object>();
+                response.put("message", "인증번호가 일치하지 않습니다.");
+                response.put("status", 0);
+
+                return response;
+            }
+        }
+        else {
+            log.info("인증 번호를 전송했는지 확인하세요.");
+
+            Map response = new HashMap<String, Object>();
+            response.put("message", "인증 번호를 전송했는지 확인하세요.");
+            response.put("status", 0);
+
+            return response;
+        }
     }
 
     // NCP Signature 생성
@@ -86,11 +130,11 @@ public class AuthService {
     }
 
     // 인증 메일 발송
-    public Boolean sendEmail(EmailAuthDto emailAuthDto) throws JSONException {
+    public Map sendEmail(EmailAuthDto emailAuthDto) throws JSONException {
 
         final String content_type = "POST";
         final String timestamp = Long.toString(System.currentTimeMillis());
-        boolean process_result = true;
+
         String targetEmail = emailAuthDto.getEmail();
         String verifyCode = getVerifyCode(6);
         String mailTemplate = setMailContext(targetEmail, verifyCode);
@@ -111,21 +155,30 @@ public class AuthService {
             con.setDoOutput(true);
 
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.write(body.getBytes());
+            wr.write(body.getBytes("UTF-8"));
             wr.flush();
             wr.close();
 
             int responseCode = con.getResponseCode();
             log.info("호출 결과" +" " + responseCode);
-//            if(responseCode == 201) {
-////                certificationDao.createEmailCertification(targetEmail, verifyCode);
-//            } else {
-//                process_result = false;
-//            }
+            if(responseCode == 201) {
+                certificationDao.createEmailCertification(targetEmail, verifyCode);
+            } else {
+                Map response = new HashMap<String, Object>();
+                response.put("message", "이메일 발송실패");
+                response.put("status", 0);
+                response.put("httpCode", responseCode);
+
+                return response;
+            }
         } catch (Exception e) {
             log.error(String.valueOf(e));
         }
-        return process_result;
+        Map response = new HashMap<String, Object>();
+        response.put("message", "이메일이 발송되었습니다.");
+        response.put("status", 1);
+
+        return response;
     }
 
     private String makeRequestJsonBody(String targetEmail, String mailTemplate) throws JSONException {

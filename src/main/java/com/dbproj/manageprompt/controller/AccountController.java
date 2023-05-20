@@ -1,13 +1,12 @@
 package com.dbproj.manageprompt.controller;
 
-import com.dbproj.manageprompt.dto.AccountCreateRequestDto;
-import com.dbproj.manageprompt.dto.AccountRequestDto;
-import com.dbproj.manageprompt.dto.AccountResponseDto;
-import com.dbproj.manageprompt.dto.IdResponseDto;
+import com.dbproj.manageprompt.dto.*;
 import com.dbproj.manageprompt.entity.AccountEntity;
 import com.dbproj.manageprompt.service.AccountService;
+import com.dbproj.manageprompt.service.EmailAuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -21,6 +20,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,6 +30,8 @@ import javax.servlet.http.HttpSession;
 public class AccountController {
 
     private final AccountService accountService;
+
+    private final EmailAuthService emailAuthService;
 
     //신규 유저 등록(관리자)
     @PostMapping("/new-user")
@@ -77,5 +80,20 @@ public class AccountController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "logout";
+    }
+
+    // 이메일 발송
+    @PostMapping(value = "/help/sendEmail")
+    public Map sendEmail(@Valid EmailAuthDto emailAuthDto) throws JSONException {
+        log.info("email " + emailAuthDto.getEmail() );
+        Map response = emailAuthService.sendEmail(emailAuthDto);
+        return response;
+    }
+
+    // 인증코드 검증
+    @PostMapping(value = "/help/verifyEmail")
+    public Map verifyEmail(EmailAuthDto emailAuthDto) {
+        Map response = emailAuthService.verifyEmail(emailAuthDto);
+        return response;
     }
 }
