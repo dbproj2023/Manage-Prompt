@@ -1,5 +1,6 @@
 package com.dbproj.manageprompt.controller;
 
+import com.dbproj.manageprompt.dto.ClientEvaluationCreateRequestDto;
 import com.dbproj.manageprompt.dto.ParticipantEvaluationCreateRequestDto;
 import com.dbproj.manageprompt.service.EvaluationService;
 
@@ -29,13 +30,13 @@ public class EvaluationController {
         return response;
     }
 
-    // 고객 평가 등록
+    // 고객 평가 등록 (수정 필요)
     @PostMapping("/client/create")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Map clientEvalcreate(HttpSession session, ParticipantEvaluationCreateRequestDto requestDto) {
+    public Map clientEvalcreate(HttpSession session, ClientEvaluationCreateRequestDto requestDto) {
         Long accId = (Long) session.getAttribute("AccId");
-        Map response = evaluationService.coworkEvalcreate(accId, requestDto);
+        Map response = evaluationService.clientEvalcreate(accId, requestDto);
         return response;
     }
 
