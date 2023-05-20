@@ -1,6 +1,10 @@
 package com.dbproj.manageprompt.service;
 
 import com.dbproj.manageprompt.dao.EmployeeDao;
+import com.dbproj.manageprompt.dto.AccountCreateRequestDto;
+import com.dbproj.manageprompt.dto.EmployeeRequestDto;
+import com.dbproj.manageprompt.dto.EmployeeResponseDto;
+import com.dbproj.manageprompt.entity.AccountEntity;
 import com.dbproj.manageprompt.specification.EmployeeSpecification;
 import com.dbproj.manageprompt.entity.EmployeeEntity;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -17,6 +22,9 @@ import java.util.List;
 public class EmployeeService {
 
     private final EmployeeDao employeeDao;
+
+    //직원 정보 조회(개인)
+
 
     // 직원 검색 Service
     // 직무, 프로젝트 이름, 스킬이름, 프로젝트 참여 여부로 직원을 검색
@@ -37,7 +45,8 @@ public class EmployeeService {
             spec = spec.and(EmployeeSpecification.equalName(empName));
         if(empSkill != "")
             spec = spec.and(EmployeeSpecification.equalSkill(empSkill));
-
+        //if(empId == "" && empName == "" && empSkill == "")
+        //   return employeeDao.
         return employeeDao.findAll(spec);
     }
 
@@ -55,4 +64,6 @@ public class EmployeeService {
     public List<EmployeeEntity> findByEmpSkill(String keyword) {
         return employeeDao.findByEmpSkillContaining(keyword);
     }
+
+
 }

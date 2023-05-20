@@ -14,9 +14,9 @@ public class AccountRequestDto {
 
     public static AccountRequestDto toDto(AccountEntity accountEntity) {
         AccountRequestDto accountRequestDto = new AccountRequestDto();
-        accountRequestDto.setAccId(accountRequestDto.getAccId());
+        accountRequestDto.setAccId(accountEntity.getAccId());
         accountRequestDto.setAuthId(accountEntity.getAuthId());
-        accountRequestDto.setAuthPw(accountRequestDto.getAuthPw());
+        accountRequestDto.setAuthPw(accountEntity.getAuthPw());
         return accountRequestDto;
     }
 }

@@ -25,6 +25,8 @@ public class AccountCreateRequestDto {
     private String emp_skill;
     private String emp_edu;
     private Integer access_grade;
+    private Data created_at;
+    private String emp_ph;
 
     public AccountEntity toEntity() {
         AccountEntity account = AccountEntity.builder()
@@ -36,4 +38,14 @@ public class AccountCreateRequestDto {
                 .build();
         return account;
     }
+//    public static AccountCreateRequestDto toDto(AccountEntity accountEntity) {
+//        AccountCreateRequestDto accountCreateRequestDto = new AccountCreateRequestDto();
+//        accountCreateRequestDto.setAcc_id(accountEntity.getAccId());
+//        accountCreateRequestDto.setEmp_name(accountEntity);
+//        accountCreateRequestDto.setEmp_id();
+//        accountCreateRequestDto.setCreated_at();
+//        accountCreateRequestDto.setEmp_email();
+//        accountCreateRequestDto.setEmp_edu();
+//        accountCreateRequestDto.setEmp_skill();
+//    }
 }

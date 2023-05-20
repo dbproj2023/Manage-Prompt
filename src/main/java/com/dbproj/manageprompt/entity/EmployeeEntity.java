@@ -4,6 +4,8 @@ import com.dbproj.manageprompt.dto.AccountCreateRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Set;
 
 @Builder
@@ -42,6 +44,12 @@ public class EmployeeEntity extends BaseTime {
 
   @Column(name = "emp_skill", nullable = false) // length 255
   private String empSkill;
+
+  @Column(name = "created_at", nullable = false)
+  private LocalDateTime createdAt;
+
+  @Column(name = "emp_ph")
+  private String empPh;
 
   public static EmployeeEntity toUpdateEmployeeEntity(AccountCreateRequestDto memberDTO) {
     EmployeeEntity employeeEntity = new EmployeeEntity();
