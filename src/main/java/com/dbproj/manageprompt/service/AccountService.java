@@ -93,4 +93,7 @@ public class AccountService {
         employeeDao.save(EmployeeEntity.toUpdateEmployeeEntity(memberDTO));
     }
 
+    public boolean checkAuthIdDuplicate(String auth_id) {
+        return accountDao.existsByAuthId(auth_id);
+    }
 }

@@ -84,4 +84,11 @@ public class EmployeeService {
     }
 
 
+    public boolean checkEmpIdDuplicate(Long emp_id) {
+        return employeeDao.existsByEmpId(emp_id);
+    }
+
+    public boolean checkEmpEmailDuplicate(String emp_email) {
+        return employeeDao.existsByEmpEmail(emp_email);
+    }
 }
