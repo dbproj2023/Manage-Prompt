@@ -1,5 +1,6 @@
 package com.dbproj.manageprompt.controller;
 
+import com.dbproj.manageprompt.dao.AccountDao;
 import com.dbproj.manageprompt.dto.*;
 import com.dbproj.manageprompt.entity.AccessInfoEntity;
 import com.dbproj.manageprompt.entity.AccountEntity;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,6 +37,7 @@ import java.util.Map;
 public class AccountController {
 
     private final AccountService accountService;
+
     private final EmployeeService employeeService;
 
     private final EmailAuthService emailAuthService;
@@ -112,6 +115,16 @@ public class AccountController {
     @PostMapping(value = "/help/verifyEmail")
     public Map verifyEmail(EmailAuthDto emailAuthDto) {
         Map response = emailAuthService.verifyEmail(emailAuthDto);
+        return response;
+    }
+    //비밀번호 변경
+    @PatchMapping("/help/resetPW")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Map resetPw(HttpSession httpSession,@ModelAttribute AccountPwUpdateRequestDto accountPwUpdateRequestDto) {
+        Long accid = (Long) httpSession.getAttribute("AccId");
+        log.info(accountPwUpdateRequestDto.getOld_pw());
+        Map response = accountService.updatePw(accid, accountPwUpdateRequestDto);
         return response;
     }
 }
