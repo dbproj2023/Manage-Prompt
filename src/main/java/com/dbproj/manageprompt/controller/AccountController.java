@@ -1,18 +1,29 @@
 package com.dbproj.manageprompt.controller;
 
 import com.dbproj.manageprompt.dto.*;
+import com.dbproj.manageprompt.entity.AccessInfoEntity;
+import com.dbproj.manageprompt.entity.AccountEntity;
 import com.dbproj.manageprompt.service.AccountService;
 import com.dbproj.manageprompt.service.EmailAuthService;
 
+import com.dbproj.manageprompt.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.json.JSONException;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Map;
@@ -24,6 +35,7 @@ import java.util.Map;
 public class AccountController {
 
     private final AccountService accountService;
+    private final EmployeeService employeeService;
 
     private final EmailAuthService emailAuthService;
 
@@ -55,17 +67,17 @@ public class AccountController {
 
     //로그인
     @PostMapping("/login")
-    public String login(@ModelAttribute AccountRequestDto memberDto, HttpSession session) {
+    public AccountRequestDto login(@ModelAttribute AccountRequestDto memberDto, HttpSession session) {
         AccountRequestDto loginResult = accountService.login(memberDto);
         if (loginResult != null) {
             //로그인 성공
             session.setAttribute("AccId", loginResult.getAccId());
             session.setAttribute("AuthId", loginResult.getAuthId());
-            //session.setAttribute("",loginResult.get);
-            return "login";
+            session.setAttribute("accessGrade", loginResult.getAccessGrade());
+            return loginResult;
         } else {
             //로그인 실패
-            return "login fail";
+            return null;
         }
     }
 
@@ -74,6 +86,18 @@ public class AccountController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "logout";
+    }
+    @PostMapping("/checkEMPID")
+    public ResponseEntity<Boolean> checkEmpIdDuplicate(Long emp_id) {
+        return ResponseEntity.ok(employeeService.checkEmpIdDuplicate(emp_id));
+    }
+    @PostMapping("/checkEmail")
+    public ResponseEntity<Boolean> checkEmpEmailDuplicate(String emp_email) {
+        return ResponseEntity.ok(employeeService.checkEmpEmailDuplicate(emp_email));
+    }
+    @PostMapping("/checkID")
+    public ResponseEntity<Boolean> checkIdDuplicate(String auth_id) {
+        return ResponseEntity.ok(accountService.checkAuthIdDuplicate(auth_id));
     }
 
     // 이메일 발송

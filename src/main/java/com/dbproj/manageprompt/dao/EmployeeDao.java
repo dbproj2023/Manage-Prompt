@@ -18,5 +18,8 @@ public interface EmployeeDao extends JpaRepository<EmployeeEntity, Long>, JpaSpe
     List<EmployeeEntity> findByEmpIdContaining(String keyword);
     List<EmployeeEntity> findByEmpNameContaining(String keyword);
     List<EmployeeEntity> findByEmpSkillContaining(String keyword);
-    //Optional<EmployeeEntity> findByAccount(AccountEntity accountEntity);
+
+    boolean existsByEmpId(Long emp_id);
+
+    boolean existsByEmpEmail(String emp_email);
 }

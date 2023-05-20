@@ -13,4 +13,6 @@ public interface AccountDao extends JpaRepository<AccountEntity, Long> {
     //Optional<AccountEntity> findByAccId(String AccId);
     @Query(value = "SELECT a, b FROM AccountEntity a " + "LEFT JOIN a.employeeEntity b " + "WHERE a.accId = :accId")
     Optional<AccountEntity> findByaccId(@Param("accId") Long accId);
+
+    boolean existsByAuthId(String auth_id);
 }
