@@ -46,8 +46,8 @@ public class EmployeeService {
             spec = spec.and(EmployeeSpecification.equalName(empName));
         if(empSkill != "")
             spec = spec.and(EmployeeSpecification.equalSkill(empSkill));
-        //if(empId == "" && empName == "" && empSkill == "")
-        //   return employeeDao.
+        if(empId == "" && empName == "" && empSkill == "")
+           return employeeDao.findAllAsc();
         return employeeDao.findAll(spec);
     }
 
