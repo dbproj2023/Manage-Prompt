@@ -1,12 +1,10 @@
 package com.dbproj.manageprompt.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
+@Builder
 @Table(
         name = "`evaluation_inner`",
         uniqueConstraints={
@@ -19,6 +17,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class EvaluationInnerEntity extends BaseTime {
   @Id
@@ -27,7 +26,7 @@ public class EvaluationInnerEntity extends BaseTime {
   private Long evalId;
 
   @Column(name = "evaluator", nullable = false) // 평가자 사번
-  private Long evaluator;
+  private Long evaluator; // 평가자
 
   @Column(name = "communication_rating", nullable = false)
   private Integer communicationRating;

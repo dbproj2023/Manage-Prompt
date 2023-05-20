@@ -6,6 +6,7 @@ import com.dbproj.manageprompt.dto.*;
 import com.dbproj.manageprompt.entity.*;
 
 import com.dbproj.manageprompt.specification.ProjectSpecification;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
@@ -214,9 +215,6 @@ public class ProjectService {
 
         return response;
     }
-    // 프로젝트별 참여 직원 전체 조회
-
-
     // 프로젝트 참여 직원 수정
     public Map employeeUpdate(ProjectEmployeeUpdateRequestDto requestDto) {
         EmployeeProjectEntity empProj = employeeProjectDao.
