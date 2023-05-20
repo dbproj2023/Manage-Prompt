@@ -1,20 +1,20 @@
 package com.dbproj.manageprompt.controller;
 
 import com.dbproj.manageprompt.dao.AccountDao;
-import com.dbproj.manageprompt.dto.AccountCreateRequestDto;
-import com.dbproj.manageprompt.dto.AccountRequestDto;
-import com.dbproj.manageprompt.dto.EmployeeRequestDto;
+import com.dbproj.manageprompt.dto.*;
 import com.dbproj.manageprompt.entity.AccountEntity;
 import com.dbproj.manageprompt.entity.EmployeeEntity;
 import com.dbproj.manageprompt.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -64,5 +64,15 @@ public class EmployeeController {
     // keyword: 조회할 사번, 이름, 스킬
 
     // 직원 정보 수정
-//    @GetMapping("/info/update")
+    @PatchMapping("/info/update")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Map update(HttpSession session, EmployeeUpdateRequestDto requestDto) {
+        Long accid = (Long) session.getAttribute("AccId");
+        Optional<AccountEntity> accountEntity = accountDao.findByaccId(accid);
+        AccountEntity account = accountEntity.get();
+        Long empId =  account.getEmployeeEntity().getEmpId();
+        Map response = employeeService.update(empId, requestDto);
+        return response;
+    }
 }

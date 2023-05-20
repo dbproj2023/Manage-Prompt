@@ -1,9 +1,8 @@
 package com.dbproj.manageprompt.service;
 
+import com.dbproj.manageprompt.common.exception.NotFoundException;
 import com.dbproj.manageprompt.dao.EmployeeDao;
-import com.dbproj.manageprompt.dto.AccountCreateRequestDto;
-import com.dbproj.manageprompt.dto.EmployeeRequestDto;
-import com.dbproj.manageprompt.dto.EmployeeResponseDto;
+import com.dbproj.manageprompt.dto.*;
 import com.dbproj.manageprompt.entity.AccountEntity;
 import com.dbproj.manageprompt.specification.EmployeeSpecification;
 import com.dbproj.manageprompt.entity.EmployeeEntity;
@@ -13,7 +12,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -48,6 +49,23 @@ public class EmployeeService {
         //if(empId == "" && empName == "" && empSkill == "")
         //   return employeeDao.
         return employeeDao.findAll(spec);
+    }
+
+    // 직원 정보 수정 (개인)
+    public Map update(Long emp_id, EmployeeUpdateRequestDto requestDto) {
+        EmployeeEntity updateEmployee = employeeDao.findById(emp_id).orElseThrow(NotFoundException::new);
+
+        updateEmployee.update(
+                requestDto.getEmp_ph(),
+                requestDto.getEmp_email()
+        );
+
+        Map response = new HashMap<String, Object>();
+        response.put("message", "직원 정보가 수정되었습니다.");
+        response.put("status", 1);
+        response.put("emp_id", employeeDao.save(updateEmployee).getEmpId());
+
+        return response;
     }
 
     @Transactional(readOnly = true)
