@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RequiredArgsConstructor
 @Service
 public class ClientService {
@@ -33,7 +36,7 @@ public class ClientService {
     }
 
     // 발주처 담당자 정보 수정
-    public long update(long clientId, ClientUpdateRequestDto requestDto) {
+    public Map update(long clientId, ClientUpdateRequestDto requestDto) {
         ClientInfoEntity updateClient = clientInfoDao.findById(clientId).orElseThrow(NotFoundException::new);
         updateClient.update(
                 requestDto.getClient_emp_name(),
@@ -41,6 +44,11 @@ public class ClientService {
                 requestDto.getClient_emp_email()
         );
 
-        return clientInfoDao.save(updateClient).getClientId();
+        Map response = new HashMap<String, Object>();
+        response.put("message", "발주처 담당자 정보가 수정되었습니다.");
+        response.put("status", 1);
+        response.put("client_id", clientInfoDao.save(updateClient).getClientId());
+
+        return response;
     }
 }

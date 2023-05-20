@@ -22,6 +22,7 @@ public class ProjectDetailResponseDto {
     private final Date endDate;
     private final Integer budget;
     private final String pmName;
+    private final Long cliendId;
     private final String clientName;
     private final String clientEmpName;
     private final String clientEmpPh;
@@ -36,6 +37,7 @@ public class ProjectDetailResponseDto {
                 .startDate(projectEntity.getStartDate())
                 .endDate(projectEntity.getEndDate())
                 .budget(projectEntity.getBudget())
+                .cliendId(projectEntity.getClientInfoEntity().getClientId())
                 .clientName(projectEntity.getClientInfoEntity().getClientName())
                 .clientEmpName(projectEntity.getClientInfoEntity().getClientEmpName())
                 .clientEmpPh(projectEntity.getClientInfoEntity().getClientEmpPh())

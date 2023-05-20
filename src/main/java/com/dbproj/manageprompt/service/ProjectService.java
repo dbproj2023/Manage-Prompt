@@ -153,7 +153,7 @@ public class ProjectService {
     // 프로젝트 수정
     public Map update(String proId, ProjectUpdateRequestDto requestDto) {
         ProjectEntity updateProject = projectDao.findById(proId).orElseThrow(NotFoundException::new);
-        System.out.println(requestDto.getStart_date());
+
         updateProject.update(
                 requestDto.getStart_date(),
                 requestDto.getEnd_date(),
