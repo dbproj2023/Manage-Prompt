@@ -1,9 +1,7 @@
 package com.dbproj.manageprompt.controller;
 
-import com.dbproj.manageprompt.dto.AccountCreateRequestDto;
-import com.dbproj.manageprompt.dto.AccountRequestDto;
-import com.dbproj.manageprompt.dto.AccountResponseDto;
-import com.dbproj.manageprompt.dto.IdResponseDto;
+import com.dbproj.manageprompt.dto.*;
+import com.dbproj.manageprompt.entity.AccessInfoEntity;
 import com.dbproj.manageprompt.entity.AccountEntity;
 import com.dbproj.manageprompt.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -58,17 +56,17 @@ public class AccountController {
 
     //로그인
     @PostMapping("/login")
-    public String login(@ModelAttribute AccountRequestDto memberDto, HttpSession session) {
+    public AccountRequestDto login(@ModelAttribute AccountRequestDto memberDto, HttpSession session) {
         AccountRequestDto loginResult = accountService.login(memberDto);
         if (loginResult != null) {
             //로그인 성공
             session.setAttribute("AccId", loginResult.getAccId());
             session.setAttribute("AuthId", loginResult.getAuthId());
-            //session.setAttribute("",loginResult.get);
-            return "login";
+            session.setAttribute("accessGrade", loginResult.getAccessGrade());
+            return loginResult;
         } else {
             //로그인 실패
-            return "login fail";
+            return null;
         }
     }
 
