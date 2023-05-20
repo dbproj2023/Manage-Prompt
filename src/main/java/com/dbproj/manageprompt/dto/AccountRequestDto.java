@@ -1,7 +1,7 @@
 package com.dbproj.manageprompt.dto;
 
-import com.dbproj.manageprompt.entity.AccessInfoEntity;
 import com.dbproj.manageprompt.entity.AccountEntity;
+
 import lombok.*;
 
 @AllArgsConstructor

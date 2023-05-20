@@ -1,24 +1,21 @@
 package com.dbproj.manageprompt.controller;
 
 import com.dbproj.manageprompt.dto.*;
-import com.dbproj.manageprompt.entity.AccessInfoEntity;
-import com.dbproj.manageprompt.entity.AccountEntity;
 import com.dbproj.manageprompt.service.AccountService;
+import com.dbproj.manageprompt.service.EmailAuthService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.util.ObjectUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.WebUtils;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.json.JSONException;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,6 +24,8 @@ import javax.servlet.http.HttpSession;
 public class AccountController {
 
     private final AccountService accountService;
+
+    private final EmailAuthService emailAuthService;
 
     //신규 유저 등록(관리자)
     @PostMapping("/new-user")
@@ -56,17 +55,17 @@ public class AccountController {
 
     //로그인
     @PostMapping("/login")
-    public AccountRequestDto login(@ModelAttribute AccountRequestDto memberDto, HttpSession session) {
+    public String login(@ModelAttribute AccountRequestDto memberDto, HttpSession session) {
         AccountRequestDto loginResult = accountService.login(memberDto);
         if (loginResult != null) {
             //로그인 성공
             session.setAttribute("AccId", loginResult.getAccId());
             session.setAttribute("AuthId", loginResult.getAuthId());
-            session.setAttribute("accessGrade", loginResult.getAccessGrade());
-            return loginResult;
+            //session.setAttribute("",loginResult.get);
+            return "login";
         } else {
             //로그인 실패
-            return null;
+            return "login fail";
         }
     }
 
@@ -75,5 +74,20 @@ public class AccountController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "logout";
+    }
+
+    // 이메일 발송
+    @PostMapping(value = "/help/sendEmail")
+    public Map sendEmail(@Valid EmailAuthDto emailAuthDto) throws JSONException {
+        log.info("email " + emailAuthDto.getEmail() );
+        Map response = emailAuthService.sendEmail(emailAuthDto);
+        return response;
+    }
+
+    // 인증코드 검증
+    @PostMapping(value = "/help/verifyEmail")
+    public Map verifyEmail(EmailAuthDto emailAuthDto) {
+        Map response = emailAuthService.verifyEmail(emailAuthDto);
+        return response;
     }
 }

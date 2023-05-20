@@ -12,5 +12,5 @@ public class EmailAuthDto {
     @NotBlank(message = "이메일은 필수입니다.")
     private String email;
 
-    private String code;
+    private String verifyCode;
 }
