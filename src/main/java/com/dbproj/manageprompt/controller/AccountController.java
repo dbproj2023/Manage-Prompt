@@ -1,24 +1,18 @@
 package com.dbproj.manageprompt.controller;
 
 import com.dbproj.manageprompt.dto.*;
-import com.dbproj.manageprompt.entity.AccountEntity;
 import com.dbproj.manageprompt.service.AccountService;
 import com.dbproj.manageprompt.service.EmailAuthService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.util.ObjectUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.WebUtils;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.json.JSONException;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Map;

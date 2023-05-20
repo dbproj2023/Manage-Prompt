@@ -24,11 +24,13 @@ import javax.crypto.spec.SecretKeySpec;
 
 import java.io.DataOutputStream;
 import java.io.UnsupportedEncodingException;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
+
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
