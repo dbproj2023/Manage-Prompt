@@ -3,11 +3,15 @@ server:
 
 spring:
   profiles:
+    include: redis, ncp
     default: dev
 ---
 # Develop server
 server:
   port: 8082
+  servlet:
+    encoding:
+      charset: UTF-8
 
 spring:
   config:
