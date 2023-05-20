@@ -47,4 +47,10 @@ public class AccountEntity extends BaseTime {
     accountEntity.setAuthPw(memberDTO.getAuth_pw());
     return accountEntity;
   }
+
+    public void update(String new_pw) {
+      if (new_pw != null) {
+        this.authPw = new_pw;
+      }
+    }
 }

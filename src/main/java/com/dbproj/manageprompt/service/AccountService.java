@@ -1,9 +1,11 @@
 package com.dbproj.manageprompt.service;
 
+import com.dbproj.manageprompt.common.exception.NotFoundException;
 import com.dbproj.manageprompt.dao.AccessInfoDao;
 import com.dbproj.manageprompt.dao.AccountDao;
 import com.dbproj.manageprompt.dao.EmployeeDao;
 import com.dbproj.manageprompt.dto.AccountCreateRequestDto;
+import com.dbproj.manageprompt.dto.AccountPwUpdateRequestDto;
 import com.dbproj.manageprompt.dto.AccountRequestDto;
 import com.dbproj.manageprompt.dto.EmployeeRequestDto;
 import com.dbproj.manageprompt.entity.AccountEntity;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -39,8 +42,6 @@ public class AccountService {
 
         EmployeeEntity newEmployee = employeeRequestDto.toEntity();
         employeeDao.save(newEmployee);
-
-        //AccessInfoEntity accessInfoEntity = accessInfoDao.findById(9);
 
         //관리자 - 초기 계정 등록
         accountCreateDto.setAcc_id(accountCreateDto.getAcc_id());
@@ -95,5 +96,26 @@ public class AccountService {
 
     public boolean checkAuthIdDuplicate(String auth_id) {
         return accountDao.existsByAuthId(auth_id);
+    }
+
+    public Map updatePw(Long accid, AccountPwUpdateRequestDto accountPwUpdateRequestDto) {
+        AccountEntity accountEntity = accountDao.findById(accid).orElseThrow(NotFoundException::new);
+        Map response = new HashMap<String, Object>();
+        if (!accountEntity.getAuthPw().equals(accountPwUpdateRequestDto.getOld_pw())) {
+            log.info(accountEntity.getAuthPw());
+            log.info(accountPwUpdateRequestDto.getOld_pw());
+            response.put("message", "이전 비밀번호가 일지하지 않습니다.");
+            response.put("status", 0);
+        }
+        else if (!accountPwUpdateRequestDto.getNew_pw().equals(accountPwUpdateRequestDto.getNew_pw_re())) {
+            response.put("message", "비밀번호가 일치하지 않습니다.");
+            response.put("status", 1);
+        }else {
+            accountEntity.update(accountPwUpdateRequestDto.getNew_pw());
+            accountDao.save(accountEntity);
+            response.put("message", "비밀번호가 변경되었습니다.");
+            response.put("status",2);
+        }
+        return response;
     }
 }
