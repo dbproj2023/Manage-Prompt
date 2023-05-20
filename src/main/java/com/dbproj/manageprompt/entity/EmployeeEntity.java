@@ -62,5 +62,14 @@ public class EmployeeEntity extends BaseTime {
     employeeEntity.setEmpEdu(memberDTO.getEmp_edu());
     return employeeEntity;
   }
+
+  public void update(String emdPh, String empEmail) {
+    if (emdPh != null) {
+      this.empPh = emdPh;
+    }
+    if (empEmail != null) {
+      this.empEmail = empEmail;
+    }
+  }
 }
 
