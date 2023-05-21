@@ -3,12 +3,14 @@ package com.dbproj.manageprompt.service;
 import com.dbproj.manageprompt.dao.*;
 import com.dbproj.manageprompt.dto.ClientEvaluationCreateRequestDto;
 import com.dbproj.manageprompt.dto.ParticipantEvaluationCreateRequestDto;
+import com.dbproj.manageprompt.dto.ParticipantEvaluationResponseDto;
 import com.dbproj.manageprompt.entity.*;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,13 +27,14 @@ public class EvaluationService {
     private final EmployeeProjectDao employeeProjectDao;
     private final ClientInfoDao clientInfoDao;
     private final AccountDao accountDao;
+    private final EmployeeDao employeeDao;
 
 
     // 동료 평가 등록
     public Map coworkEvalcreate(Long addId, ParticipantEvaluationCreateRequestDto requestDto) {
         Optional<AccountEntity> accountEntity = accountDao.findByaccId(addId);
         AccountEntity account = accountEntity.get();
-        Long empId =  account.getEmployeeEntity().getEmpId();
+        Long empId = account.getEmployeeEntity().getEmpId();
 
         // 피평가자 직원의 직원프로젝트 조회
         EmployeeProjectEntity empProj = employeeProjectDao.
@@ -71,7 +74,7 @@ public class EvaluationService {
     public Map clientEvalcreate(Long addId, ClientEvaluationCreateRequestDto requestDto) {
         Optional<AccountEntity> accountEntity = accountDao.findByaccId(addId);
         AccountEntity account = accountEntity.get();
-        Long empId =  account.getEmployeeEntity().getEmpId(); // (수정필요)
+        Long empId = account.getEmployeeEntity().getEmpId(); // (수정필요)
 
         // 피평가자 직원의 직원프로젝트 조회
         EmployeeProjectEntity empProj = employeeProjectDao.
@@ -106,5 +109,17 @@ public class EvaluationService {
 //        response.put("client_id", newEval.getClientInfoEntity().getClientId());
 
         return response;
+    }
+
+    @Transactional(readOnly = true)
+    // 동료평가 조회
+    public ParticipantEvaluationResponseDto coworkEvalPersonalRead(Long addId) {
+        Optional<AccountEntity> accountEntity = accountDao.findByaccId(addId);
+        AccountEntity account = accountEntity.get();
+        Long empId = account.getEmployeeEntity().getEmpId();
+        EmployeeEntity emp = employeeDao.findByEmpId(empId);
+
+        // 프로젝트별 받은 평가 조회
+        return ParticipantEvaluationResponseDto.from(emp);
     }
 }

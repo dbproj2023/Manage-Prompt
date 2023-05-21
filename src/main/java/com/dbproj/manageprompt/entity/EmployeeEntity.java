@@ -5,8 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @Builder
 @Table(
@@ -47,6 +46,9 @@ public class EmployeeEntity extends BaseTime {
 
   @Column(name = "created_at", nullable = false)
   private LocalDateTime createdAt;
+
+  @OneToMany(mappedBy = "employeeEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL) // 직원_프로젝트 mapping (FK), 양방향
+  private List<EmployeeProjectEntity> employeeProjectEntities;
 
   @Column(name = "emp_ph")
   private String empPh;

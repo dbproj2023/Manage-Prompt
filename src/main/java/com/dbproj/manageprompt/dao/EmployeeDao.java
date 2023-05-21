@@ -15,6 +15,7 @@ import java.util.Optional;
 
 public interface EmployeeDao extends JpaRepository<EmployeeEntity, Long>, JpaSpecificationExecutor<EmployeeEntity> {
     //List<EmployeeEntity> findAll(Specification<EmployeeEntity> spec);
+    EmployeeEntity findByEmpId(Long keyword);
     List<EmployeeEntity> findByEmpIdContaining(String keyword);
     List<EmployeeEntity> findByEmpNameContaining(String keyword);
     List<EmployeeEntity> findByEmpSkillContaining(String keyword);

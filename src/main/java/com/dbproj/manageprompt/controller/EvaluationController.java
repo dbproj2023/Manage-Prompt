@@ -2,6 +2,7 @@ package com.dbproj.manageprompt.controller;
 
 import com.dbproj.manageprompt.dto.ClientEvaluationCreateRequestDto;
 import com.dbproj.manageprompt.dto.ParticipantEvaluationCreateRequestDto;
+import com.dbproj.manageprompt.dto.ParticipantEvaluationResponseDto;
 import com.dbproj.manageprompt.service.EvaluationService;
 
 import lombok.RequiredArgsConstructor;
@@ -40,4 +41,11 @@ public class EvaluationController {
         return response;
     }
 
+    // 개인 평가 조회
+    @GetMapping("/coworker/read")
+    @ResponseStatus(HttpStatus.OK)
+    public ParticipantEvaluationResponseDto coworkEvalPersonalRead(HttpSession session) {
+        Long accId = (Long) session.getAttribute("AccId");
+        return evaluationService.coworkEvalPersonalRead(accId);
+    }
 }
