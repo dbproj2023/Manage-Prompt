@@ -75,4 +75,13 @@ public class EmployeeController {
         Map response = employeeService.update(empId, requestDto);
         return response;
     }
+
+    // 직원별 참여 프로젝트 조회 (개인)
+    @GetMapping("/search/proj/list")
+    @ResponseStatus(HttpStatus.OK)
+    public ProjectEmployeeResponseDto participantProjectAllRead(HttpSession session) {
+        Long accId = (Long) session.getAttribute("AccId");
+        return employeeService.participantProjectAllRead(accId);
+    }
+
 }

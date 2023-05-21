@@ -1,6 +1,7 @@
 package com.dbproj.manageprompt.service;
 
 import com.dbproj.manageprompt.common.exception.NotFoundException;
+import com.dbproj.manageprompt.dao.AccountDao;
 import com.dbproj.manageprompt.dao.EmployeeDao;
 import com.dbproj.manageprompt.dto.*;
 import com.dbproj.manageprompt.entity.AccountEntity;
@@ -23,6 +24,7 @@ import java.util.Optional;
 public class EmployeeService {
 
     private final EmployeeDao employeeDao;
+    private final AccountDao accountDao;
 
     //직원 정보 조회(개인)
 
@@ -66,6 +68,18 @@ public class EmployeeService {
         response.put("emp_id", employeeDao.save(updateEmployee).getEmpId());
 
         return response;
+    }
+
+    // 직원별 참여 프로젝트 조회 (개인)
+    @Transactional(readOnly = true)
+    public ProjectEmployeeResponseDto participantProjectAllRead(Long addId) {
+        Optional<AccountEntity> accountEntity = accountDao.findByaccId(addId);
+        AccountEntity account = accountEntity.get();
+        Long empId = account.getEmployeeEntity().getEmpId();
+        EmployeeEntity emp = employeeDao.findByEmpId(empId);
+
+        // 프로젝트별 받은 평가 조회
+        return ProjectEmployeeResponseDto.from(emp);
     }
 
     @Transactional(readOnly = true)
