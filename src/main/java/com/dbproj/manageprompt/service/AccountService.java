@@ -4,16 +4,15 @@ import com.dbproj.manageprompt.common.exception.NotFoundException;
 import com.dbproj.manageprompt.dao.AccessInfoDao;
 import com.dbproj.manageprompt.dao.AccountDao;
 import com.dbproj.manageprompt.dao.EmployeeDao;
-import com.dbproj.manageprompt.dto.AccountCreateRequestDto;
-import com.dbproj.manageprompt.dto.AccountPwUpdateRequestDto;
-import com.dbproj.manageprompt.dto.AccountRequestDto;
-import com.dbproj.manageprompt.dto.EmployeeRequestDto;
+import com.dbproj.manageprompt.dto.*;
+import com.dbproj.manageprompt.entity.AccessInfoEntity;
 import com.dbproj.manageprompt.entity.AccountEntity;
 import com.dbproj.manageprompt.entity.EmployeeEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -39,6 +38,8 @@ public class AccountService {
         employeeRequestDto.setEmp_email("");
         employeeRequestDto.setEmp_workex(0);
         employeeRequestDto.setEmp_skill("");
+        employeeRequestDto.setEmp_ph("");
+        employeeRequestDto.setCreated_at(LocalDateTime.now());
 
         EmployeeEntity newEmployee = employeeRequestDto.toEntity();
         employeeDao.save(newEmployee);
@@ -48,15 +49,13 @@ public class AccountService {
         accountCreateDto.setAuth_id(accountCreateDto.getAuth_id());
         accountCreateDto.setAuth_pw(accountCreateDto.getAuth_pw());
         accountCreateDto.setEmployee(newEmployee);
-        //accountCreateDto.setAccess_Info();
+        Optional<AccessInfoEntity> accessInfoEntity = accessInfoDao.findById(9);
+        accountCreateDto.setAccess_Info(accessInfoEntity.get());
 
         AccountEntity newAccount = accountCreateDto.toEntity();
         newAccount = accountDao.save(newAccount);
 
         return newAccount.getAccId();
-
-
-        //직원 - 계정 정보 업데이트 --> 따로 작성해야 함
     }
     //로그인
     public AccountRequestDto login(AccountRequestDto memberDto) {
@@ -90,8 +89,13 @@ public class AccountService {
 
 
     public void updateUser(AccountCreateRequestDto memberDTO) {
-        accountDao.save(AccountEntity.toUpdateAccountEntity(memberDTO));
+        Optional<AccessInfoEntity> accessInfoEntity = accessInfoDao.findById(9);
+        memberDTO.setAccess_Info(accessInfoEntity.get());
         employeeDao.save(EmployeeEntity.toUpdateEmployeeEntity(memberDTO));
+        Optional<EmployeeEntity> employeeEntity = employeeDao.findById(memberDTO.getEmp_id());
+        memberDTO.setEmployee(employeeEntity.get());
+        accountDao.save(AccountEntity.toUpdateAccountEntity(memberDTO));
+
     }
 
     public boolean checkAuthIdDuplicate(String auth_id) {
@@ -115,6 +119,23 @@ public class AccountService {
             accountDao.save(accountEntity);
             response.put("message", "비밀번호가 변경되었습니다.");
             response.put("status",2);
+        }
+        return response;
+    }
+
+    public Map roleUpdate(AccessUpdateRequestDto updateDto) {
+        log.info(String.valueOf(updateDto.getEmp_id()));
+        AccountEntity accountEntity = accountDao.findByEmployeeEntity_EmpId(updateDto.getEmp_id());
+        Map response = new HashMap<String, Object>();
+        if (accountEntity != null) {
+            response.put("message", "권한이 변경되었습니다.");
+            response.put("status", 1);
+            Optional<AccessInfoEntity> accessInfoEntity = accessInfoDao.findById(updateDto.getAccess_grade());
+            accountEntity.updateAccess(accessInfoEntity.get());
+            accountDao.save(accountEntity);
+        } else {
+            response.put("message", "오류가 발생했습니다.");
+            response.put("status", 0);
         }
         return response;
     }
