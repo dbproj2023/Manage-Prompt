@@ -33,7 +33,7 @@ public class EmployeeProjectEntity extends BaseTime {
   @Column(name = "end_date", nullable = false)
   private Date endDate;
 
-  @ManyToOne(fetch = FetchType.LAZY) // 직원 mapping (FK), 단방향
+  @ManyToOne(fetch = FetchType.LAZY) // 직원 mapping (FK), 양방향
   @JoinColumn(name = "emp_id", referencedColumnName = "emp_id")
   private EmployeeEntity employeeEntity;
 
