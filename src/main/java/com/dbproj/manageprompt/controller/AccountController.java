@@ -62,7 +62,9 @@ public class AccountController {
     }
     //등록 처리
     @PostMapping("/user")
-    public String updateUser(@ModelAttribute AccountCreateRequestDto memberDTO) {
+    public String updateUser(HttpSession session,@ModelAttribute AccountCreateRequestDto memberDTO) {
+        Long accid = (Long) session.getAttribute("AccId");
+        memberDTO.setAcc_id(accid);
         accountService.updateUser(memberDTO);
         return "success";
     }
@@ -125,6 +127,16 @@ public class AccountController {
         Long accid = (Long) httpSession.getAttribute("AccId");
         log.info(accountPwUpdateRequestDto.getOld_pw());
         Map response = accountService.updatePw(accid, accountPwUpdateRequestDto);
+        return response;
+    }
+
+    //권한 수정
+    @PatchMapping("/role/update")
+    @ResponseStatus(HttpStatus.OK)
+    public Map roleUpdate(@ModelAttribute AccessUpdateRequestDto updateDto) {
+        log.info(String.valueOf(updateDto.getEmp_id()));
+        log.info(updateDto.getEmp_name());
+        Map response = accountService.roleUpdate(updateDto);
         return response;
     }
 }
