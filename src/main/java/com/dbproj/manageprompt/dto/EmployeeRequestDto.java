@@ -32,6 +32,8 @@ public class EmployeeRequestDto {
                 .empEmail(emp_email)
                 .empWorkEx(emp_workex)
                 .empSkill(emp_skill)
+                .empPh(emp_ph)
+                .createdAt(created_at)
                 .build();
         return employee;
     }

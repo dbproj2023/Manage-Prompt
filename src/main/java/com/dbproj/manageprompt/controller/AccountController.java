@@ -1,5 +1,6 @@
 package com.dbproj.manageprompt.controller;
 
+import com.dbproj.manageprompt.dao.AccountDao;
 import com.dbproj.manageprompt.dto.*;
 import com.dbproj.manageprompt.entity.AccessInfoEntity;
 import com.dbproj.manageprompt.entity.AccountEntity;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,6 +37,7 @@ import java.util.Map;
 public class AccountController {
 
     private final AccountService accountService;
+
     private final EmployeeService employeeService;
 
     private final EmailAuthService emailAuthService;
@@ -59,7 +62,9 @@ public class AccountController {
     }
     //등록 처리
     @PostMapping("/user")
-    public String updateUser(@ModelAttribute AccountCreateRequestDto memberDTO) {
+    public String updateUser(HttpSession session,@ModelAttribute AccountCreateRequestDto memberDTO) {
+        Long accid = (Long) session.getAttribute("AccId");
+        memberDTO.setAcc_id(accid);
         accountService.updateUser(memberDTO);
         return "success";
     }
@@ -112,6 +117,26 @@ public class AccountController {
     @PostMapping(value = "/help/verifyEmail")
     public Map verifyEmail(EmailAuthDto emailAuthDto) {
         Map response = emailAuthService.verifyEmail(emailAuthDto);
+        return response;
+    }
+    //비밀번호 변경
+    @PatchMapping("/help/resetPW")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Map resetPw(HttpSession httpSession,@ModelAttribute AccountPwUpdateRequestDto accountPwUpdateRequestDto) {
+        Long accid = (Long) httpSession.getAttribute("AccId");
+        log.info(accountPwUpdateRequestDto.getOld_pw());
+        Map response = accountService.updatePw(accid, accountPwUpdateRequestDto);
+        return response;
+    }
+
+    //권한 수정
+    @PatchMapping("/role/update")
+    @ResponseStatus(HttpStatus.OK)
+    public Map roleUpdate(@ModelAttribute AccessUpdateRequestDto updateDto) {
+        log.info(String.valueOf(updateDto.getEmp_id()));
+        log.info(updateDto.getEmp_name());
+        Map response = accountService.roleUpdate(updateDto);
         return response;
     }
 }
