@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 public class ParticipantEvaluationCreateRequestDto {
     @NotBlank
-    private String pro_name;
+    private String pro_id;
 
     @NotBlank
     private Long coworker_emp_id; // 피평가자 ID

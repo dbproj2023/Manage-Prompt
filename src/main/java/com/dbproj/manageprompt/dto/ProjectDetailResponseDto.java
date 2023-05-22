@@ -1,5 +1,6 @@
 package com.dbproj.manageprompt.dto;
 
+import com.dbproj.manageprompt.entity.EvaluationRequestEntity;
 import com.dbproj.manageprompt.entity.ProjectEntity;
 
 import lombok.AccessLevel;
@@ -30,6 +31,7 @@ public class ProjectDetailResponseDto {
     private final Integer numOfParicipant;
     private final List<EmployeeProjectResponseDto> participantList;
     private final List<EmployeeProjectEvaluationResponseDto> empEvaluationList;
+//    private final EvaluationRequestEntity clientEvaluation;
 
     public static ProjectDetailResponseDto from(ProjectEntity projectEntity) {
         return ProjectDetailResponseDto.builder()
@@ -46,6 +48,7 @@ public class ProjectDetailResponseDto {
                 .numOfParicipant(projectEntity.getEmployeeProjectEntities().size())
                 .participantList(projectEntity.getEmployeeProjectEntities().stream().map(EmployeeProjectResponseDto::from).collect(Collectors.toList()))
                 .empEvaluationList(projectEntity.getEmployeeProjectEntities().stream().map(EmployeeProjectEvaluationResponseDto::from).collect(Collectors.toList()))
+//                .clientEvaluation(evaluationRequestEntity)
                 .build();
     }
 }
