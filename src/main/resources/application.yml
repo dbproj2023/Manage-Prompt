@@ -4,7 +4,7 @@ server:
 spring:
   profiles:
     include: redis, ncp
-    default: dev
+    default: deploy
 ---
 # Develop server
 server:
@@ -16,7 +16,7 @@ server:
 spring:
   config:
     activate:
-      on-profile: deploy
+      on-profile: dev
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
