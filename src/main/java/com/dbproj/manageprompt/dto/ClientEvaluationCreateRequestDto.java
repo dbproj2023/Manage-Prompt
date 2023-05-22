@@ -18,11 +18,6 @@ public class ClientEvaluationCreateRequestDto {
     private String pro_name;
 
     @NotBlank
-    private Long coworker_emp_id; // 피평가자 ID
-
-    private Long evaluator; // 평가자 ID
-
-    @NotBlank
     private Integer communication_rating;
 
     @NotBlank
