@@ -31,7 +31,7 @@ public class ProjectDetailResponseDto {
     private final Integer numOfParicipant;
     private final List<EmployeeProjectResponseDto> participantList;
     private final List<EmployeeProjectEvaluationResponseDto> empEvaluationList;
-//    private final EvaluationRequestEntity clientEvaluation;
+    private final List<EvaluationRequestResponseDto> clientEvaluationList;
 
     public static ProjectDetailResponseDto from(ProjectEntity projectEntity) {
         return ProjectDetailResponseDto.builder()
@@ -48,7 +48,7 @@ public class ProjectDetailResponseDto {
                 .numOfParicipant(projectEntity.getEmployeeProjectEntities().size())
                 .participantList(projectEntity.getEmployeeProjectEntities().stream().map(EmployeeProjectResponseDto::from).collect(Collectors.toList()))
                 .empEvaluationList(projectEntity.getEmployeeProjectEntities().stream().map(EmployeeProjectEvaluationResponseDto::from).collect(Collectors.toList()))
-//                .clientEvaluation(evaluationRequestEntity)
+                .clientEvaluationList(projectEntity.getClientInfoEntity().getEvaluationRequestEntities().stream().map(EvaluationRequestResponseDto::from).collect(Collectors.toList()))
                 .build();
     }
 }

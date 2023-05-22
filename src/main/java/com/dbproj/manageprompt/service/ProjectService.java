@@ -109,7 +109,6 @@ public class ProjectService {
     @Transactional(readOnly = true)
     public ProjectDetailResponseDto findOne(String proId) {
         ProjectEntity project = findProject(proId);
-        EvaluationRequestEntity evaluationRequest = evaluationRequestDao.findByClientInfoEntity_clientId(project.getClientInfoEntity().getClientId());
         return ProjectDetailResponseDto.from(project);
     }
 

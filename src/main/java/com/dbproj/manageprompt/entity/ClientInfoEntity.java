@@ -3,6 +3,7 @@ package com.dbproj.manageprompt.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -37,6 +38,9 @@ public class ClientInfoEntity extends BaseTime {
 
   @Column(name = "client_emp_email", nullable = false, length = 30)
   private String clientEmpEmail;
+
+  @OneToMany(mappedBy = "clientInfoEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL) // 직원_프로젝트 mapping (FK), 양방향
+  private List<EvaluationRequestEntity> evaluationRequestEntities;
 
   public void update(String clientEmpName, String clientEmpPh, String clientEmpEmail) {
     if (clientEmpName != null) {
