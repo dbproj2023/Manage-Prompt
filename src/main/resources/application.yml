@@ -16,7 +16,7 @@ server:
 spring:
   config:
     activate:
-      on-profile: dev
+      on-profile: deploy
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
