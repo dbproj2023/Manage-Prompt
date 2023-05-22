@@ -1,6 +1,7 @@
 package com.dbproj.manageprompt.entity;
 
 import com.dbproj.manageprompt.dto.AccountCreateRequestDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -47,6 +48,7 @@ public class EmployeeEntity extends BaseTime {
   @Column(name = "created_at", nullable = false)
   private LocalDateTime createdAt;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "employeeEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL) // 직원_프로젝트 mapping (FK), 양방향
   private List<EmployeeProjectEntity> employeeProjectEntities;
 
