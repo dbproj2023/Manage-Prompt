@@ -14,4 +14,5 @@ public interface ProjectDao extends JpaRepository<ProjectEntity, String>, JpaSpe
     ProjectEntity findByProId(String keyword);
     ProjectEntity findByProName(String keyword);
     List<ProjectEntity> findAllByProNameContaining(String keyword);
+
 }

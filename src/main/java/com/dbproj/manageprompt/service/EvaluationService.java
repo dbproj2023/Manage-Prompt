@@ -40,8 +40,8 @@ public class EvaluationService {
 
         // 피평가자 직원의 직원프로젝트 조회
         EmployeeProjectEntity empProj = employeeProjectDao.
-                findByProjectEntity_ProNameAndAndEmployeeEntity_EmpId(
-                        requestDto.getPro_name(),
+                findByProjectEntity_ProIdAndAndEmployeeEntity_EmpId(
+                        requestDto.getPro_id(),
                         requestDto.getCoworker_emp_id()
                 );
 

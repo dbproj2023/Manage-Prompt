@@ -34,6 +34,7 @@ public class ProjectService {
     private final EmployeeDao employeeDao;
 
     private final RoleDao roleDao;
+    private final EvaluationRequestDao evaluationRequestDao;
 
     // 프로젝트 등록 시 프로젝트 아이디 중복 확인
     @Transactional(readOnly = true)
@@ -108,6 +109,7 @@ public class ProjectService {
     @Transactional(readOnly = true)
     public ProjectDetailResponseDto findOne(String proId) {
         ProjectEntity project = findProject(proId);
+//        EvaluationRequestEntity evaluationRequest = evaluationRequestDao.findByClientInfoEntity_clientId(project.getClientInfoEntity().getClientId());
         return ProjectDetailResponseDto.from(project);
     }
 
