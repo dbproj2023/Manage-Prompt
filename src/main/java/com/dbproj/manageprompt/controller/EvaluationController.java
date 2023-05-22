@@ -41,11 +41,18 @@ public class EvaluationController {
         return response;
     }
 
-    // 개인 평가 조회
+    // 개인 평가 조회 (로그인 시)
     @GetMapping("/coworker/read")
     @ResponseStatus(HttpStatus.OK)
     public ParticipantEvaluationResponseDto coworkEvalPersonalRead(HttpSession session) {
         Long accId = (Long) session.getAttribute("AccId");
         return evaluationService.coworkEvalPersonalRead(accId);
+    }
+
+    // 직원별 평가 조회
+    @GetMapping("/coworker/read/{emp_id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ParticipantEvaluationResponseDto coworkEvalEmployeeRead(@PathVariable(value = "emp_id") Long empId) {
+        return evaluationService.coworkEvalEmployeeRead(empId);
     }
 }
