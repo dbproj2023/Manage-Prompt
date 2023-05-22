@@ -53,7 +53,7 @@ public class ProjectController {
        return projectService.search(start_date,  end_date, pro_name, client_name, budge_start, budge_end);
     }
 
-    // 프로젝트 정보 & 프로젝트 참여 직원
+    // 프로젝트 정보 & 프로젝트 참여 직원 & 평가정보
     @GetMapping("/{pro_id}")
     public ProjectDetailResponseDto findOne(@PathVariable(value = "pro_id") String proId) {
         return projectService.findOne(proId);
@@ -118,4 +118,7 @@ public class ProjectController {
         }
         return response;
     }
+
+    // 프로젝트별 평가 조회
+
 }
