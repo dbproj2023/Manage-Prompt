@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 public class ClientEvaluationCreateRequestDto {
     @NotBlank
-    private String pro_name;
+    private String pro_id;
 
     @NotBlank
     private Integer communication_rating;
