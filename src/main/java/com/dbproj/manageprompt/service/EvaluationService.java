@@ -137,12 +137,21 @@ public class EvaluationService {
         return response;
     }
 
-    @Transactional(readOnly = true)
     // 동료평가 조회
+    @Transactional(readOnly = true)
     public ParticipantEvaluationResponseDto coworkEvalPersonalRead(Long addId) {
         Optional<AccountEntity> accountEntity = accountDao.findByaccId(addId);
         AccountEntity account = accountEntity.get();
         Long empId = account.getEmployeeEntity().getEmpId();
+        EmployeeEntity emp = employeeDao.findByEmpId(empId);
+
+        // 프로젝트별 받은 평가 조회
+        return ParticipantEvaluationResponseDto.from(emp);
+    }
+
+    // 직원별 평가 조회
+    @Transactional(readOnly = true)
+    public ParticipantEvaluationResponseDto coworkEvalEmployeeRead(Long empId) {
         EmployeeEntity emp = employeeDao.findByEmpId(empId);
 
         // 프로젝트별 받은 평가 조회
