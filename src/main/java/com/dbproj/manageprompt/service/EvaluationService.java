@@ -100,10 +100,10 @@ public class EvaluationService {
         }
 
         // 고객의 프로젝트 조회
-        ProjectEntity project = projectDao.findByProName(requestDto.getPro_name());
+        ProjectEntity project = projectDao.findByProId(requestDto.getPro_id());
         if (project == null) {
             Map response = new HashMap<String, Object>();
-            response.put("message", "관련 정보가 없습니다.");
+            response.put("message", "관련 프로젝트 정보가 없습니다.");
             response.put("status", 0);
 
             return response;
