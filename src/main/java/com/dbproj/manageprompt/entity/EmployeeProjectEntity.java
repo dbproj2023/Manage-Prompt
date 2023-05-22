@@ -1,5 +1,6 @@
 package com.dbproj.manageprompt.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,6 +34,7 @@ public class EmployeeProjectEntity extends BaseTime {
   @Column(name = "end_date", nullable = false)
   private Date endDate;
 
+  @JsonIgnore
   @ManyToOne(fetch = FetchType.LAZY) // 직원 mapping (FK), 양방향
   @JoinColumn(name = "emp_id", referencedColumnName = "emp_id")
   private EmployeeEntity employeeEntity;
