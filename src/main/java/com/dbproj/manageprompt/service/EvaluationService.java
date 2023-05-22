@@ -2,6 +2,7 @@ package com.dbproj.manageprompt.service;
 
 import com.dbproj.manageprompt.dao.*;
 import com.dbproj.manageprompt.dto.ClientEvaluationCreateRequestDto;
+import com.dbproj.manageprompt.dto.ClientEvaluationResponseDto;
 import com.dbproj.manageprompt.dto.ParticipantEvaluationCreateRequestDto;
 import com.dbproj.manageprompt.dto.ParticipantEvaluationResponseDto;
 import com.dbproj.manageprompt.entity.*;
@@ -147,6 +148,18 @@ public class EvaluationService {
         // 프로젝트별 받은 평가 조회
         return ParticipantEvaluationResponseDto.from(emp);
     }
+
+//    @Transactional(readOnly = true)
+//    // 고객평가 조회 (프로젝트 아이디를 통해)
+//    public ClientEvaluationResponseDto clientEvalRead(String proId) {
+//        Optional<AccountEntity> accountEntity = accountDao.findByaccId(addId);
+//        AccountEntity account = accountEntity.get();
+//        Long empId = account.getEmployeeEntity().getEmpId();
+//        EmployeeEntity emp = employeeDao.findByEmpId(empId);
+//
+//        // 프로젝트별 받은 평가 조회
+//        return ClientEvaluationResponseDto.from(emp);
+//    }
 
 //    @Transactional(readOnly = true)
 //    // 고객평가 조회 (고객이 조회)
