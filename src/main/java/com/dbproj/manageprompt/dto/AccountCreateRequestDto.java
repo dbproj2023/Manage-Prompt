@@ -6,6 +6,8 @@ import com.dbproj.manageprompt.entity.EmployeeEntity;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -25,7 +27,7 @@ public class AccountCreateRequestDto {
     private String emp_skill;
     private String emp_edu;
     private Integer access_grade;
-    private Data created_at;
+    private LocalDateTime created_at;
     private String emp_ph;
 
     public AccountEntity toEntity() {
