@@ -65,6 +65,7 @@ public class EmployeeEntity extends BaseTime {
     employeeEntity.setEmpSkill(memberDTO.getEmp_skill());
     employeeEntity.setEmpEdu(memberDTO.getEmp_edu());
     employeeEntity.setEmpPh(memberDTO.getEmp_ph());
+    employeeEntity.setCreatedAt(memberDTO.getCreated_at());
     return employeeEntity;
   }
 

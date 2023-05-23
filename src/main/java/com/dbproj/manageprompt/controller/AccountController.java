@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 
@@ -65,6 +66,7 @@ public class AccountController {
     public String updateUser(HttpSession session,@ModelAttribute AccountCreateRequestDto memberDTO) {
         Long accid = (Long) session.getAttribute("AccId");
         memberDTO.setAcc_id(accid);
+        memberDTO.setCreated_at(LocalDateTime.now());
         accountService.updateUser(memberDTO);
         return "success";
     }
