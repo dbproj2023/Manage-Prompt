@@ -11,7 +11,7 @@ import java.util.List;
 public interface EmployeeDao extends JpaRepository<EmployeeEntity, Long>, JpaSpecificationExecutor<EmployeeEntity> {
     @Query("SELECT e FROM EmployeeEntity e ORDER BY e.empId ASC")
     List<EmployeeEntity> findAllAsc();
-    List<EmployeeEntity> findByProjectEmployee();
+//    List<EmployeeEntity> findByProjectEmployee();
     EmployeeEntity findByEmpId(Long keyword);
     List<EmployeeEntity> findByEmpIdContaining(String keyword);
     List<EmployeeEntity> findByEmpNameContaining(String keyword);
