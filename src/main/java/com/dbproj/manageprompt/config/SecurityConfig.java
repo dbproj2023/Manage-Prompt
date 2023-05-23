@@ -18,7 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable();
         httpSecurity.formLogin()
-//                .loginPage("/api/v1/auth/login")
+                //.loginPage("/api/v1/auth/login")
                 .defaultSuccessUrl("/")
                 .usernameParameter("id")
                 .failureUrl("/api/v1/auth/error")

@@ -27,7 +27,9 @@ public class EmployeeService {
     private final AccountDao accountDao;
 
     //직원 정보 조회(개인)
+    //public List<EmployeeEntity> getProjectEmployeeSearch() {
 
+    //}
 
     // 직원 검색 Service
     // 직무, 프로젝트 이름, 스킬이름, 프로젝트 참여 여부로 직원을 검색
@@ -36,9 +38,6 @@ public class EmployeeService {
 //        return employeeDao.findByRoleAndProjAndSkillAndPeriod();
 //    }
 
-    // 프로젝트 추가용 직원 검색 Service
-    // keyword: 조회할 사번, 이름, 스킬
-    // searchOption : 사번
     public List<EmployeeEntity> getEmployeeSearch(String empId, String empName, String empSkill) {
         Specification<EmployeeEntity> spec = (root, query, criteriaBuilder) -> null;
         log.info(String.valueOf(empId==""));
