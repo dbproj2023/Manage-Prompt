@@ -1,9 +1,11 @@
 package com.dbproj.manageprompt.controller;
 
 import com.dbproj.manageprompt.dao.AccountDao;
+import com.dbproj.manageprompt.dao.EmployeeDao;
 import com.dbproj.manageprompt.dto.*;
 import com.dbproj.manageprompt.entity.AccessInfoEntity;
 import com.dbproj.manageprompt.entity.AccountEntity;
+import com.dbproj.manageprompt.entity.EmployeeEntity;
 import com.dbproj.manageprompt.service.AccountService;
 import com.dbproj.manageprompt.service.EmailAuthService;
 
@@ -28,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -43,6 +46,10 @@ public class AccountController {
     private final EmployeeService employeeService;
 
     private final EmailAuthService emailAuthService;
+
+    private final AccountDao accountDao;
+
+    private final EmployeeDao employeeDao;
 
     //신규 유저 등록(관리자)
     @PostMapping("/new-user")
@@ -75,17 +82,54 @@ public class AccountController {
 
     //로그인
     @PostMapping("/login")
-    public AccountRequestDto login(@ModelAttribute AccountRequestDto memberDto, HttpSession session) {
+    public Map login(@ModelAttribute AccountRequestDto memberDto, HttpSession session) {
         AccountRequestDto loginResult = accountService.login(memberDto);
         if (loginResult != null) {
+            // 계정 조회
+            Optional<AccountEntity> accountEntity = accountDao.findByaccId(loginResult.getAccId());
+            AccountEntity account = accountEntity.get();
+            Long empId = account.getEmployeeEntity().getEmpId();
+            EmployeeEntity emp = employeeDao.findByEmpId(empId);
+
+            // 정보 등록 여부 확인
+            Boolean infoCheck = true;
+            Map response = new HashMap<String, Object>();
+            if (emp.getEmpEmail() == null) {
+                infoCheck = false;
+                response.put("message", "이메일이 등록되지 않았습니다. 등록해주세요.");
+            }
+            if (emp.getEmpSkill() == null) {
+                infoCheck = false;
+                response.put("message", "개인 스킬이 등록되지 않았습니다. 등록해주세요.");
+            }
+            if (emp.getEmpEdu() == null) {
+                infoCheck = false;
+                response.put("message", "학력이 등록되지 않았습니다. 등록해주세요.");
+            }
+            if (emp.getEmpWorkEx() == null) {
+                infoCheck = false;
+                response.put("message", "경력이 등록되지 않았습니다. 등록해주세요.");
+            }
+
             //로그인 성공
             session.setAttribute("AccId", loginResult.getAccId());
             session.setAttribute("AuthId", loginResult.getAuthId());
             session.setAttribute("accessGrade", loginResult.getAccessGrade());
-            return loginResult;
+            response.put("AccId", loginResult.getAccId());
+            response.put("AuthId", loginResult.getAuthId());
+            response.put("accessGrade", loginResult.getAccessGrade());
+
+            if (!infoCheck) {
+                response.put("status", 0);
+            } else {
+                response.put("status", 1);
+            }
+            return response;
         } else {
             //로그인 실패
-            return null;
+            Map response = new HashMap<String, Object>();
+            response.put("message", "아이디 혹은 비밀번호가 올바른지 확인하세요.");
+            return response;
         }
     }
 
