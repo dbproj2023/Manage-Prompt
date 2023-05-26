@@ -1,10 +1,7 @@
 package com.dbproj.manageprompt.service;
 
 import com.dbproj.manageprompt.dao.*;
-import com.dbproj.manageprompt.dto.ClientEvaluationCreateRequestDto;
-import com.dbproj.manageprompt.dto.ClientEvaluationResponseDto;
-import com.dbproj.manageprompt.dto.ParticipantEvaluationCreateRequestDto;
-import com.dbproj.manageprompt.dto.ParticipantEvaluationResponseDto;
+import com.dbproj.manageprompt.dto.*;
 import com.dbproj.manageprompt.entity.*;
 
 import lombok.RequiredArgsConstructor;
@@ -14,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -137,25 +135,40 @@ public class EvaluationService {
         return response;
     }
 
-    // 동료평가 조회
+    // 동료평가 및 PM 평가 조회
     @Transactional(readOnly = true)
-    public ParticipantEvaluationResponseDto coworkEvalPersonalRead(Long addId) {
+    public Map coworkEvalPersonalRead(Long addId) {
         Optional<AccountEntity> accountEntity = accountDao.findByaccId(addId);
         AccountEntity account = accountEntity.get();
         Long empId = account.getEmployeeEntity().getEmpId();
         EmployeeEntity emp = employeeDao.findByEmpId(empId);
 
-        // 프로젝트별 받은 평가 조회
-        return ParticipantEvaluationResponseDto.from(emp);
+        System.out.println(emp.getEmpName());
+
+        // 참여한 모든 프로젝트의 평가 조회
+        List<ParticipantEvaluationResponseSummarizeInterface> allEvalDto = evaluationInnerDao.findAllEvalEmp(emp.getEmpId());
+        // 프로젝트별 받은 동료 평가 조회
+        List<ParticipantEvaluationResponseInterface> peerEvalDto = evaluationInnerDao.findAllByPeerEvalEmp(emp.getEmpId());
+        // 프로젝트별 받은 PM 평가 조회
+        List<ParticipantEvaluationResponseInterface> pmEvalDto = evaluationInnerDao.findAllByPmEvalEmp(emp.getEmpId());
+
+        Map response = new HashMap<String, Object>();
+        response.put("all_eval", allEvalDto);
+        response.put("cowork_eval", peerEvalDto);
+        response.put("pm_eval", pmEvalDto);
+
+        return response;
     }
 
     // 직원별 평가 조회
     @Transactional(readOnly = true)
-    public ParticipantEvaluationResponseDto coworkEvalEmployeeRead(Long empId) {
+    public List<ParticipantEvaluationResponseInterface>  coworkEvalEmployeeRead(Long empId) {
         EmployeeEntity emp = employeeDao.findByEmpId(empId);
 
         // 프로젝트별 받은 평가 조회
-        return ParticipantEvaluationResponseDto.from(emp);
+        List<ParticipantEvaluationResponseInterface> dto = evaluationInnerDao.findAllByPeerEvalEmp(emp.getEmpId());
+
+        return dto;
     }
 
 //    @Transactional(readOnly = true)

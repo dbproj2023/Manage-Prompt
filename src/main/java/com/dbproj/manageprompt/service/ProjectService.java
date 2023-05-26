@@ -53,7 +53,7 @@ public class ProjectService {
     }
 
     // 프로젝트 검색
-    public List<ProjectSpecificationResponseDto> search(Date start_date, Date end_date, String pro_name, String client_name, Integer budge_start, Integer budge_end) throws ParseException {
+    public List<ProjectSpecificationResponseDto> search(Integer year, Date start_date, Date end_date, String pro_name, String client_name, Integer budge_start, Integer budge_end) throws ParseException {
         Specification<ProjectEntity> spec = (root, query, criteriaBuilder) -> null;
         
         LocalDate now = LocalDate.now();
