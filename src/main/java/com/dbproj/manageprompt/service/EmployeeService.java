@@ -1,5 +1,6 @@
 package com.dbproj.manageprompt.service;
 
+import com.dbproj.manageprompt.Interface.WapperInterface;
 import com.dbproj.manageprompt.common.exception.NotFoundException;
 import com.dbproj.manageprompt.dao.AccountDao;
 import com.dbproj.manageprompt.dao.EmployeeDao;
@@ -13,10 +14,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -26,17 +25,51 @@ public class EmployeeService {
     private final EmployeeDao employeeDao;
     private final AccountDao accountDao;
 
-    //직원 정보 조회(개인)
-    //public List<EmployeeEntity> getProjectEmployeeSearch() {
-
-    //}
 
     // 직원 검색 Service
     // 직무, 프로젝트 이름, 스킬이름, 프로젝트 참여 여부로 직원을 검색
-//    @Transactional(readOnly = true)
-//    public List<EmployeeEntity> findAllByProj(String role, String pro_name, String skill_name, Integer is_work) {
-//        return employeeDao.findByRoleAndProjAndSkillAndPeriod();
-//    }
+    public List<WapperInterface> getProjectEmployeeSearch(ProjectEmployeeSearchDto projectEmployeeSearchDto){
+        String a = "asd123";
+        Specification<EmployeeEntity> spec = (root, query, criteriaBuilder) -> null;
+        if(projectEmployeeSearchDto.getPeriod_start() != null) {
+            spec = spec.and(EmployeeSpecification.afterDate(projectEmployeeSearchDto.getPeriod_start()));
+        }
+        if(projectEmployeeSearchDto.getPeriod_end() != null) {
+            spec = spec.and(EmployeeSpecification.beforeDate(projectEmployeeSearchDto.getPeriod_end()));
+        }
+        if(projectEmployeeSearchDto.getRole() != null)
+            spec = spec.and(EmployeeSpecification.equalRole(projectEmployeeSearchDto.getRole()));
+        if(projectEmployeeSearchDto.getPro_id() != null)
+            spec = spec.and(EmployeeSpecification.equalProId(projectEmployeeSearchDto.getPro_id()));
+        if(projectEmployeeSearchDto.getSkill_name() != null)
+            spec = spec.and(EmployeeSpecification.equalSkill(projectEmployeeSearchDto.getSkill_name()));
+        if(projectEmployeeSearchDto.getIs_work() == 1) {
+            Date date = new Date();
+            spec = spec.and(EmployeeSpecification.isWork(date));
+        }
+        if(
+            projectEmployeeSearchDto.getPeriod_start() == null &&
+            projectEmployeeSearchDto.getPeriod_end() == null &&
+            projectEmployeeSearchDto.getRole() == null &&
+            projectEmployeeSearchDto.getPro_id() == null &&
+            projectEmployeeSearchDto.getSkill_name() == null) {
+            spec = spec.and(EmployeeSpecification.all(a));
+        }
+        List<EmployeeEntity> e =  employeeDao.findAll(spec);
+        List<WapperInterface> new_list = new ArrayList<WapperInterface>();
+        for (EmployeeEntity ee : e) {
+            WapperInterface wapperInterface =  employeeDao.findByQuery(ee.getEmpId());
+            new_list.add(wapperInterface);
+            log.info(ee.getEmpName());
+        }
+        return new_list;
+        //return 할 정보는???
+        //사번, 이름, 주민등록번호, 이메일, 학력, 경력, 스킬,
+        //프로젝트id, 직무, 평점, 참여중인 프로젝트 개수
+        //참여중인 프로젝트 수 = 참여 여부 판단 후 참여 중인 프로젝트 개수 count
+        //평가점수 평균 = 직원 id로 join 해서 평균 구하기
+
+    }
 
     public List<EmployeeEntity> getEmployeeSearch(String empId, String empName, String empSkill) {
         Specification<EmployeeEntity> spec = (root, query, criteriaBuilder) -> null;

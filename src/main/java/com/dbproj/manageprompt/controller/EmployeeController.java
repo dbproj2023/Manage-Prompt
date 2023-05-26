@@ -1,5 +1,6 @@
 package com.dbproj.manageprompt.controller;
 
+import com.dbproj.manageprompt.Interface.WapperInterface;
 import com.dbproj.manageprompt.dao.AccountDao;
 import com.dbproj.manageprompt.dto.*;
 import com.dbproj.manageprompt.entity.AccountEntity;
@@ -12,10 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,10 +38,10 @@ public class EmployeeController {
 
     // 직원 검색
     // 직무, 프로젝트 이름, 스킬이름, 프로젝트 참여 여부로 직원을 검색
-    //@GetMapping("/list")
-    //public List<EmployeeEntity> getProjEmployeeList(ProjectEmployeeSearchDto projectEmployeeSearchDto) {
-    //    return employeeService.getProjectEmployeeSearch(projectEmployeeSearchDto);
-    //}
+    @GetMapping("/list")
+    public List<WapperInterface> getProjEmployeeList(ProjectEmployeeSearchDto projectEmployeeSearchDto) {
+        return employeeService.getProjectEmployeeSearch(projectEmployeeSearchDto);
+    }
 
 
     // 직원 정보 조회 (프로젝트 직원 추가용 검색)

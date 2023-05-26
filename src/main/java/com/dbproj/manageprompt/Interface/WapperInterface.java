@@ -1,0 +1,15 @@
+package com.dbproj.manageprompt.Interface;
+
+public interface WapperInterface {
+    Long getRole();
+    String getPro_id();
+    String getSkill_name();
+    Long getEmp_id();
+    String getEmp_name();
+    String getEmp_ssn();
+    String getEmp_email();
+    String getEmp_edu();
+    Integer getEmp_workex();
+    Integer getCom();
+    Integer getPer();
+}
