@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Builder
 @Table(
@@ -55,15 +56,15 @@ public class EmployeeEntity extends BaseTime {
   @Column(name = "emp_ph")
   private String empPh;
 
-  public static EmployeeEntity toUpdateEmployeeEntity(AccountCreateRequestDto memberDTO) {
+  public static EmployeeEntity toUpdateEmployeeEntity(AccountCreateRequestDto memberDTO, Optional<EmployeeEntity> entity) {
     EmployeeEntity employeeEntity = new EmployeeEntity();
     employeeEntity.setEmpId(memberDTO.getEmp_id());
     employeeEntity.setEmpSsn(memberDTO.getEmp_ssn());
     employeeEntity.setEmpName(memberDTO.getEmp_name());
     employeeEntity.setEmpEmail(memberDTO.getEmp_email());
-    employeeEntity.setEmpWorkEx(memberDTO.getEmp_work_ex());
+    employeeEntity.setEmpWorkEx(entity.get().getEmpWorkEx());
     employeeEntity.setEmpSkill(memberDTO.getEmp_skill());
-    employeeEntity.setEmpEdu(memberDTO.getEmp_edu());
+    employeeEntity.setEmpEdu(entity.get().getEmpEdu());
     employeeEntity.setEmpPh(memberDTO.getEmp_ph());
     employeeEntity.setCreatedAt(memberDTO.getCreated_at());
     return employeeEntity;
