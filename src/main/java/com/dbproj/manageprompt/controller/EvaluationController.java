@@ -2,7 +2,8 @@ package com.dbproj.manageprompt.controller;
 
 import com.dbproj.manageprompt.dto.ClientEvaluationCreateRequestDto;
 import com.dbproj.manageprompt.dto.ParticipantEvaluationCreateRequestDto;
-import com.dbproj.manageprompt.dto.ParticipantEvaluationResponseDto;
+import com.dbproj.manageprompt.dto.ParticipantEvaluationResponseInterface;
+
 import com.dbproj.manageprompt.service.EvaluationService;
 
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -41,10 +43,10 @@ public class EvaluationController {
         return response;
     }
 
-    // 개인 평가 조회 (로그인 시)
+    // 개인 동료 평가 조회 (로그인 시)
     @GetMapping("/coworker/read")
     @ResponseStatus(HttpStatus.OK)
-    public ParticipantEvaluationResponseDto coworkEvalPersonalRead(HttpSession session) {
+    public Map coworkEvalPersonalRead(HttpSession session) {
         Long accId = (Long) session.getAttribute("AccId");
         return evaluationService.coworkEvalPersonalRead(accId);
     }
@@ -52,7 +54,7 @@ public class EvaluationController {
     // 직원별 평가 조회
     @GetMapping("/coworker/read/{emp_id}")
     @ResponseStatus(HttpStatus.OK)
-    public ParticipantEvaluationResponseDto coworkEvalEmployeeRead(@PathVariable(value = "emp_id") Long empId) {
+    public List<ParticipantEvaluationResponseInterface>  coworkEvalEmployeeRead(@PathVariable(value = "emp_id") Long empId) {
         return evaluationService.coworkEvalEmployeeRead(empId);
     }
 }

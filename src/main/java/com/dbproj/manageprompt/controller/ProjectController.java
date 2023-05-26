@@ -43,6 +43,7 @@ public class ProjectController {
     // 프로젝트 검색
     @GetMapping("/lists/search")
     public List<ProjectSpecificationResponseDto> search(
+            @RequestParam(value = "year", defaultValue="0", required = false) Integer year,
             @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date start_date,
             @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date end_date,
             @RequestParam(value = "pro_name", required = false) String pro_name,
@@ -50,7 +51,7 @@ public class ProjectController {
             @RequestParam(value = "budge_start", defaultValue="0") Integer budge_start,
             @RequestParam(value = "budge_end", defaultValue="0") Integer budge_end,
             @PageableDefault(size = 30, direction = Sort.Direction.DESC) Pageable pageable) throws ParseException {
-       return projectService.search(start_date,  end_date, pro_name, client_name, budge_start, budge_end);
+       return projectService.search(year, start_date,  end_date, pro_name, client_name, budge_start, budge_end);
     }
 
     // 프로젝트 정보 & 프로젝트 참여 직원 & 평가정보
