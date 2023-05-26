@@ -35,9 +35,9 @@ public class AccountService {
         employeeRequestDto.setEmp_id(accountCreateDto.getEmp_id());
         employeeRequestDto.setEmp_name(accountCreateDto.getEmp_name());
         employeeRequestDto.setEmp_ssn("");
-        employeeRequestDto.setEmp_edu("");
+        employeeRequestDto.setEmp_edu(accountCreateDto.getEmp_edu());
         employeeRequestDto.setEmp_email("");
-        employeeRequestDto.setEmp_workex(0);
+        employeeRequestDto.setEmp_workex(accountCreateDto.getEmp_work_ex());
         employeeRequestDto.setEmp_skill("");
         employeeRequestDto.setEmp_ph("");
         employeeRequestDto.setCreated_at(LocalDateTime.now());
