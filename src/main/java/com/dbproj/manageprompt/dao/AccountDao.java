@@ -1,11 +1,13 @@
 package com.dbproj.manageprompt.dao;
 
 import com.dbproj.manageprompt.dto.AccountRequestDto;
+import com.dbproj.manageprompt.dto.RoleNonAccessResponseInterface;
 import com.dbproj.manageprompt.entity.AccountEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface AccountDao extends JpaRepository<AccountEntity, Long> {
@@ -17,4 +19,10 @@ public interface AccountDao extends JpaRepository<AccountEntity, Long> {
     boolean existsByAuthId(String auth_id);
 
     AccountEntity findByEmployeeEntity_EmpId(Long emp_id);
+
+    @Query(
+            value = "select * from (select emp_id, emp_name from employee) e natural join (select emp_id, auth_id, discrete from account a natural join access_info where access_grade=9) aa",
+            nativeQuery = true
+    )
+    List<RoleNonAccessResponseInterface> findAllNonAccessEmp();
 }

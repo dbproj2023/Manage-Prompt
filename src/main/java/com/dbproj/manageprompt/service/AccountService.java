@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -138,5 +139,12 @@ public class AccountService {
             response.put("status", 0);
         }
         return response;
+    }
+
+    // 권한 미부여(9번) 직원 조회
+    public List<RoleNonAccessResponseInterface> findAllNonAccessEmp() {
+        List<RoleNonAccessResponseInterface> dto = accountDao.findAllNonAccessEmp();
+
+        return dto;
     }
 }
