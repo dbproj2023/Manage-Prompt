@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -139,6 +140,14 @@ public class AccountController {
         log.info(String.valueOf(updateDto.getEmp_id()));
         log.info(updateDto.getEmp_name());
         Map response = accountService.roleUpdate(updateDto);
+        return response;
+    }
+
+    // 권한 미부여(9번) 직원 조회
+    @GetMapping("/role/unrecognized")
+    @ResponseStatus(HttpStatus.OK)
+    public List<RoleNonAccessResponseInterface> roleUnrecognized() {
+        List<RoleNonAccessResponseInterface> response = accountService.findAllNonAccessEmp();
         return response;
     }
 }
