@@ -92,7 +92,8 @@ public class AccountService {
     public void updateUser(AccountCreateRequestDto memberDTO) {
         Optional<AccessInfoEntity> accessInfoEntity = accessInfoDao.findById(9);
         memberDTO.setAccess_Info(accessInfoEntity.get());
-        employeeDao.save(EmployeeEntity.toUpdateEmployeeEntity(memberDTO));
+        Optional<EmployeeEntity> entity = employeeDao.findById(memberDTO.getEmp_id());
+        employeeDao.save(EmployeeEntity.toUpdateEmployeeEntity(memberDTO, entity));
         Optional<EmployeeEntity> employeeEntity = employeeDao.findById(memberDTO.getEmp_id());
         memberDTO.setEmployee(employeeEntity.get());
         accountDao.save(AccountEntity.toUpdateAccountEntity(memberDTO));
