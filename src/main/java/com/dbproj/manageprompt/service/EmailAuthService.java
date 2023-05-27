@@ -157,7 +157,7 @@ public class EmailAuthService {
             con.setDoOutput(true);
 
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.write(body.getBytes("UTF-8"));
+            wr.write(body.getBytes());
             wr.flush();
             wr.close();
 
@@ -191,8 +191,8 @@ public class EmailAuthService {
         log.info("senderAddress  " + ncpProperties.getNcp_sender_email());
 
         bodyJson.put("senderAddress", ncpProperties.getNcp_sender_email());
-        bodyJson.put("senderName", ncpProperties.getNcp_sender_name());
-        bodyJson.put("title", ncpProperties.getNcp_email_title());
+        bodyJson.put("senderName", "프람트 솔루션");
+        bodyJson.put("title", "[PromptSolution] 프람트 솔루션 비밀번호 제설정을 위한 인증번호입니다.");
         bodyJson.put("body", mailTemplate);
 
         toJsonRecipients.put("address", targetEmail);
