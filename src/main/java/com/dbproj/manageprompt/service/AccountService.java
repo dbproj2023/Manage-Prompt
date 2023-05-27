@@ -148,4 +148,23 @@ public class AccountService {
 
         return dto;
     }
+
+    // 아이디 찾기 (이메일로 조회)
+    public Map findAuthIdByEmail(String email) {
+        EmpIdByEmailResponseInterface dto = accountDao.findAuthIdByEmail(email);
+
+        Map response = new HashMap<String, Object>();
+        if (dto == null) {
+            response.put("massage", "관련 정보가 없습니다.");
+            response.put("status", 0);
+
+            return response;
+        }
+        String authId = dto.getAuth_id();
+        String securityFormmated = authId.substring(0, authId.length()-4) + "****";
+        response.put("auth_id", securityFormmated);
+        response.put("status", 1);
+
+        return response;
+    }
 }

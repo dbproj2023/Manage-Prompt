@@ -196,4 +196,13 @@ public class AccountController {
         List<RoleNonAccessResponseInterface> response = accountService.findAllNonAccessEmp();
         return response;
     }
+
+    // 아이디 찾기 (이메일로 조회)
+    @GetMapping("/help/findID")
+    @ResponseStatus(HttpStatus.OK)
+    public Map roleUnrecognized(
+            @RequestParam(value = "email") String email) {
+        Map response = accountService.findAuthIdByEmail(email);
+        return response;
+    }
 }
