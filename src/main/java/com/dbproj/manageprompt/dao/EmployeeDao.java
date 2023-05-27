@@ -19,6 +19,7 @@ public interface EmployeeDao extends JpaRepository<EmployeeEntity, Long>, JpaSpe
     @Query("select e.empId as emp_id, e.empName as emp_name,e.empEmail as emp_email ,e.empEdu as emp_edu, e.empSsn as emp_ssn, coalesce(p.proId, null) as pro_id,e.empWorkEx as emp_workex,e.empSkill as skill_name, coalesce(r.roleId, null) as role, coalesce(avg(ei.communicationRating),null) as com, coalesce(avg(ei.performanceRating),null) as per from EmployeeEntity e left join e.employeeProjectEntities ep left join ep.evaluationInnerEntities ei left join ep.projectEntity p left join ep.roleEntity r where e.empId = :empId group by e.empId, p.proId, r.roleId")
     WapperInterface findByQuery(Long empId);
     EmployeeEntity findByEmpId(Long keyword);
+    EmployeeEntity findByEmpEmail(String keyword);
     List<EmployeeEntity> findByEmpIdContaining(String keyword);
     List<EmployeeEntity> findByEmpNameContaining(String keyword);
     List<EmployeeEntity> findByEmpSkillContaining(String keyword);

@@ -179,6 +179,49 @@ public class AccountController {
         return response;
     }
 
+    // 이메일에 따른 아이디가 일차하는지 여부 확인
+    @GetMapping("/help/resetPW/checkAccountInfo")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Map checkAccountInfo(
+            @RequestParam(value = "id") Integer id,
+            @RequestParam(value = "email") String email) {
+        // 이메일에 따른 아이디가 일차하는지 여부
+        EmpIdByEmailResponseInterface dto = accountDao.findAuthIdByEmail(email);
+
+        Map response = new HashMap<String, Object>();
+        if (dto == null || !dto.getAuth_id().equals(id)) {
+            response.put("message", "이메일과 아이디에 일치하는 정보가 없습니다.");
+            response.put("status", 0);
+        }
+        response.put("message", "일치하는 정보가 있습니다.");
+        response.put("status", 1);
+
+        return response;
+    }
+
+    // 로그인 없이 비밀번호 변경
+    @PatchMapping("/help/resetPW/nonLogin")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Map resetPwNonLogin(
+            @RequestParam(value = "id") String id,
+            @RequestParam(value = "old_pw") String oldPW,
+            @RequestParam(value = "new_pw") String newPW,
+            @RequestParam(value = "new_pw_re") String newPWRE) {
+
+        AccountPwUpdateRequestDto dto = new AccountPwUpdateRequestDto();
+        dto.setOld_pw(oldPW);
+        dto.setNew_pw(newPW);
+        dto.setNew_pw_re(newPWRE);
+
+        Long accid = accountDao.findByAuthId(id).get().getAccId();
+
+        Map response = accountService.updatePw(accid, dto);
+
+        return response;
+    }
+
     //권한 수정
     @PatchMapping("/role/update")
     @ResponseStatus(HttpStatus.OK)
@@ -192,6 +235,7 @@ public class AccountController {
     // 권한 미부여(9번) 직원 조회
     @GetMapping("/role/unrecognized")
     @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
     public List<RoleNonAccessResponseInterface> roleUnrecognized() {
         List<RoleNonAccessResponseInterface> response = accountService.findAllNonAccessEmp();
         return response;
@@ -200,6 +244,7 @@ public class AccountController {
     // 아이디 찾기 (이메일로 조회)
     @GetMapping("/help/findID")
     @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
     public Map roleUnrecognized(
             @RequestParam(value = "email") String email) {
         Map response = accountService.findAuthIdByEmail(email);
