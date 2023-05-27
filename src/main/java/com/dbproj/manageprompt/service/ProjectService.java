@@ -53,7 +53,7 @@ public class ProjectService {
     }
 
     // 프로젝트 검색
-    public List<ProjectSpecificationResponseDto> search(Integer year, Date start_date, Date end_date, String pro_name, String client_name, Integer budge_start, Integer budge_end) throws ParseException {
+    public List<ProjectSpecificationResponseDto> search(Date start_date, Date end_date, String pro_name, String client_name, Integer budge_start, Integer budge_end) throws ParseException {
         Specification<ProjectEntity> spec = (root, query, criteriaBuilder) -> null;
         
         LocalDate now = LocalDate.now();
@@ -74,9 +74,12 @@ public class ProjectService {
             String end_date_format = tranSimpleFormat.format(end_data);
             Date end_date_foramtted = tranSimpleFormat.parse(end_date_format);
 
-//            spec = spec.and(ProjectSpecification.betweenDate(start_date_foramtted, end_date_foramtted));
-            spec = spec.and(ProjectSpecification.searchStartDate(start_date_foramtted));
-            spec = spec.and(ProjectSpecification.searchEndDate(end_date_foramtted));
+            System.out.println(end_date_format);
+            System.out.println(end_date_foramtted);
+
+            spec = spec.and(ProjectSpecification.betweenDate(start_date, end_date));
+//            spec = spec.and(ProjectSpecification.searchStartDate(start_date_foramtted));
+//            spec = spec.and(ProjectSpecification.searchEndDate(end_date_foramtted));
         }
 
         if (start_date != null && end_date == null) {
@@ -84,7 +87,6 @@ public class ProjectService {
             String start_date_format = tranSimpleFormat.format(start_data);
             Date start_date_foramtted = tranSimpleFormat.parse(start_date_format);
 
-            System.out.println(start_date_foramtted);
             spec = spec.and(ProjectSpecification.searchStartDate(start_date_foramtted));
         }
         if (start_date == null && end_date != null) {
@@ -118,6 +120,12 @@ public class ProjectService {
         ProjectEntity project = projectDao.findById(proId).orElseThrow(() ->
                 new IllegalArgumentException("해당 프로젝트는 존재하지 않습니다. => " + proId));
         return project;
+    }
+
+    // 년도별 프로젝트 수행 횟수 및 총 발주 금액
+    @Transactional(readOnly = true)
+    public ProjectAggNumBudgetByYearResponseInterface findSumNumAndBudgetByYear(Integer year) {
+        return projectDao.findSumNumAndBudgetByYear(year);
     }
 
     // 프로젝트 및 발주처 등록
