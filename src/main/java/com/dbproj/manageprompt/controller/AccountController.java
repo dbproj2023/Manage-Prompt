@@ -112,9 +112,11 @@ public class AccountController {
             }
 
             //로그인 성공
+            session.setMaxInactiveInterval(1800);
             session.setAttribute("AccId", loginResult.getAccId());
             session.setAttribute("AuthId", loginResult.getAuthId());
             session.setAttribute("accessGrade", loginResult.getAccessGrade());
+            log.info("maxInactiveInterval={}", session.getMaxInactiveInterval());
             response.put("AccId", loginResult.getAccId());
             response.put("AuthId", loginResult.getAuthId());
             response.put("accessGrade", loginResult.getAccessGrade());
