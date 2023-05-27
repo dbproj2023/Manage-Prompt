@@ -1,22 +1,21 @@
 package com.dbproj.manageprompt.dto;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 
 @Getter
+@Setter
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AccountPwUpdateRequestDto {
-    @NotBlank
+//    @NotBlank
     private String old_pw;
 
-    @NotBlank
+//    @NotBlank
     private String new_pw;
 
-    @NotBlank
+//    @NotBlank
     private String new_pw_re;
 }

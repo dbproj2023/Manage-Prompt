@@ -1,6 +1,7 @@
 package com.dbproj.manageprompt.dao;
 
 import com.dbproj.manageprompt.dto.AccountRequestDto;
+import com.dbproj.manageprompt.dto.EmpIdByEmailResponseInterface;
 import com.dbproj.manageprompt.dto.RoleNonAccessResponseInterface;
 import com.dbproj.manageprompt.entity.AccountEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,4 +26,11 @@ public interface AccountDao extends JpaRepository<AccountEntity, Long> {
             nativeQuery = true
     )
     List<RoleNonAccessResponseInterface> findAllNonAccessEmp();
+
+    // 아이디 찾기 (이메일로 조회)
+    @Query(
+            value = "select emp_id, auth_id from account a natural join (select emp_id from employee where emp_email=:emp_email) e",
+            nativeQuery = true
+    )
+    EmpIdByEmailResponseInterface findAuthIdByEmail(@Param("emp_email") String emp_email);
 }
