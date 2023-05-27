@@ -77,9 +77,9 @@ public class ProjectService {
             System.out.println(end_date_format);
             System.out.println(end_date_foramtted);
 
-            spec = spec.and(ProjectSpecification.betweenDate(start_date, end_date));
-//            spec = spec.and(ProjectSpecification.searchStartDate(start_date_foramtted));
-//            spec = spec.and(ProjectSpecification.searchEndDate(end_date_foramtted));
+//            spec = spec.and(ProjectSpecification.betweenDate(start_date_foramtted, end_date_foramtted));
+            spec = spec.and(ProjectSpecification.searchStartDate(start_date_foramtted));
+            spec = spec.and(ProjectSpecification.searchEndDate(end_date_foramtted));
         }
 
         if (start_date != null && end_date == null) {
