@@ -28,7 +28,7 @@ public class EmployeeService {
 
     // 직원 검색 Service
     // 직무, 프로젝트 이름, 스킬이름, 프로젝트 참여 여부로 직원을 검색
-    public List<WapperInterface> getProjectEmployeeSearch(ProjectEmployeeSearchDto projectEmployeeSearchDto){
+    public List<List> getProjectEmployeeSearch(ProjectEmployeeSearchDto projectEmployeeSearchDto){
         String a = "asd123";
         Specification<EmployeeEntity> spec = (root, query, criteriaBuilder) -> null;
         if(projectEmployeeSearchDto.getPeriod_start() != null) {
@@ -56,13 +56,16 @@ public class EmployeeService {
             spec = spec.and(EmployeeSpecification.all(a));
         }
         List<EmployeeEntity> e =  employeeDao.findAll(spec);
-        List<WapperInterface> new_list = new ArrayList<WapperInterface>();
+        List<List> result = new ArrayList<>();
         for (EmployeeEntity ee : e) {
+            List<WapperInterface> new_list = new ArrayList<>();
             WapperInterface wapperInterface =  employeeDao.findByQuery(ee.getEmpId());
+            WapperInterface wapperInterface2 = employeeDao.findByQuery2(ee.getEmpId());
             new_list.add(wapperInterface);
-            log.info(ee.getEmpName());
+            new_list.add(wapperInterface2);
+            result.add(new_list);
         }
-        return new_list;
+        return result;
         //return 할 정보는???
         //사번, 이름, 주민등록번호, 이메일, 학력, 경력, 스킬,
         //프로젝트id, 직무, 평점, 참여중인 프로젝트 개수

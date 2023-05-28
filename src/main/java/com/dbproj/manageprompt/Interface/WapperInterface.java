@@ -1,5 +1,8 @@
 package com.dbproj.manageprompt.Interface;
 
+import lombok.Setter;
+
+
 public interface WapperInterface {
     Long getRole();
     String getPro_id();
@@ -12,4 +15,5 @@ public interface WapperInterface {
     Integer getEmp_workex();
     Integer getCom();
     Integer getPer();
+    Integer getProj_count();
 }
