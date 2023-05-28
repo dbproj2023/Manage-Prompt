@@ -39,7 +39,7 @@ public class EmployeeController {
     // 직원 검색
     // 직무, 프로젝트 이름, 스킬이름, 프로젝트 참여 여부로 직원을 검색
     @GetMapping("/list")
-    public List<WapperInterface> getProjEmployeeList(ProjectEmployeeSearchDto projectEmployeeSearchDto) {
+    public List<List> getProjEmployeeList(ProjectEmployeeSearchDto projectEmployeeSearchDto) {
         return employeeService.getProjectEmployeeSearch(projectEmployeeSearchDto);
     }
 
