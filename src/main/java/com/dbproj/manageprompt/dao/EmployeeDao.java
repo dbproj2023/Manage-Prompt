@@ -2,15 +2,16 @@ package com.dbproj.manageprompt.dao;
 
 import com.dbproj.manageprompt.Interface.WapperInterface;
 import com.dbproj.manageprompt.Interface.WrapperInterface;
-import com.dbproj.manageprompt.dto.ProjectEmployeeSearchDto;
+
 import com.dbproj.manageprompt.entity.EmployeeEntity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
+import org.springframework.data.repository.query.Param;
+
 import java.util.List;
-import java.util.Optional;
 
 public interface EmployeeDao extends JpaRepository<EmployeeEntity, Long>, JpaSpecificationExecutor<EmployeeEntity> {
     @Query("SELECT e FROM EmployeeEntity e ORDER BY e.empId ASC")
@@ -21,11 +22,31 @@ public interface EmployeeDao extends JpaRepository<EmployeeEntity, Long>, JpaSpe
     List<WapperInterface> findByQuery(Long empId);
     @Query("select count(e.empId) as proj_count from EmployeeEntity e left join e.employeeProjectEntities ep where ep.startDate <= current_date() and ep.endDate > current_date() and e.empId = :empId group by e.empId")
     List<WrapperInterface> findByQuery2(Long empId);
-    EmployeeEntity findByEmpId(Long keyword);
-    EmployeeEntity findByEmpEmail(String keyword);
-    List<EmployeeEntity> findByEmpIdContaining(String keyword);
-    List<EmployeeEntity> findByEmpNameContaining(String keyword);
-    List<EmployeeEntity> findByEmpSkillContaining(String keyword);
+    @Query(
+            value = "select * from employee where emp_id=:empId",
+            nativeQuery = true
+    )
+    EmployeeEntity findByEmpId(@Param("empId") Long empId);
+    @Query(
+            value = "select * from employee where emp_email=:email",
+            nativeQuery = true
+    )
+    EmployeeEntity findByEmpEmail(@Param("email") String email);
+    @Query(
+            value = "select * from employee where emp_id like %:empId%",
+            nativeQuery = true
+    )
+    List<EmployeeEntity> findByEmpIdContaining(@Param("empId") String empId);
+    @Query(
+            value = "select * from employee where emp_name like %:empName%",
+            nativeQuery = true
+    )
+    List<EmployeeEntity> findByEmpNameContaining(@Param("empName") String empName);
+    @Query(
+            value = "select * from employee where emp_skill like %:empSkill%",
+            nativeQuery = true
+    )
+    List<EmployeeEntity> findByEmpSkillContaining(@Param("empSkill") String empSkill);
 
     boolean existsByEmpId(Long emp_id);
 
