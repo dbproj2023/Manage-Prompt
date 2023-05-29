@@ -1,6 +1,5 @@
 package com.dbproj.manageprompt.controller;
 
-import com.dbproj.manageprompt.Interface.WapperInterface;
 import com.dbproj.manageprompt.dao.AccountDao;
 import com.dbproj.manageprompt.dto.*;
 import com.dbproj.manageprompt.entity.AccountEntity;
@@ -39,6 +38,10 @@ public class EmployeeController {
     // 직원 검색
     // 직무, 프로젝트 이름, 스킬이름, 프로젝트 참여 여부로 직원을 검색
     @GetMapping("/list")
+    public List<List> getprojEmployee() {
+        return employeeService.getProjEmployee();
+    }
+    @GetMapping("/list/search")
     public List<List> getProjEmployeeList(ProjectEmployeeSearchDto projectEmployeeSearchDto) {
         return employeeService.getProjectEmployeeSearch(projectEmployeeSearchDto);
     }

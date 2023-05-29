@@ -14,7 +14,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -72,6 +71,22 @@ public class EmployeeService {
         //참여중인 프로젝트 수 = 참여 여부 판단 후 참여 중인 프로젝트 개수 count
         //평가점수 평균 = 직원 id로 join 해서 평균 구하기
 
+    }
+    public List<List> getProjEmployee(){
+        String a = "asd123";
+        Specification<EmployeeEntity> spec = (root, query, criteriaBuilder) -> null;
+        spec = spec.and(EmployeeSpecification.all(a));
+        List<EmployeeEntity> ee =  employeeDao.findAll(spec);
+        List<List> result = new ArrayList<>();
+        for (EmployeeEntity eee : ee) {
+            List<WapperInterface> new_list = new ArrayList<>();
+            WapperInterface wapperInterface =  employeeDao.findByQuery(eee.getEmpId());
+            WapperInterface wapperInterface2 = employeeDao.findByQuery2(eee.getEmpId());
+            new_list.add(wapperInterface);
+            new_list.add(wapperInterface2);
+            result.add(new_list);
+        }
+        return result;
     }
 
     public List<EmployeeEntity> getEmployeeSearch(String empId, String empName, String empSkill) {
