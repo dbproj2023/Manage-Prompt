@@ -1,6 +1,7 @@
 package com.dbproj.manageprompt.service;
 
 import com.dbproj.manageprompt.Interface.WapperInterface;
+import com.dbproj.manageprompt.Interface.WrapperInterface;
 import com.dbproj.manageprompt.common.exception.NotFoundException;
 import com.dbproj.manageprompt.dao.AccountDao;
 import com.dbproj.manageprompt.dao.EmployeeDao;
@@ -58,11 +59,11 @@ public class EmployeeService {
         List<List> result = new ArrayList<>();
         for (EmployeeEntity ee : e) {
             List<WapperInterface> new_list = new ArrayList<>();
-            WapperInterface wapperInterface =  employeeDao.findByQuery(ee.getEmpId());
-            WapperInterface wapperInterface2 = employeeDao.findByQuery2(ee.getEmpId());
-            new_list.add(wapperInterface);
-            new_list.add(wapperInterface2);
+            List<WrapperInterface> count_list = new ArrayList<>();
+            new_list =  employeeDao.findByQuery(ee.getEmpId());
+            count_list = employeeDao.findByQuery2(ee.getEmpId());
             result.add(new_list);
+            result.add(count_list);
         }
         return result;
         //return 할 정보는???
@@ -80,11 +81,11 @@ public class EmployeeService {
         List<List> result = new ArrayList<>();
         for (EmployeeEntity eee : ee) {
             List<WapperInterface> new_list = new ArrayList<>();
-            WapperInterface wapperInterface =  employeeDao.findByQuery(eee.getEmpId());
-            WapperInterface wapperInterface2 = employeeDao.findByQuery2(eee.getEmpId());
-            new_list.add(wapperInterface);
-            new_list.add(wapperInterface2);
+            List<WrapperInterface> count_list = new ArrayList<>();
+            new_list =  employeeDao.findByQuery(eee.getEmpId());
+            count_list = employeeDao.findByQuery2(eee.getEmpId());
             result.add(new_list);
+            result.add(count_list);
         }
         return result;
     }
