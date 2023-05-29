@@ -1,8 +1,8 @@
 package com.dbproj.manageprompt.dao;
 
 import com.dbproj.manageprompt.dto.ParticipantEvaluationResponseInterface;
-
 import com.dbproj.manageprompt.dto.ParticipantEvaluationResponseSummarizeInterface;
+
 import com.dbproj.manageprompt.entity.EvaluationInnerEntity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,7 +20,7 @@ public interface EvaluationInnerDao extends JpaRepository<EvaluationInnerEntity,
                     "group by emp_id",
             nativeQuery = true
     )
-    List<ParticipantEvaluationResponseSummarizeInterface> findAllEvalEmp (@Param("emd_id") Long empId);
+    List<ParticipantEvaluationResponseSummarizeInterface> findAllEvalEmp(@Param("emd_id") Long empId);
 
     @Query(
             value = "select emp_name, pro_name, role_name, start_date, end_date, proj_start_date, proj_end_date, emp_pro_id, avg(communication_rating) as avg_communication_rating, avg(performance_rating) as avg_performance_rating  from " +
@@ -32,7 +32,7 @@ public interface EvaluationInnerDao extends JpaRepository<EvaluationInnerEntity,
                     "    group by emp_pro_id",
             nativeQuery = true
     )
-    List<ParticipantEvaluationResponseInterface> findAllByPeerEvalEmp (@Param("emd_id") Long empId);
+    List<ParticipantEvaluationResponseInterface> findAllByPeerEvalEmp(@Param("emd_id") Long empId);
 
     @Query(
             value = "select emp_name, pro_name, role_name, start_date, end_date, proj_start_date, proj_end_date, emp_pro_id, avg(communication_rating) as avg_communication_rating, avg(performance_rating) as avg_performance_rating  from " +
@@ -44,7 +44,11 @@ public interface EvaluationInnerDao extends JpaRepository<EvaluationInnerEntity,
                     "    group by emp_pro_id",
             nativeQuery = true
     )
-    List<ParticipantEvaluationResponseInterface> findAllByPmEvalEmp (@Param("emd_id") Long empId);
+    List<ParticipantEvaluationResponseInterface> findAllByPmEvalEmp(@Param("emd_id") Long empId);
 
-    EvaluationInnerEntity findByEvaluator(Long keyword);
+    @Query(
+            value = "select * from evaluation_inner where evaluator=:evaluator",
+            nativeQuery = true
+    )
+    EvaluationInnerEntity findByEvaluator(@Param("evaluator") Long evaluator);
 }

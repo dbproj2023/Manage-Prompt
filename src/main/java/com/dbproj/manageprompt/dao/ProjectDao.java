@@ -15,14 +15,15 @@ import java.util.List;
 public interface ProjectDao extends JpaRepository<ProjectEntity, String>, JpaSpecificationExecutor<ProjectEntity> {
 
     // 년도별 프로젝트 수행 횟수 및 총 발주 금액
-    @Query (
+    @Query(
             value = "select YEAR(start_date) as year, count(*) as cnt, sum(budget) as total_budget from project where YEAR(start_date)=:year group by YEAR(start_date)",
             nativeQuery = true
     )
     ProjectAggNumBudgetByYearResponseInterface findSumNumAndBudgetByYear(@Param("year") Integer year);
 
-    ProjectEntity findByProId(String keyword);
-    ProjectEntity findByProName(String keyword);
-    List<ProjectEntity> findAllByProNameContaining(String keyword);
-
+    @Query(
+            value = "select * from project where pro_id=:proId",
+            nativeQuery = true
+    )
+    ProjectEntity findByProId(@Param("proId") String proId);
 }
