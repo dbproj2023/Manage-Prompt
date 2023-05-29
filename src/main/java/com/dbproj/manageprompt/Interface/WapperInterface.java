@@ -15,5 +15,4 @@ public interface WapperInterface {
     Integer getEmp_workex();
     Integer getCom();
     Integer getPer();
-    Integer getProj_count();
 }
