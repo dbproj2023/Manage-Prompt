@@ -17,7 +17,7 @@ import java.util.List;
 public interface ProjectDao extends JpaRepository<ProjectEntity, String> {
     //    public interface ProjectDao extends JpaRepository<ProjectEntity, String>, JpaSpecificationExecutor<ProjectEntity> {
     @Query(
-            value = "select pro_name, start_date, end_date, budget, client_id from (select pro_id, pro_name, start_date, end_date, budget, client_id from project) as p natural join (select client_id, client_name from client_info) as c",
+            value = "select pro_name, start_date, end_date, budget, client_name from (select pro_id, pro_name, start_date, end_date, budget, client_id from project) as p natural join (select client_id, client_name from client_info) as c",
             nativeQuery = true
     )
     List<ProjectSearchResponseInterface> findAllNonParams();
