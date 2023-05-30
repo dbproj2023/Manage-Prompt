@@ -49,8 +49,8 @@ public class ProjectService {
 
     // 전체 프로젝트 조회
     @Transactional(readOnly = true)
-    public Page<ProjectEntity> findAll(Pageable pageable) {
-        return projectDao.findAll(pageable);
+    public List<ProjectSearchResponseInterface> findAll() {
+        return projectDao.findAllNonParams();
     }
 
     // 프로젝트 검색
@@ -94,7 +94,7 @@ public class ProjectService {
             List<ProjectSearchResponseInterface> projectEntities = projectDao.findAllIncludeEndDate(proName, clientName, budgeStart, budgeEnd, end_date_foramtted);
             return projectEntities;
         }
-        return  projectDao.findAll(proName, clientName, budgeStart, budgeEnd, startDate, endDate);
+        return projectDao.findAll(proName, clientName, budgeStart, budgeEnd, startDate, endDate);
     }
 //        Specification<ProjectEntity> spec = (root, query, criteriaBuilder) -> null;
 //

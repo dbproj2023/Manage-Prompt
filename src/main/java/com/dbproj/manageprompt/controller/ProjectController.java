@@ -33,12 +33,13 @@ public class ProjectController {
 
     // 프로젝트 조회
     @GetMapping("/lists")
-    public List<ProjectResponseDto> findAllPageable(
+    public List<ProjectSearchResponseInterface> findAllPageable(
             @PageableDefault(size = 30, direction = Sort.Direction.DESC) Pageable pageable) {
-        return projectService.findAll(pageable)
-                .stream()
-                .map(ProjectResponseDto::from)
-                .collect(Collectors.toList());
+        return projectService.findAll();
+//        return projectService.findAll(pageable)
+//                .stream()
+//                .map(ProjectResponseDto::from)
+//                .collect(Collectors.toList());
     }
 
      // 프로젝트 검색
