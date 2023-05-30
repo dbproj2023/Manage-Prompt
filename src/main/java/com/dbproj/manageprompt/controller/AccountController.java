@@ -94,19 +94,23 @@ public class AccountController {
             // 정보 등록 여부 확인
             Boolean infoCheck = true;
             Map response = new HashMap<String, Object>();
-            if (emp.getEmpEmail() == null) {
+            if (emp.getEmpEmail() == null || emp.getEmpEmail().isBlank()) {
                 infoCheck = false;
                 response.put("message", "이메일이 등록되지 않았습니다. 등록해주세요.");
             }
-            if (emp.getEmpSkill() == null) {
+            if (emp.getEmpSkill() == null || emp.getEmpSkill().isBlank()) {
                 infoCheck = false;
                 response.put("message", "개인 스킬이 등록되지 않았습니다. 등록해주세요.");
             }
-            if (emp.getEmpEdu() == null) {
+            if (emp.getEmpEdu() == null || emp.getEmpEdu().isBlank()) {
                 infoCheck = false;
                 response.put("message", "학력이 등록되지 않았습니다. 등록해주세요.");
             }
             if (emp.getEmpWorkEx() == null) {
+                infoCheck = false;
+                response.put("message", "경력이 등록되지 않았습니다. 등록해주세요.");
+            }
+            if (emp.getEmpPh() == null || emp.getEmpPh().isBlank()) {
                 infoCheck = false;
                 response.put("message", "경력이 등록되지 않았습니다. 등록해주세요.");
             }
