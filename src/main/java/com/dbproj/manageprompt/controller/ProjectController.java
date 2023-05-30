@@ -1,5 +1,6 @@
 package com.dbproj.manageprompt.controller;
 
+import com.dbproj.manageprompt.Interface.ProjectSearchResponseInterface;
 import com.dbproj.manageprompt.dto.*;
 import com.dbproj.manageprompt.entity.ProjectEntity;
 import com.dbproj.manageprompt.service.ProjectService;
@@ -40,17 +41,17 @@ public class ProjectController {
                 .collect(Collectors.toList());
     }
 
-    // 프로젝트 검색
+     // 프로젝트 검색
     @GetMapping("/lists/search")
-    public List<ProjectSpecificationResponseDto> search(
-            @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date start_date,
-            @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date end_date,
-            @RequestParam(value = "pro_name", required = false) String pro_name,
-            @RequestParam(value = "client_name", required = false) String client_name,
-            @RequestParam(value = "budge_start", defaultValue="0") Integer budge_start,
-            @RequestParam(value = "budge_end", defaultValue="0") Integer budge_end,
+    public List<ProjectSearchResponseInterface> search(
+            @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+            @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
+            @RequestParam(value = "pro_name", required = false, defaultValue="") String proName,
+            @RequestParam(value = "client_name", required = false, defaultValue="") String clientName,
+            @RequestParam(value = "budge_start", defaultValue="0") Integer budgeStart,
+            @RequestParam(value = "budge_end", defaultValue="0") Integer budgeEnd,
             @PageableDefault(size = 30, direction = Sort.Direction.DESC) Pageable pageable) throws ParseException {
-       return projectService.search(start_date,  end_date, pro_name, client_name, budge_start, budge_end);
+       return projectService.search(startDate,  endDate, proName, clientName, budgeStart, budgeEnd);
     }
 
     // 년도별 프로젝트 수행 횟수 및 총 발주 금액
