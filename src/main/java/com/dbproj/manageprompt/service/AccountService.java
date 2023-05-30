@@ -34,11 +34,11 @@ public class AccountService {
         EmployeeRequestDto employeeRequestDto = new EmployeeRequestDto();
         employeeRequestDto.setEmp_id(accountCreateDto.getEmp_id());
         employeeRequestDto.setEmp_name(accountCreateDto.getEmp_name());
-        employeeRequestDto.setEmp_ssn("");
+        employeeRequestDto.setEmp_ssn(accountCreateDto.getEmp_ssn());
         employeeRequestDto.setEmp_edu(accountCreateDto.getEmp_edu());
         employeeRequestDto.setEmp_email("");
         employeeRequestDto.setEmp_workex(accountCreateDto.getEmp_work_ex());
-        employeeRequestDto.setEmp_skill("");
+        employeeRequestDto.setEmp_skill(accountCreateDto.getEmp_skill());
         employeeRequestDto.setEmp_ph("");
         employeeRequestDto.setCreated_at(LocalDateTime.now());
 

@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface AccessInfoDao extends JpaRepository<AccessInfoEntity, Integer> {
     @Query(
-            value = "select * from account_info where access_grade=:id",
+            value = "select * from access_info where access_grade=:id",
             nativeQuery = true
     )
     Optional<AccessInfoEntity> findById(@Param("id") Integer id);
