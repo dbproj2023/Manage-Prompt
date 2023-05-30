@@ -39,8 +39,8 @@ public class EmployeeService {
         }
         if(projectEmployeeSearchDto.getRole() != null)
             spec = spec.and(EmployeeSpecification.equalRole(projectEmployeeSearchDto.getRole()));
-        if(!projectEmployeeSearchDto.getPro_id().equals(""))
-            spec = spec.and(EmployeeSpecification.equalProId(projectEmployeeSearchDto.getPro_id()));
+        //if(!projectEmployeeSearchDto.getPro_id().equals(""))
+        //    spec = spec.and(EmployeeSpecification.equalProId(projectEmployeeSearchDto.getPro_id()));
         if(!projectEmployeeSearchDto.getSkill_name().equals(""))
             spec = spec.and(EmployeeSpecification.equalSkill(projectEmployeeSearchDto.getSkill_name()));
         if(projectEmployeeSearchDto.getIs_work() == 1) {
@@ -51,7 +51,7 @@ public class EmployeeService {
             projectEmployeeSearchDto.getPeriod_start() == null &&
             projectEmployeeSearchDto.getPeriod_end() == null &&
             projectEmployeeSearchDto.getRole() == null &&
-            projectEmployeeSearchDto.getPro_id().equals("") &&
+            //projectEmployeeSearchDto.getPro_id().equals("") &&
             projectEmployeeSearchDto.getSkill_name().equals("")) {
             spec = spec.and(EmployeeSpecification.all(a));
         }
