@@ -70,7 +70,7 @@ public class AccountController {
         return "user";
     }
     //등록 처리
-    @PostMapping("/user")
+    @PatchMapping("/user")
     public String updateUser(HttpSession session,@ModelAttribute AccountCreateRequestDto memberDTO) {
         Long accid = (Long) session.getAttribute("AccId");
         memberDTO.setAcc_id(accid);
