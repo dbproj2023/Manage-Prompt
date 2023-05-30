@@ -47,6 +47,14 @@ public interface EmployeeDao extends JpaRepository<EmployeeEntity, Long>, JpaSpe
             nativeQuery = true
     )
     List<EmployeeEntity> findByEmpSkillContaining(@Param("empSkill") String empSkill);
+    // 직원 정보 조회 (프로젝트 직원 추가용 검색 - 사번)
+
+    // 직원 정보 조회 (프로젝트 직원 추가용 검색 - 이름)
+    @Query(
+            value = "select * from employee where emp_name like %:empName%",
+            nativeQuery = true
+    )
+    List<EmployeeEntity> findAllByEmpName(@Param("empName") String empName);
 
     boolean existsByEmpId(Long emp_id);
 

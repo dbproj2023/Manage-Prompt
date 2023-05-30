@@ -91,18 +91,17 @@ public class EmployeeService {
     }
 
     public List<EmployeeEntity> getEmployeeSearch(String empId, String empName, String empSkill) {
-        Specification<EmployeeEntity> spec = (root, query, criteriaBuilder) -> null;
-        log.info(String.valueOf(empId==""));
         if(empId != "")
-            spec = spec.and(EmployeeSpecification.equalId(empId));
+            return employeeDao.findByEmpIdContaining(empId);
         if(empName != "")
-            spec = spec.and(EmployeeSpecification.equalName(empName));
+            return employeeDao.findByEmpNameContaining(empName);
         if(empSkill != "")
-            spec = spec.and(EmployeeSpecification.equalSkill(empSkill));
+            return employeeDao.findByEmpSkillContaining(empSkill);
         if(empId == "" && empName == "" && empSkill == ""){
             log.info("여기 들어왔음");
-           return employeeDao.findAllAsc();}
-        return employeeDao.findAll(spec);
+           return employeeDao.findAllAsc();
+        }
+        return employeeDao.findAllAsc();
     }
 
     // 직원 정보 수정 (개인)
