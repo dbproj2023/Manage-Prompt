@@ -47,8 +47,9 @@ public interface EvaluationInnerDao extends JpaRepository<EvaluationInnerEntity,
     List<ParticipantEvaluationResponseInterface> findAllByPmEvalEmp(@Param("emd_id") Long empId);
 
     @Query(
-            value = "select * from evaluation_inner where evaluator=:evaluator",
+            value = "select * from evaluation_inner where evaluator=:evaluator and emp_pro_id=:empProId",
             nativeQuery = true
     )
-    EvaluationInnerEntity findByEvaluator(@Param("evaluator") Long evaluator);
+    EvaluationInnerEntity findByEvaluator(@Param("evaluator") Long evaluator,
+                                          @Param("empProId") Long empProId);
 }
