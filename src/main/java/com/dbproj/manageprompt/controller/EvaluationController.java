@@ -57,4 +57,13 @@ public class EvaluationController {
     public List<ParticipantEvaluationResponseInterface>  coworkEvalEmployeeRead(@PathVariable(value = "emp_id") Long empId) {
         return evaluationService.coworkEvalEmployeeRead(empId);
     }
+
+    // 고객이 발주한 프로젝트 조회(평가페이지에서 프로젝트 정보 조회용)
+    @GetMapping("/client/project")
+    @ResponseStatus(HttpStatus.OK)
+    public Map getClientProject(HttpSession session) {
+        Long accId = (Long) session.getAttribute("AccId");
+        Map response = evaluationService.getClientProject(accId);
+        return response;
+    }
 }

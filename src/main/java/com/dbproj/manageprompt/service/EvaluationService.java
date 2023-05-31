@@ -1,5 +1,6 @@
 package com.dbproj.manageprompt.service;
 
+import com.dbproj.manageprompt.Interface.ProjectInfoResponseInterface;
 import com.dbproj.manageprompt.dao.*;
 import com.dbproj.manageprompt.dto.*;
 import com.dbproj.manageprompt.entity.*;
@@ -97,8 +98,10 @@ public class EvaluationService {
             return response;
         }
 
+        String proId = projectDao.findProIdByClientName(clientName).getPro_id();
+
         // 고객의 프로젝트 조회
-        ProjectEntity project = projectDao.findByProId(requestDto.getPro_id());
+        ProjectEntity project = projectDao.findByProId(proId);
         if (project == null) {
             Map response = new HashMap<String, Object>();
             response.put("message", "관련 프로젝트 정보가 없습니다.");
@@ -131,6 +134,51 @@ public class EvaluationService {
         response.put("status", 1);
         response.put("cus_eval_id", newEval.getCusEvalId());
         response.put("client_id", newEval.getClientInfoEntity().getClientId());
+
+        return response;
+    }
+
+    // 고객이 발주한 프로젝트 조회(평가페이지에서 프로젝트 정보 조회용)
+    public Map getClientProject(Long addId) {
+        // 고객 ID (고객 사번)
+        Optional<AccountEntity> accountEntity = accountDao.findByaccId(addId);
+        AccountEntity account = accountEntity.get();
+        String clientEmpName = account.getEmployeeEntity().getEmpName();
+
+        // 고객 정보
+        ClientInfoEntity client = clientInfoDao.findByClientEmpName(clientEmpName);
+        if (client == null) {
+            Map response = new HashMap<String, Object>();
+            response.put("message", "관련 고객 정보가 없습니다.");
+            response.put("status", 0);
+            response.put("clientName", clientEmpName);
+
+            return response;
+        }
+
+        String proId = projectDao.findProIdByClientName(clientEmpName).getPro_id();
+
+        ProjectInfoResponseInterface pmName = projectDao.findPMByProId(proId);
+
+        // 고객의 프로젝트 조회
+        ProjectEntity project = projectDao.findByProId(proId);
+        if (project == null) {
+            Map response = new HashMap<String, Object>();
+            response.put("message", "관련 프로젝트 정보가 없습니다.");
+            response.put("status", 0);
+
+            return response;
+        }
+
+        Map response = new HashMap<String, Object>();
+        response.put("message", "고객이 발주한 프로젝트 입니다.");
+        response.put("status", 1);
+        response.put("project_name", project.getProName());
+        response.put("project_startdate", project.getStartDate());
+        response.put("project_endtdate", project.getEndDate());
+        response.put("pm_name", pmName.getEmp_name());
+        response.put("client_name", client.getClientName());
+        response.put("client_emp_name", client.getClientEmpName());
 
         return response;
     }
@@ -173,7 +221,7 @@ public class EvaluationService {
 
 //    @Transactional(readOnly = true)
 //    // 고객평가 조회 (프로젝트 아이디를 통해)
-//    public ClientEvaluationResponseDto clientEvalRead(String proId) {
+//    public ClientEvaluationResponseDto clientEvalRead(Long addId) {
 //        Optional<AccountEntity> accountEntity = accountDao.findByaccId(addId);
 //        AccountEntity account = accountEntity.get();
 //        Long empId = account.getEmployeeEntity().getEmpId();
