@@ -1,5 +1,6 @@
 package com.dbproj.manageprompt.dao;
 
+import com.dbproj.manageprompt.Interface.ProjectInfoResponseInterface;
 import com.dbproj.manageprompt.Interface.ProjectSearchResponseInterface;
 import com.dbproj.manageprompt.dto.ProjectAggNumBudgetByYearResponseInterface;
 import com.dbproj.manageprompt.entity.ProjectEntity;
@@ -131,5 +132,23 @@ public interface ProjectDao extends JpaRepository<ProjectEntity, String> {
             @Param("budgeStart") Integer budgeStart,
             @Param("startDate") String startDate,
             @Param("endDate") String endDate
+    );
+
+    // 발주처 담당자 이름에 따른 프로젝트 아이디 조회
+    @Query(
+            value = "select pro_id from project where client_id = (select client_id from client_info where client_emp_name=:clientName)",
+            nativeQuery = true
+    )
+    ProjectSearchResponseInterface findProIdByClientName(
+            @Param("clientName") String clientName
+    );
+
+    // PM 조회
+    @Query(
+            value = "select * from (select pro_id from project) as p natural join (select pro_id, emp_id, emp_name from employee_project natural join (select emp_id, emp_name from employee) e where role_id=2 ) ep where pro_id=:proId",
+            nativeQuery = true
+    )
+    ProjectInfoResponseInterface findPMByProId(
+            @Param("proId") String proId
     );
 }
