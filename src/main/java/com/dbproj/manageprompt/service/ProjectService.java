@@ -54,7 +54,7 @@ public class ProjectService {
     }
 
     // 프로젝트 검색
-    public List<ProjectSearchResponseInterface> search(Date startDate, Date endDate, String proName, String clientName, Integer budgeStart, Integer budgeEnd) throws ParseException {
+    public List<ProjectSearchResponseInterface> search(String startDate, String endDate, String proName, String clientName, Integer budgeStart, Integer budgeEnd) throws ParseException {
         LocalDate now = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -83,7 +83,7 @@ public class ProjectService {
             String start_date_format = tranSimpleFormat.format(start_data);
             Date start_date_foramtted = tranSimpleFormat.parse(start_date_format);
 
-            List<ProjectSearchResponseInterface> projectEntities = projectDao.findAllIncludeStartDate(proName, clientName, budgeStart, budgeEnd, start_date_foramtted);
+            List<ProjectSearchResponseInterface> projectEntities = projectDao.findAllIncludeStartDate(proName, clientName, budgeStart, budgeEnd, startDate);
             return projectEntities;
         }
         if (startDate == null && endDate != null) {
@@ -91,7 +91,7 @@ public class ProjectService {
             String end_date_format = tranSimpleFormat.format(end_data);
             Date end_date_foramtted = tranSimpleFormat.parse(end_date_format);
 
-            List<ProjectSearchResponseInterface> projectEntities = projectDao.findAllIncludeEndDate(proName, clientName, budgeStart, budgeEnd, end_date_foramtted);
+            List<ProjectSearchResponseInterface> projectEntities = projectDao.findAllIncludeEndDate(proName, clientName, budgeStart, budgeEnd, endDate);
             return projectEntities;
         }
         return projectDao.findAll(proName, clientName, budgeStart, budgeEnd, startDate, endDate);
