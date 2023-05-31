@@ -208,19 +208,16 @@ public class AccountController {
     @PatchMapping("/help/resetPW/nonLogin")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Map resetPwNonLogin(
-            @RequestParam(value = "id") String id,
-            @RequestParam(value = "new_pw") String newPW,
-            @RequestParam(value = "new_pw_re") String newPWRE) {
+    public Map resetPwNonLogin(AccountPwUpdateNonLoginRequestDto accountPwUpdateNonLoginRequestDto) {
 
         AccountPwUpdateRequestDto dto = new AccountPwUpdateRequestDto();
-        dto.setNew_pw(newPW);
-        dto.setNew_pw_re(newPWRE);
-        dto.setOld_pw(newPW);
+        dto.setNew_pw(accountPwUpdateNonLoginRequestDto.getNew_pw());
+        dto.setNew_pw_re(accountPwUpdateNonLoginRequestDto.getNew_pw_re());
+        dto.setOld_pw(accountPwUpdateNonLoginRequestDto.getNew_pw());
 
-        System.out.println("id: " + id);
+        System.out.println("id: " + accountPwUpdateNonLoginRequestDto.getId());
 
-        Optional<AccountEntity> accId = accountDao.findByAuthId(id);
+        Optional<AccountEntity> accId = accountDao.findByAuthId(accountPwUpdateNonLoginRequestDto.getId());
 
         Map response = accountService.updatePwNonLogin(accId.get().getAccId(), dto);
 
