@@ -51,7 +51,7 @@ public class EvaluationService {
             return response;
         }
 
-        EvaluationInnerEntity eval = evaluationInnerDao.findByEvaluator(empId);
+        EvaluationInnerEntity eval = evaluationInnerDao.findByEvaluator(empId, empProj.getEmpProId());
         if (eval != null) {
             Map response = new HashMap<String, Object>();
             response.put("message", "이미 평가한 회원입니다.");
