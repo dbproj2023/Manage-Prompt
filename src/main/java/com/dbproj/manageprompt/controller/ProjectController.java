@@ -43,10 +43,13 @@ public class ProjectController {
     }
 
      // 프로젝트 검색
+
+    //            @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+//            @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
     @GetMapping("/lists/search")
     public List<ProjectSearchResponseInterface> search(
-            @RequestParam(value = "period_start", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
-            @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
+            @RequestParam(value = "period_start", required = false) String startDate,
+            @RequestParam(value = "period_end", required = false) String endDate,
             @RequestParam(value = "pro_name", required = false, defaultValue="") String proName,
             @RequestParam(value = "client_name", required = false, defaultValue="") String clientName,
             @RequestParam(value = "budge_start", defaultValue="0") Integer budgeStart,

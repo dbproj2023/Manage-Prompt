@@ -46,8 +46,8 @@ public interface ProjectDao extends JpaRepository<ProjectEntity, String> {
             @Param("clientName") String clientName,
             @Param("budgeStart") Integer budgeStart,
             @Param("budgeEnd") Integer budgeEnd,
-            @Param("startDate") Date startDate,
-            @Param("endDate") Date endDate
+            @Param("startDate") String startDate,
+            @Param("endDate") String endDate
     );
 
     @Query(
@@ -82,7 +82,7 @@ public interface ProjectDao extends JpaRepository<ProjectEntity, String> {
             @Param("clientName") String clientName,
             @Param("budgeStart") Integer budgeStart,
             @Param("budgeEnd") Integer budgeEnd,
-            @Param("startDate") Date startDate
+            @Param("startDate") String startDate
     );
     @Query(
             value = "select pro_id, pro_name, start_date, end_date, budget, client_name from (select pro_id, pro_name, start_date, end_date, budget, client_id from project) as p natural join (select client_id, client_name from client_info) as c" +
@@ -94,6 +94,6 @@ public interface ProjectDao extends JpaRepository<ProjectEntity, String> {
             @Param("clientName") String clientName,
             @Param("budgeStart") Integer budgeStart,
             @Param("budgeEnd") Integer budgeEnd,
-            @Param("endDate") Date endDate
+            @Param("endDate") String endDate
     );
 }
