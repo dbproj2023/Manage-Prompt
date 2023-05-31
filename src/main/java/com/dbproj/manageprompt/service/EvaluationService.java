@@ -183,7 +183,7 @@ public class EvaluationService {
         return response;
     }
 
-    // 동료평가 및 PM 평가 조회
+    // 동료평가 및 PM 평가 조회 +++ 고객 평가도 조회
     @Transactional(readOnly = true)
     public Map coworkEvalPersonalRead(Long addId) {
         Optional<AccountEntity> accountEntity = accountDao.findByaccId(addId);
@@ -200,10 +200,13 @@ public class EvaluationService {
         // 프로젝트별 받은 PM 평가 조회
         List<ParticipantEvaluationResponseInterface> pmEvalDto = evaluationInnerDao.findAllByPmEvalEmp(emp.getEmpId());
 
+        List<ClientEvalResponseInterface> clientEvalDto = evaluationRequestDao.findAllByEmpName(emp.getEmpId());
+
         Map response = new HashMap<String, Object>();
         response.put("all_eval", allEvalDto);
         response.put("cowork_eval", peerEvalDto);
         response.put("pm_eval", pmEvalDto);
+        response.put("client_eval", clientEvalDto);
 
         return response;
     }

@@ -23,7 +23,7 @@ public interface EvaluationInnerDao extends JpaRepository<EvaluationInnerEntity,
     List<ParticipantEvaluationResponseSummarizeInterface> findAllEvalEmp(@Param("emd_id") Long empId);
 
     @Query(
-            value = "select emp_name, pro_name, role_name, start_date, end_date, proj_start_date, proj_end_date, emp_pro_id, avg(communication_rating) as avg_communication_rating, avg(performance_rating) as avg_performance_rating  from " +
+            value = "select emp_name, pro_name, role_name, start_date, end_date, proj_start_date, proj_end_date, emp_pro_id, communication_detail, performance_detail, avg(communication_rating) as avg_communication_rating, avg(performance_rating) as avg_performance_rating  from " +
                     "    (select * from (select emp_id, emp_name from employee where emp_id=:emd_id) as a natural join (select * from (select * from (select * from (select emp_pro_id, emp_id, start_date, end_date, pro_id, role_id from employee_project) ep natural join (select role_id, role_name from role_info) ri) as ep natural join (select pro_id, pro_name, start_date as proj_start_date, end_date as proj_end_date from project) as proj) as re) as ep_proj) " +
                     "        as ep_response" +
                     "    natural join" +
@@ -35,7 +35,7 @@ public interface EvaluationInnerDao extends JpaRepository<EvaluationInnerEntity,
     List<ParticipantEvaluationResponseInterface> findAllByPeerEvalEmp(@Param("emd_id") Long empId);
 
     @Query(
-            value = "select emp_name, pro_name, role_name, start_date, end_date, proj_start_date, proj_end_date, emp_pro_id, avg(communication_rating) as avg_communication_rating, avg(performance_rating) as avg_performance_rating  from " +
+            value = "select emp_name, pro_name, role_name, start_date, end_date, proj_start_date, proj_end_date, emp_pro_id, communication_detail, performance_detail, avg(communication_rating) as avg_communication_rating, avg(performance_rating) as avg_performance_rating  from " +
                     "    (select * from (select emp_id, emp_name from employee where emp_id=:emd_id) as a natural join (select * from (select * from (select * from (select emp_pro_id, emp_id, start_date, end_date, pro_id, role_id from employee_project) ep natural join (select role_id, role_name from role_info) ri) as ep natural join (select pro_id, pro_name, start_date as proj_start_date, end_date as proj_end_date from project) as proj) as re) as ep_proj) " +
                     "        as ep_response" +
                     "    natural join" +
