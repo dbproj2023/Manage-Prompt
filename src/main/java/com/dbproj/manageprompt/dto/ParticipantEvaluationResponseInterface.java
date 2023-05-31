@@ -19,6 +19,10 @@ public interface ParticipantEvaluationResponseInterface {
 
     Long getEmp_pro_id();
 
+    String getCommunication_detail();
+
+    String getPerformance_detail();
+
     Double getAvg_communication_rating();
 
     Double getAvg_performance_rating();
