@@ -43,28 +43,46 @@ public class EmployeeService {
         //    spec = spec.and(EmployeeSpecification.equalProId(projectEmployeeSearchDto.getPro_id()));
         if(!projectEmployeeSearchDto.getSkill_name().equals(""))
             spec = spec.and(EmployeeSpecification.equalSkill(projectEmployeeSearchDto.getSkill_name()));
-        if(projectEmployeeSearchDto.getIs_work() == 1) {
-            Date date = new Date();
-            spec = spec.and(EmployeeSpecification.isWork(date));
-        }
+//        if(projectEmployeeSearchDto.getIs_work() == 1) {
+//            Date date = new Date();
+//            spec = spec.and(EmployeeSpecification.isWork(date));
+//        }
         if(
             projectEmployeeSearchDto.getPeriod_start() == null &&
             projectEmployeeSearchDto.getPeriod_end() == null &&
             projectEmployeeSearchDto.getRole() == null &&
             //projectEmployeeSearchDto.getPro_id().equals("") &&
-            projectEmployeeSearchDto.getSkill_name().equals("")) {
+            projectEmployeeSearchDto.getSkill_name().equals("")
+        ) {
             spec = spec.and(EmployeeSpecification.all(a));
         }
         List<EmployeeEntity> e =  employeeDao.findAll(spec);
         List<List> result = new ArrayList<>();
-        for (EmployeeEntity ee : e) {
-            List<WapperInterface> new_list = new ArrayList<>();
-            List<WrapperInterface> count_list = new ArrayList<>();
-            new_list =  employeeDao.findByQuery(ee.getEmpId());
-            count_list = employeeDao.findByQuery2(ee.getEmpId());
-            result.add(new_list);
-            result.add(count_list);
+
+        if(projectEmployeeSearchDto.getIs_work() == 1) {
+            for (EmployeeEntity ee : e) {
+                List<WapperInterface> new_list = new ArrayList<>();
+                List<WrapperInterface> count_list = new ArrayList<>();
+                new_list =  employeeDao.findByQuery3(ee.getEmpId());
+                if (!new_list.isEmpty()) {
+                    count_list = employeeDao.findByQuery2(new_list.get(0).getEmp_id());
+                    result.add(new_list);
+                    result.add(count_list);
+                }
+
+            }
+        } else {
+            for (EmployeeEntity ee : e) {
+                List<WapperInterface> new_list = new ArrayList<>();
+                List<WrapperInterface> count_list = new ArrayList<>();
+                new_list =  employeeDao.findByQuery(ee.getEmpId());
+                count_list = employeeDao.findByQuery2(ee.getEmpId());
+                result.add(new_list);
+                result.add(count_list);
+            }
         }
+
+
         return result;
         //return 할 정보는???
         //사번, 이름, 주민등록번호, 이메일, 학력, 경력, 스킬,
