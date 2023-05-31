@@ -96,4 +96,40 @@ public interface ProjectDao extends JpaRepository<ProjectEntity, String> {
             @Param("budgeEnd") Integer budgeEnd,
             @Param("endDate") String endDate
     );
+
+    @Query(
+            value = "select pro_id, pro_name, start_date, end_date, budget, client_name from (select pro_id, pro_name, start_date, end_date, budget, client_id from project) as p natural join (select client_id, client_name from client_info) as c" +
+                    "  where pro_name like %:proName% and client_name like %:clientName% and start_date >=:startDate and budget >=:budgeStart",
+            nativeQuery = true
+    )
+    List<ProjectSearchResponseInterface> findAllIncludeStartDateNonEndBudget(
+            @Param("proName") String proName,
+            @Param("clientName") String clientName,
+            @Param("budgeStart") Integer budgeStart,
+            @Param("startDate") String startDate
+    );
+    @Query(
+            value = "select pro_id, pro_name, start_date, end_date, budget, client_name from (select pro_id, pro_name, start_date, end_date, budget, client_id from project) as p natural join (select client_id, client_name from client_info) as c" +
+                    "  where pro_name like %:proName% and client_name like %:clientName% and end_date <=:endDate and budget >=:budgeStart",
+            nativeQuery = true
+    )
+    List<ProjectSearchResponseInterface> findAllIncludeEndDateNonEndBudget(
+            @Param("proName") String proName,
+            @Param("clientName") String clientName,
+            @Param("budgeStart") Integer budgeStart,
+            @Param("endDate") String endDate
+    );
+
+    @Query(
+            value = "select pro_id, pro_name, start_date, end_date, budget, client_name from (select pro_id, pro_name, start_date, end_date, budget, client_id from project) as p natural join (select client_id, client_name from client_info) as c" +
+                    "  where pro_name like %:proName% and client_name like %:clientName% and start_date >=:startDate and end_date <=:endDate and budget >=:budgeStart",
+            nativeQuery = true
+    )
+    List<ProjectSearchResponseInterface> findAllNonEndBudget(
+            @Param("proName") String proName,
+            @Param("clientName") String clientName,
+            @Param("budgeStart") Integer budgeStart,
+            @Param("startDate") String startDate,
+            @Param("endDate") String endDate
+    );
 }
