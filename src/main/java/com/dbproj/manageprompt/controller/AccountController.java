@@ -216,10 +216,13 @@ public class AccountController {
         AccountPwUpdateRequestDto dto = new AccountPwUpdateRequestDto();
         dto.setNew_pw(newPW);
         dto.setNew_pw_re(newPWRE);
+        dto.setOld_pw(newPW);
 
-        Long accid = accountDao.findByAuthId(id).get().getAccId();
+        System.out.println("id: " + id);
 
-        Map response = accountService.updatePwNonLogin(accid, dto);
+        Optional<AccountEntity> accId = accountDao.findByAuthId(id);
+
+        Map response = accountService.updatePwNonLogin(accId.get().getAccId(), dto);
 
         return response;
     }
