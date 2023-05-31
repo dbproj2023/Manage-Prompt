@@ -31,7 +31,7 @@ public interface AccountDao extends JpaRepository<AccountEntity, Long> {
     AccountEntity findByEmployeeEntity_EmpId(@Param("emp_id") Long emp_id);
 
     @Query(
-            value = "select * from (select emp_id, emp_name from employee) e natural join (select emp_id, auth_id, discrete from account a natural join access_info where access_grade=9) aa",
+            value = "select * from (select emp_id, emp_name from employee) e natural join (select emp_id, auth_id from account where access_grade=9) aa",
             nativeQuery = true
     )
     List<RoleNonAccessResponseInterface> findAllNonAccessEmp();
