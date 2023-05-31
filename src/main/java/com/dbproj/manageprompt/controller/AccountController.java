@@ -210,18 +210,16 @@ public class AccountController {
     @ResponseBody
     public Map resetPwNonLogin(
             @RequestParam(value = "id") String id,
-            @RequestParam(value = "old_pw") String oldPW,
             @RequestParam(value = "new_pw") String newPW,
             @RequestParam(value = "new_pw_re") String newPWRE) {
 
         AccountPwUpdateRequestDto dto = new AccountPwUpdateRequestDto();
-        dto.setOld_pw(oldPW);
         dto.setNew_pw(newPW);
         dto.setNew_pw_re(newPWRE);
 
         Long accid = accountDao.findByAuthId(id).get().getAccId();
 
-        Map response = accountService.updatePw(accid, dto);
+        Map response = accountService.updatePwNonLogin(accid, dto);
 
         return response;
     }

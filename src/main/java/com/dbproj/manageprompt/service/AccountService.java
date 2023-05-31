@@ -125,6 +125,21 @@ public class AccountService {
         return response;
     }
 
+    public Map updatePwNonLogin(Long accid, AccountPwUpdateRequestDto accountPwUpdateRequestDto) {
+        AccountEntity accountEntity = accountDao.findById(accid).orElseThrow(NotFoundException::new);
+        Map response = new HashMap<String, Object>();
+        if (!accountPwUpdateRequestDto.getNew_pw().equals(accountPwUpdateRequestDto.getNew_pw_re())) {
+            response.put("message", "비밀번호가 일치하지 않습니다.");
+            response.put("status", 1);
+        }else {
+            accountEntity.update(accountPwUpdateRequestDto.getNew_pw());
+            accountDao.save(accountEntity);
+            response.put("message", "비밀번호가 변경되었습니다.");
+            response.put("status",2);
+        }
+        return response;
+    }
+
     public Map roleUpdate(AccessUpdateRequestDto updateDto) {
         log.info(String.valueOf(updateDto.getEmp_id()));
         AccountEntity accountEntity = accountDao.findByEmployeeEntity_EmpId(updateDto.getEmp_id());
