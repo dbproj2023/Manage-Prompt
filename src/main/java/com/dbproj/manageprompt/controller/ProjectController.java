@@ -48,8 +48,8 @@ public class ProjectController {
 //            @RequestParam(value = "period_end", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
     @GetMapping("/lists/search")
     public List<ProjectSearchResponseInterface> search(
-            @RequestParam(value = "period_start", required = false) String startDate,
-            @RequestParam(value = "period_end", required = false) String endDate,
+            @RequestParam(value = "period_start", required = false, defaultValue="") String startDate,
+            @RequestParam(value = "period_end", required = false, defaultValue="") String endDate,
             @RequestParam(value = "pro_name", required = false, defaultValue="") String proName,
             @RequestParam(value = "client_name", required = false, defaultValue="") String clientName,
             @RequestParam(value = "budge_start", defaultValue="0") Integer budgeStart,
