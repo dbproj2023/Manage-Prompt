@@ -188,7 +188,7 @@ public class AccountController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public Map checkAccountInfo(
-            @RequestParam(value = "id") Integer id,
+            @RequestParam(value = "id") String id,
             @RequestParam(value = "email") String email) {
         // 이메일에 따른 아이디가 일차하는지 여부
         EmpIdByEmailResponseInterface dto = accountDao.findAuthIdByEmail(email);

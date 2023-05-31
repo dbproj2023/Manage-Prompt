@@ -7,5 +7,4 @@ public interface RoleNonAccessResponseInterface {
 
     String getAuth_id();
 
-    String getDiscrete();
 }
