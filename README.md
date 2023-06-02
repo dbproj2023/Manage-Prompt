@@ -9,10 +9,10 @@
 - 일반 직원, 관리자(경영진, 인사팀)별 독립적이고 효과적인 업무 수행 기능 제공
 
 ## 주요기능
-<img width="1198" alt="menu" src="https://github.com/HyunSBong/ManagePrompt-Backend/assets/69189272/895b9c30-cec5-4e06-bcec-8848464c6f50">
+<img width="865" alt="menu" src="https://github.com/HyunSBong/ManagePrompt-Backend/assets/69189272/895b9c30-cec5-4e06-bcec-8848464c6f50">
 
 ## 서비스 아키텍처
-<img width="838" alt="arch" src="https://github.com/HyunSBong/ManagePrompt-Backend-2/assets/69189272/7a512e56-f7ac-41f0-8911-03e27ff604dc">
+<img width="865" alt="스크린샷 2023-06-02 오후 5 38 36" src="https://github.com/dbproj2023/ManagePrompt-Backend/assets/69189272/87ef674c-fe30-4861-9cd2-63e43cacd858">
 
 ## 프로젝트 인원
 총 4명 (Front-End 2명, Back-End 2명)
@@ -29,10 +29,11 @@
 ||Redis|7.0|
 
 ## 페이지 상세
-<img width="983" alt="01" src="https://github.com/HyunSBong/ManagePrompt-Backend-2/assets/69189272/ba8d9d98-6e66-4dca-98e2-088d3b7d902f">
-<img width="865" alt="02" src="https://github.com/HyunSBong/ManagePrompt-Backend-2/assets/69189272/de7771a4-0714-47fa-b9f9-1c586d1151d5">
-<img width="837" alt="03" src="https://github.com/HyunSBong/ManagePrompt-Backend-2/assets/69189272/2a70ef8c-b956-4e3a-b9ad-48dcdba4137a">
-<img width="918" alt="04" src="https://github.com/HyunSBong/ManagePrompt-Backend-2/assets/69189272/2dfd7718-9bf2-42d1-a339-0f07448afc72">
-<img width="987" alt="05" src="https://github.com/HyunSBong/ManagePrompt-Backend-2/assets/69189272/100a5ba0-9afa-4bae-8c92-a4a1745c28a1">
-<img width="887" alt="06" src="https://github.com/HyunSBong/ManagePrompt-Backend-2/assets/69189272/04d345f5-2550-4f6f-9d6e-5e151a2f33c0">
-<img width="985" alt="07" src="https://github.com/HyunSBong/ManagePrompt-Backend-2/assets/69189272/9370724f-a7a4-4286-884c-67986560faec">
+<img width="865" alt="01" src="https://github.com/dbproj2023/ManagePrompt-Backend/assets/69189272/bbb8ca68-35dd-4fbb-b75c-47d4b27eab5f">
+<img width="865" alt="02" src="https://github.com/dbproj2023/ManagePrompt-Backend/assets/69189272/42296da0-9d30-4c77-9a1d-42caf0098197">
+<img width="865" alt="03" src="https://github.com/dbproj2023/ManagePrompt-Backend/assets/69189272/a697ce3c-d785-429f-8ae3-bb13f8326475">
+<img width="865" alt="04" src="https://github.com/dbproj2023/ManagePrompt-Backend/assets/69189272/1c61d9c2-420e-4371-9142-745c84e0969b">
+<img width="865" alt="05" src="https://github.com/dbproj2023/ManagePrompt-Backend/assets/69189272/0b4e7982-4f2c-47b7-a0e7-73f22a0e3dfd">
+<img width="865" alt="06" src="https://github.com/dbproj2023/ManagePrompt-Backend/assets/69189272/de6dc0fb-7575-4b24-b751-9588e9d8ace2">
+<img width="865" alt="07" src="https://github.com/dbproj2023/ManagePrompt-Backend/assets/69189272/d09c3b5a-2d2b-4266-809e-d1f94dda7a90">
+
